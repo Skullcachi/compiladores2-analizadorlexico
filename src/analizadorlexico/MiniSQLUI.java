@@ -212,7 +212,7 @@ public class MiniSQLUI extends javax.swing.JFrame {
             switch(listadoValores.get(lookAheadIndex))
             {
                 case "SELECT":
-                    Select(listadoValores.get(lookAheadIndex));
+                    Select(listadoValores.get(lookAheadIndex)); //Aun falta terminar Select Expression
                 break;
                 case "INSERT":
                     Insert(listadoValores.get(lookAheadIndex));//TERMINADO con pruebas.

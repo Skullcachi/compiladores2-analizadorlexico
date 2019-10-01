@@ -1,2 +1,7 @@
 TRUNCATE TABLE HumanResources.JobCandidate;
-TRUNCATE TABLE PartitionTable1;  
+TRUNCATE TABLE PartitionTable1   
+WITH (PARTITION (2, 4, 6 TO 8));  
+TRUNCATE TABLE PartitionTable1   
+(PARTITION (2, 4, 6 TO 8));
+TRUNCATE TABLE PartitionTable1   
+WITH (PARTITION (2, 4, 6 TO 8));  

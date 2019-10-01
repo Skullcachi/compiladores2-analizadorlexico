@@ -17,7 +17,8 @@ import java.util.logging.Logger;
  */
 public class AnalizadorLexico {
 
-    static String PATH = "C:/Users/cachi/OneDrive/Documents/NetBeansProjects/AnalizadorLexico/src/analizadorlexico/Yylex.flex";
+    //static String PATH = "C:/Users/cachi/OneDrive/Documents/NetBeansProjects/AnalizadorLexico/src/analizadorlexico/Yylex.flex";
+    static String PATH = "../AnalizadorLexico/src/analizadorlexico/Yylex.flex";
     /**
      * @param args the command line arguments
      */

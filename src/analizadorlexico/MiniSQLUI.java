@@ -98,7 +98,7 @@ public class MiniSQLUI extends javax.swing.JFrame {
         String currentLine;
         BufferedWriter writer;
         BufferedWriter writerErrores;
-        FileFilter filter = new FileNameExtensionFilter("All files", "txt");
+        FileFilter filter = new FileNameExtensionFilter("All files", "sql", "txt");
         resultados = "";
         jFileChooser1.setFileFilter(filter);
         try {
@@ -212,13 +212,13 @@ public class MiniSQLUI extends javax.swing.JFrame {
             switch(listadoValores.get(lookAheadIndex))
             {
                 case "SELECT":
-                    Select(listadoValores.get(lookAheadIndex)); //Aun falta terminar Select Expression
+                    Select(listadoValores.get(lookAheadIndex)); //TERMINADO sin pruebas
                 break;
                 case "INSERT":
                     Insert(listadoValores.get(lookAheadIndex));//TERMINADO con pruebas.
                 break;
                 case "UPDATE":
-                    Update(listadoValores.get(lookAheadIndex));//Terminado pero falta joinTable
+                    Update(listadoValores.get(lookAheadIndex));//TERMINADO sin pruebas
                 break;
                 case "DELETE":
                     Delete(listadoValores.get(lookAheadIndex));//TERMINADO error con el IS y el CURRENT, pasó que la sentencia llego al final de la produccion antes de terminar el arbol
@@ -227,7 +227,7 @@ public class MiniSQLUI extends javax.swing.JFrame {
                     Create(listadoValores.get(lookAheadIndex));//TERMINADO SIN PROBAR
                 break;
                 case "ALTER":
-                    Alter(listadoValores.get(lookAheadIndex));//TERMINADO sin probar
+                    Alter(listadoValores.get(lookAheadIndex));//TERMINADO
                 break;
                 case "DROP":
                     Drop(listadoValores.get(lookAheadIndex));//TERMINADO
@@ -252,7 +252,6 @@ public class MiniSQLUI extends javax.swing.JFrame {
     public void Select2()
     {
         Select3();
-        lookAheadIndex++;
         Select4();
     }
     
@@ -260,11 +259,11 @@ public class MiniSQLUI extends javax.swing.JFrame {
     {
         if ("ALL".equals(listadoValores.get(lookAheadIndex)))
         {
-            
+            lookAheadIndex++;            
         }
         else if ("DISTINCT".equals(listadoValores.get(lookAheadIndex)))
         {
-            
+            lookAheadIndex++;            
         }
     }
     
@@ -334,6 +333,16 @@ public class MiniSQLUI extends javax.swing.JFrame {
         else
         {
             Select11();
+            if ("PUNTO_Y_COMA".equals(listadoValores.get(lookAheadIndex)) || "GO".equals(listadoValores.get(lookAheadIndex)))
+            {
+                lookAheadIndex++;
+                System.out.println("Sentencia leida correctamente!");
+                Start();
+            }
+            else
+            {
+                Error();
+            }
         }
     }
     
@@ -367,6 +376,16 @@ public class MiniSQLUI extends javax.swing.JFrame {
         else
         {
             Select11();
+            if ("PUNTO_Y_COMA".equals(listadoValores.get(lookAheadIndex)) || "GO".equals(listadoValores.get(lookAheadIndex)))
+            {
+                lookAheadIndex++;
+                System.out.println("Sentencia leida correctamente!");
+                Start();
+            }
+            else
+            {
+                Error();
+            }
         }
     }
     
@@ -375,7 +394,6 @@ public class MiniSQLUI extends javax.swing.JFrame {
         {
             lookAheadIndex++;
             TableSource();
-            lookAheadIndex++;
             Select17();
         }
         else
@@ -390,7 +408,7 @@ public class MiniSQLUI extends javax.swing.JFrame {
         {
             lookAheadIndex++;
             SearchCWMatch();
-            lookAheadIndex++;
+            //lookAheadIndex++; SE QUITO PORQUE EN SELECT WHERE SE PASA DEL LIMITE
             Select13();
         }
         else
@@ -401,20 +419,23 @@ public class MiniSQLUI extends javax.swing.JFrame {
     
     public void Select13()
     {
-        if("GROUP".equals(listadoValores.get(lookAheadIndex)))
+        if (lookAheadIndex < listadoValores.size())
         {
-            lookAheadIndex++;
-            if("BY".equals(listadoValores.get(lookAheadIndex)))
+            if("GROUP".equals(listadoValores.get(lookAheadIndex)))
             {
                 lookAheadIndex++;
-                Expression();
-                lookAheadIndex++;
+                if("BY".equals(listadoValores.get(lookAheadIndex)))
+                {
+                    lookAheadIndex++;
+                    Expression();
+                    lookAheadIndex++;
+                    Select14();
+                }
+            }
+            else
+            {
                 Select14();
             }
-        }
-        else
-        {
-            Select14();
         }
     }
     
@@ -465,13 +486,12 @@ public class MiniSQLUI extends javax.swing.JFrame {
     public void SelectList()
     {
         SelectList1();
-        lookAheadIndex++;
         SelectList7();
     }
     
     public void SelectList1()
     {
-        if("MULTIPLICAR".equals(listadoValores.get(lookAheadIndex)))
+        if("MULTIPLICACION".equals(listadoValores.get(lookAheadIndex)))
         {
             
         }
@@ -550,26 +570,98 @@ public class MiniSQLUI extends javax.swing.JFrame {
     
     public void SelectList7()
     {
-        if ("MULTIPLICACION".equals(listadoValores.get(lookAheadIndex)) || 
-            "DIVISION".equals(listadoValores.get(lookAheadIndex)) || 
-            "IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)) ||
-            "SUMA".equals(listadoValores.get(lookAheadIndex)) ||
-            "RESTA".equals(listadoValores.get(lookAheadIndex)))
+        if (lookAheadIndex < listadoValores.size())
         {
-            
+            if ("MULTIPLICACION".equals(listadoValores.get(lookAheadIndex)))
+            {
+
+            }
+            else if ("IDENTIFIER".equals(listadoValores.get(lookAheadIndex)))
+            {
+
+            }
+            else
+            {
+                SelectExpression();
+            } 
         }
-        SelectList();
     }
     
     public void SelectExpression()
     {
-        //Aqui me quede
+        if ("STRING".equals(listadoTokens.get(lookAheadIndex)))
+        {
+            
+        }
+        else if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            SelectExpression1();
+        }
+        else if ("PARENTESIS_IZQUIERDO".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            SelectExpression();
+            lookAheadIndex++;
+            if ("PARENTESIS_DERECHO".equals(listadoValores.get(lookAheadIndex)))
+            {
+                
+            }
+            else
+            {
+                Error();
+            }
+        }
+        else if ("SUMA".equals(listadoValores.get(lookAheadIndex)))
+        {
+            SelectExpression2();
+        }
+        else if ("RESTA".equals(listadoValores.get(lookAheadIndex)))
+        {
+            SelectExpression2();            
+        }
+        else
+        {
+            ScalarExpression();
+        }
+        
+    }
+    
+    public void SelectExpression1()
+    {
+        if ("PUNTO".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+            {
+                
+            }
+            else
+            {
+                Error();
+            }
+        }
+    }
+    
+    public void SelectExpression2()
+    {
+        if ("SUMA".equals(listadoValores.get(lookAheadIndex)))
+        {
+            
+        }
+        else if("RESTA".equals(listadoValores.get(lookAheadIndex)))
+        {
+
+        }
+        else
+        {
+            Error();
+        }
     }
     
     public void Order()
     {
         ScalarExpression();
-        lookAheadIndex++;
         Order1();
     }
     
@@ -613,9 +705,12 @@ public class MiniSQLUI extends javax.swing.JFrame {
         switch(listadoValores.get(lookAheadIndex))
         {
             case "ASC": case "DESC":
+                lookAheadIndex++;
                 break;
             default:
-                Error();
+                lookAheadIndex++;
+                //Error(); Se quito por que si no viene entonces se asume por default asc
+                break;
         }
     }
     
@@ -751,7 +846,7 @@ public class MiniSQLUI extends javax.swing.JFrame {
     
     public void Insert9()
     {
-        if ("PUNTO_Y_COMA".equals(listadoValores.get(lookAheadIndex)))
+        if ("PUNTO_Y_COMA".equals(listadoValores.get(lookAheadIndex)) || "GO".equals(listadoValores.get(lookAheadIndex)))
         {
             lookAheadIndex++;
             System.out.println("Sentencia leida correctamente!");
@@ -1642,9 +1737,7 @@ public class MiniSQLUI extends javax.swing.JFrame {
         if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
         {
             TableView();
-            lookAheadIndex++;
             TableSource1();
-            lookAheadIndex++;
             TableSource2();
         }
         else if ("ARROBA".equals(listadoValores.get(lookAheadIndex)))
@@ -1670,29 +1763,35 @@ public class MiniSQLUI extends javax.swing.JFrame {
     
     public void TableSource1()
     {
-        if ("AS".equals(listadoValores.get(lookAheadIndex)))
+        if (lookAheadIndex < listadoValores.size())
         {
-            lookAheadIndex++;
-            if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+            if ("AS".equals(listadoValores.get(lookAheadIndex)))
             {
-                
+                lookAheadIndex++;
+                if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+                {
+                    lookAheadIndex++;
+                }
+                else
+                {
+                    Error();
+                }
             }
-            else
+            else if ("TABLESAMPLE".equals(listadoValores.get(lookAheadIndex)))
             {
-                Error();
-            }
-        }
-        else if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
-        {
-            
+                TableSource2();
+            } 
         }
     }
     
     public void TableSource2()
     {
-        if ("TABLESAMPLE".equals(listadoValores.get(lookAheadIndex)))
+        if (lookAheadIndex < listadoValores.size())
         {
-            TableSample();            
+            if ("TABLESAMPLE".equals(listadoValores.get(lookAheadIndex)))
+            {
+                TableSample();            
+            }            
         }
     }
         
@@ -1716,7 +1815,7 @@ public class MiniSQLUI extends javax.swing.JFrame {
             lookAheadIndex++;
             if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
             {
-                
+                lookAheadIndex++;
             }
             else
             {
@@ -2359,28 +2458,31 @@ public class MiniSQLUI extends javax.swing.JFrame {
     public void ScalarExpression()
     {
         ScalarExpression3();
-        lookAheadIndex++;
         ScalarExpression2();
     }
         
     public void ScalarExpression2()
     {
-        if ("SUMA".equals(listadoValores.get(lookAheadIndex)))
+        if (lookAheadIndex < listadoValores.size())
         {
-            lookAheadIndex++;
-            ScalarExpression3();
-            lookAheadIndex++;
-            ScalarExpression2();
-        }
-        else if ("RESTA".equals(listadoValores.get(lookAheadIndex)))
-        {
-            lookAheadIndex++;
-            ScalarExpression3();
-            lookAheadIndex++;
-            ScalarExpression2();
-        }
-        else
-        {
+            if ("SUMA".equals(listadoValores.get(lookAheadIndex)))
+            {
+                lookAheadIndex++;
+                ScalarExpression3();
+                lookAheadIndex++;
+                ScalarExpression2();
+            }
+            else if ("RESTA".equals(listadoValores.get(lookAheadIndex)))
+            {
+                lookAheadIndex++;
+                ScalarExpression3();
+                lookAheadIndex++;
+                ScalarExpression2();
+            }
+            else
+            {
+
+            }
             
         }
     }
@@ -2388,29 +2490,33 @@ public class MiniSQLUI extends javax.swing.JFrame {
     public void ScalarExpression3()
     {
         ScalarExpression5();
-        lookAheadIndex++;
+        //lookAheadIndex++;// este da problema de index con select from order by
         ScalarExpression4();
     }
     
     public void ScalarExpression4()
     {
-        if ("MULTIPLICACION".equals(listadoValores.get(lookAheadIndex)))
+        if (lookAheadIndex < listadoValores.size())
         {
-            lookAheadIndex++;
-            ScalarExpression5();
-            lookAheadIndex++;
-            ScalarExpression4();
-        }
-        else if ("DIVISION".equals(listadoValores.get(lookAheadIndex)))
-        {
-            lookAheadIndex++;
-            ScalarExpression5();
-            lookAheadIndex++;
-            ScalarExpression4();
-        }
-        else
-        {
-            //Epsilon
+            if ("MULTIPLICACION".equals(listadoValores.get(lookAheadIndex)))
+            {
+                lookAheadIndex++;
+                ScalarExpression5();
+                lookAheadIndex++;
+                ScalarExpression4();
+            }
+            else if ("DIVISION".equals(listadoValores.get(lookAheadIndex)))
+            {
+                lookAheadIndex++;
+                ScalarExpression5();
+                lookAheadIndex++;
+                ScalarExpression4();
+            }
+            else
+            {
+                //Epsilon
+            }
+            
         }
     }
     
@@ -3067,14 +3173,24 @@ public class MiniSQLUI extends javax.swing.JFrame {
     /* DDL */
     public void Create(String token)
     {
-        lookAheadIndex++;
-        CreateP();
-        lookAheadIndex++;
-        if ("PUNTO_Y_COMA".equals(listadoValores.get(lookAheadIndex)))
+        if (lookAheadIndex < listadoValores.size())
         {
             lookAheadIndex++;
-            System.out.println("Sentencia leida correctamente");
-            Start();
+            CreateP();
+            lookAheadIndex++;
+            if (lookAheadIndex < listadoValores.size())
+            {
+                if ("PUNTO_Y_COMA".equals(listadoValores.get(lookAheadIndex)) || "GO".equals(listadoValores.get(lookAheadIndex)))
+                {
+                    lookAheadIndex++;
+                    System.out.println("Sentencia leida correctamente");
+                    Start();
+                }
+                else
+                {
+                    Error();
+                }  
+            }
         }
     }
     
@@ -3091,8 +3207,9 @@ public class MiniSQLUI extends javax.swing.JFrame {
 //                lookAheadIndex++;
 //                CreateU1();
 //            case "DATABASE":
-//                lookAheadIndex++;
-//               CreateDatabase1();
+//                //lookAheadIndex++;
+//                //CreateDatabase1();
+//                break;
 //            case "INDEX":
 //                lookAheadIndex++;
 //                CreateTableIndex1();
@@ -3111,27 +3228,31 @@ public class MiniSQLUI extends javax.swing.JFrame {
     
     public void CreateTable2()
     {
-        if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+        if (lookAheadIndex < listadoValores.size())
         {
-            lookAheadIndex++;
-            CreateTable4();
-            lookAheadIndex++;
-            ColumnConstraint4();
+            if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+            {
+                lookAheadIndex++;
+                CreateTable4();
+                lookAheadIndex++;
+                ColumnConstraint4();
+            }
+            else if ("CONSTRAINT".equals(listadoValores.get(lookAheadIndex)))
+            {
+                TableConstraint();
+                lookAheadIndex++;
+                CreateTable3();
+                lookAheadIndex++;
+                ColumnConstraint4();
+            }
+            else if ("INDEX".equals(listadoValores.get(lookAheadIndex)))
+            {
+                TableIndex();
+                lookAheadIndex++;
+                ColumnConstraint4();
+            }
         }
-        else if ("CONSTRAINT".equals(listadoValores.get(lookAheadIndex)))
-        {
-            TableConstraint();
-            lookAheadIndex++;
-            CreateTable3();
-            lookAheadIndex++;
-            ColumnConstraint4();
-        }
-        else if ("INDEX".equals(listadoValores.get(lookAheadIndex)))
-        {
-            TableIndex();
-            lookAheadIndex++;
-            ColumnConstraint4();
-        }
+        
     }
     
     public void CreateTable3()
@@ -3155,16 +3276,121 @@ public class MiniSQLUI extends javax.swing.JFrame {
     
     public void CreateTable4()
     {
-        if ("DATATYPE".equals(listadoValores.get(lookAheadIndex)))
+        if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
         {
             ColumnDefinition();
         }
-        else
+        else if ("AS".equals(listadoValores.get(lookAheadIndex)))
         {
             Ccd();
         }
+        else
+        {
+            Error();
+        }
     }
     
+    public void Datatype()
+    {
+        if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            Datatype2();
+        }
+        else
+        {
+            Datatype3();
+        }
+    }
+    
+    public void Datatype2()
+    {
+        if ("PUNTO".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+            {
+                
+            }
+            else
+            {
+                Error();
+            }
+        }
+    }
+    
+    public void Datatype3()
+    {
+        switch(listadoTokens.get(lookAheadIndex))
+        {
+            case "BIT":
+            case "INT":
+            case "INTEGER":
+            case "FLOAT":
+            case "VARCHAR": 
+            case "DATE": 
+            case "REAL": 
+            case "DECIMAL":
+            case "NUMERIC": 
+            case "SMALLINT": 
+            case "TIME": 
+            case "CHAR": 
+            case "NCHAR": 
+                lookAheadIndex++;
+                Datatype4();
+                break;
+            default:
+                Error();
+                break;
+        }
+    }
+    
+    public void Datatype4()
+    {
+        if ("PARENTESIS_IZQUIERDO".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            if ("INTEGER".equals(listadoTokens.get(lookAheadIndex)))
+            {
+                lookAheadIndex++;
+                Datatype5();
+            }
+            else
+            {
+                Error();
+            }
+        }
+    }
+    
+    public void Datatype5()
+    {
+        if ("COMA".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            if ("INTEGER".equals(listadoTokens.get(lookAheadIndex)))
+            {
+                lookAheadIndex++;                
+                if ("PARENTESIS_DERECHO".equals(listadoValores.get(lookAheadIndex)))
+                {
+                }
+                else
+                {
+                    Error();
+                }
+            }
+            else
+            {
+                Error();
+            }
+        }
+        else  if ("PARENTESIS_DERECHO".equals(listadoValores.get(lookAheadIndex)))
+        {
+        }
+        else
+        {
+            Error();
+        }
+    }
     public void Seed()
     {
         switch(listadoTokens.get(lookAheadIndex))
@@ -3179,8 +3405,10 @@ public class MiniSQLUI extends javax.swing.JFrame {
     
     public void ColumnDefinition()
     {
-        if ("DATATYPE".equals(listadoValores.get(lookAheadIndex)))
+        if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
         {
+            lookAheadIndex++;
+            Datatype();
             lookAheadIndex++;
             ColumnDefinition2();
         }
@@ -3479,21 +3707,28 @@ public class MiniSQLUI extends javax.swing.JFrame {
     
     public void ColumnConstraint4()
     {
-        if ("ON".equals(listadoValores.get(lookAheadIndex)))
+        if (lookAheadIndex < listadoValores.size())
         {
-            lookAheadIndex++;
-            if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+            if ("ON".equals(listadoValores.get(lookAheadIndex)))
             {
                 lookAheadIndex++;
-                if ("PARENTESIS_IZQUIERDO".equals(listadoValores.get(lookAheadIndex)))
+                if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
                 {
                     lookAheadIndex++;
-                    if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+                    if ("PARENTESIS_IZQUIERDO".equals(listadoValores.get(lookAheadIndex)))
                     {
-                        lookAheadIndex++;                        
-                        if ("PARENTESIS_DERECHO".equals(listadoValores.get(lookAheadIndex)))
+                        lookAheadIndex++;
+                        if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
                         {
+                            lookAheadIndex++;                        
+                            if ("PARENTESIS_DERECHO".equals(listadoValores.get(lookAheadIndex)))
+                            {
 
+                            }
+                            else
+                            {
+                                Error();
+                            }
                         }
                         else
                         {
@@ -3504,25 +3739,22 @@ public class MiniSQLUI extends javax.swing.JFrame {
                     {
                         Error();
                     }
+
                 }
                 else
                 {
                     Error();
                 }
-                
+            }
+            else if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+            {
+
             }
             else
             {
-                Error();
             }
         }
-        else if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
-        {
-
-        }
-        else
-        {
-        }
+        
     }
     
     public void ColumnConstraint5()
@@ -4087,11 +4319,18 @@ public class MiniSQLUI extends javax.swing.JFrame {
         lookAheadIndex++;
         AlterP1();
         lookAheadIndex++;
-        if ("PUNTO_Y_COMA".equals(listadoValores.get(lookAheadIndex)))
+        if (lookAheadIndex < listadoValores.size())
         {
-            lookAheadIndex++;
-            System.out.println("Sentencia leida correctamente");
-            Start();
+            if ("PUNTO_Y_COMA".equals(listadoValores.get(lookAheadIndex)) || "GO".equals(listadoValores.get(lookAheadIndex)))
+            {
+                lookAheadIndex++;
+                System.out.println("Sentencia leida correctamente");
+                Start();
+            }
+            else
+            {
+                Error();
+            } 
         }
     }
     
@@ -4306,31 +4545,35 @@ public class MiniSQLUI extends javax.swing.JFrame {
     
     public void Alter1()
     {
-        switch(listadoValores.get(lookAheadIndex))
+        if (lookAheadIndex < listadoValores.size())
         {
-            case "ALTER":
-                lookAheadIndex++;
-                if("COLUMN".equals(listadoValores.get(lookAheadIndex)))
-                {
+            switch(listadoValores.get(lookAheadIndex))
+            {
+                case "ALTER":
                     lookAheadIndex++;
-                    if("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+                    if("COLUMN".equals(listadoValores.get(lookAheadIndex)))
                     {
                         lookAheadIndex++;
-                        Alter1();
+                        if("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+                        {
+                            lookAheadIndex++;
+                            Alter1();
+                        }
                     }
-                }
-                    
-                break;
-            case "ADD":
-                lookAheadIndex++;
-                AlterTable8();
-                break;
-            case "DROP":
-                lookAheadIndex++;
-                AlterTable10();
-                break;
-            default:
-                break;
+
+                    break;
+                case "ADD":
+                    lookAheadIndex++;
+                    AlterTable8();
+                    break;
+                case "DROP":
+                    lookAheadIndex++;
+                    AlterTable10();
+                    break;
+                default:
+                    break;
+            }
+            
         }
     }
     
@@ -4528,6 +4771,10 @@ public class MiniSQLUI extends javax.swing.JFrame {
                 Error();
             }
         }
+        else
+        {
+            Error();
+        }
     }
     
     public void AlterTable9()
@@ -4591,20 +4838,22 @@ public class MiniSQLUI extends javax.swing.JFrame {
     
     public void AlterTable13()
     {      
-        if ("COMA".equals(listadoValores.get(lookAheadIndex)))
+        if (lookAheadIndex < listadoValores.size())
         {
-            lookAheadIndex++;
-            if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+            if ("COMA".equals(listadoValores.get(lookAheadIndex)))
             {
                 lookAheadIndex++;
-                AlterTable13();
-            }
-            else
-            {
-                Error();
+                if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+                {
+                    lookAheadIndex++;
+                    AlterTable13();
+                }
+                else
+                {
+                    Error();
+                }
             }
         }
-        
     }
         
     
@@ -4629,11 +4878,18 @@ public class MiniSQLUI extends javax.swing.JFrame {
     }
     public void TruncateTable2()
     {
-        if ("PUNTO_Y_COMA".equals(listadoValores.get(lookAheadIndex)) || "GO".equals(listadoValores.get(lookAheadIndex)))
+        if (lookAheadIndex < listadoValores.size())
         {
-            lookAheadIndex++;
-            System.out.println("Sentencia leida correctamente");
-            Start();
+            if ("PUNTO_Y_COMA".equals(listadoValores.get(lookAheadIndex)) || "GO".equals(listadoValores.get(lookAheadIndex)))
+            {
+                lookAheadIndex++;
+                System.out.println("Sentencia leida correctamente");
+                Start();
+            } 
+            else
+            {
+                Error();
+            }
         }
 //        if ("WITH".equals(listadoValores.get(lookAheadIndex)))
 //        {
@@ -4683,7 +4939,7 @@ public class MiniSQLUI extends javax.swing.JFrame {
     }
     public void TruncateTable4()
     {
-        if ("PUNTO_Y_COMA".equals(listadoValores.get(lookAheadIndex)))
+        if ("PUNTO_Y_COMA".equals(listadoValores.get(lookAheadIndex)) || "GO".equals(listadoValores.get(lookAheadIndex)))
         { 
             lookAheadIndex++;
             System.out.println("Sentencia terminada correctamente");
@@ -4801,7 +5057,7 @@ public class MiniSQLUI extends javax.swing.JFrame {
             {
                 DropTable2();
             }
-            else if ("PUNTO_Y_COMA".equals(listadoValores.get(lookAheadIndex)))
+            else if ("PUNTO_Y_COMA".equals(listadoValores.get(lookAheadIndex)) || "GO".equals(listadoValores.get(lookAheadIndex)))
             {
                 lookAheadIndex++;                
                 System.out.println("Se terminó de leer un statement de forma correcta!");
@@ -4902,11 +5158,11 @@ public class MiniSQLUI extends javax.swing.JFrame {
             lookAheadIndex++;
             DropDatabase2();
         }
-        else if ("PUNTO_Y_COMA".equals(listadoValores.get(lookAheadIndex)))
+        else if ("PUNTO_Y_COMA".equals(listadoValores.get(lookAheadIndex)) || "GO".equals(listadoValores.get(lookAheadIndex)))
         {
             //Terminó
             lookAheadIndex++;
-            System.out.println("Se terminó de leer un statement de forma correcta!");
+            System.out.println("Sentencia leida correctamente!");
             Start();
         }
         else
@@ -4920,7 +5176,7 @@ public class MiniSQLUI extends javax.swing.JFrame {
         if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
         {
             lookAheadIndex++;
-            if ("PUNTO_Y_COMA".equals(listadoValores.get(lookAheadIndex)))
+            if ("PUNTO_Y_COMA".equals(listadoValores.get(lookAheadIndex)) || "GO".equals(listadoValores.get(lookAheadIndex)))
             {
                 lookAheadIndex++;
                 System.out.println("Se terminó de leer un statement de forma correcta!");
@@ -5000,7 +5256,7 @@ public class MiniSQLUI extends javax.swing.JFrame {
             lookAheadIndex++;
             DropIndex2();                 
         }        
-        else if ("PUNTO_Y_COMA".equals(listadoValores.get(lookAheadIndex)))
+        else if ("PUNTO_Y_COMA".equals(listadoValores.get(lookAheadIndex)) || "GO".equals(listadoValores.get(lookAheadIndex)))
         {
             //Terminó
             lookAheadIndex++;
@@ -5073,10 +5329,10 @@ public class MiniSQLUI extends javax.swing.JFrame {
             lookAheadIndex++;
             DropView2();
         }
-        else if ("PUNTO_Y_COMA".equals(listadoValores.get(lookAheadIndex)))
+        else if ("PUNTO_Y_COMA".equals(listadoValores.get(lookAheadIndex)) || "GO".equals(listadoValores.get(lookAheadIndex)))
         {
             lookAheadIndex++;
-            System.out.println("Se terminó de leer un statement de forma correcta!");
+            System.out.println("Sentencia leida correctamente!");
             Start();
         }
         else
@@ -5141,7 +5397,8 @@ public class MiniSQLUI extends javax.swing.JFrame {
         });
     }
     
-    public String PATH = "C:/Users/cachi/OneDrive/Documents/NetBeansProjects/AnalizadorLexico";
+    //public String PATH = "C:/Users/cachi/OneDrive/Documents/NetBeansProjects/AnalizadorLexico";
+    public String PATH = "../AnalizadorLexico";
     String resultados = "";
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

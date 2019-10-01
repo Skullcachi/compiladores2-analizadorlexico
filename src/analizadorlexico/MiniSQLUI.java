@@ -156,6 +156,7 @@ public class MiniSQLUI extends javax.swing.JFrame {
     public boolean hayError = false;
     
     public ArrayList<String> listaErrores = new ArrayList<String>();
+    public ArrayList<String> listaTokens = new ArrayList<String>();
     
     
     public void ProbarLexerFile(File filetoread) throws IOException{
@@ -169,6 +170,8 @@ public class MiniSQLUI extends javax.swing.JFrame {
                 resultados = resultados + "EOF";
                 jTextArea1.setText(resultados);
                 hayError = false;
+                
+                this.AnalisisSintactico();
                 return;
             }
             else
@@ -182,9 +185,4925 @@ public class MiniSQLUI extends javax.swing.JFrame {
                 else 
                 {                    
                     resultados +=  "\n" + token + ".\n";
+                    listaTokens.add(token);
                 }
             }
+        } 
+    }
+    
+    public ArrayList<String> listadoValores = new ArrayList<String>();
+    public ArrayList<String> listadoTokens = new ArrayList<String>();
+    public int lookAheadIndex = 0;
+    public void AnalisisSintactico()
+    {
+        for (int i = 0; i < listaTokens.size(); i++) {
+            //System.out.println(listaTokens.get(i));
+            String[] tokenSplit = listaTokens.get(i).split(" ");
+            listadoTokens.add(tokenSplit[0].substring(0, tokenSplit[0].length()-1));
+            listadoValores.add(tokenSplit[1]);
+        }
+        Start();        
+    }
+    
+    public void Start()
+    {
+        if(lookAheadIndex < listadoValores.size())
+        {
+            switch(listadoValores.get(lookAheadIndex))
+            {
+                case "SELECT":
+                    Select(listadoValores.get(lookAheadIndex));
+                break;
+                case "INSERT":
+                    Insert(listadoValores.get(lookAheadIndex));//TERMINADO con pruebas.
+                break;
+                case "UPDATE":
+                    Update(listadoValores.get(lookAheadIndex));//Terminado pero falta joinTable
+                break;
+                case "DELETE":
+                    Delete(listadoValores.get(lookAheadIndex));//TERMINADO error con el IS y el CURRENT, pasó que la sentencia llego al final de la produccion antes de terminar el arbol
+                break;
+                case "CREATE":
+                    Create(listadoValores.get(lookAheadIndex));//TERMINADO SIN PROBAR
+                break;
+                case "ALTER":
+                    Alter(listadoValores.get(lookAheadIndex));//TERMINADO sin probar
+                break;
+                case "DROP":
+                    Drop(listadoValores.get(lookAheadIndex));//TERMINADO
+                break;
+                case "TRUNCATE":
+                    Truncate(listadoValores.get(lookAheadIndex));//TERMINADO
+                break;
+                default:
+                    Error();
+                break;
+            }            
+        }
+    }
+    
+    /* DML */
+    public void Select(String token)
+    {
+        lookAheadIndex++;
+        Select2();
+    }
+    
+    public void Select2()
+    {
+        Select3();
+        lookAheadIndex++;
+        Select4();
+    }
+    
+    public void Select3()
+    {
+        if ("ALL".equals(listadoValores.get(lookAheadIndex)))
+        {
+            
+        }
+        else if ("DISTINCT".equals(listadoValores.get(lookAheadIndex)))
+        {
+            
+        }
+    }
+    
+    public void Select4()
+    {
+        if ("TOP".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            Select5();
+        }
+        else
+        {
+            Select7();
+        }
+    }
+    
+    public void Select5()
+    {
+        if ("PARENTESIS_IZQUIERDO".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            ScalarExpression();
+            lookAheadIndex++;
+            if ("PARENTESIS_DERECHO".equals(listadoValores.get(lookAheadIndex)))
+            {
+                lookAheadIndex++;
+                Select6();
+            }
+            else
+            {
+                Error();
+            }
+        }
+        else
+        {
+            Error();
+        }
+    }
+    
+    public void Select6()
+    {
+        if ("PORCENTAJE".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            Select7();
+        }
+        else
+        {
+            Select7();
+        }
+    }
+    
+    public void Select7()
+    {
+        SelectList();
+        lookAheadIndex++;
+        Select8();
+    }
+    
+    public void Select8()
+    {
+        if ("INTO".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            Select9();
+        }
+        else
+        {
+            Select11();
+        }
+    }
+    
+    public void Select9()
+    {
+        if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            Select10();
+        }
+        else
+        {
+            Error();
+        }
+    }
+    
+    public void Select10()
+    {
+        if("PUNTO".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            if("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+            {
+                
+            }
+            else
+            {
+                Error();
+            }
+        }
+        else
+        {
+            Select11();
+        }
+    }
+    
+    public void Select11(){
+        if("FROM".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            TableSource();
+            lookAheadIndex++;
+            Select17();
+        }
+        else
+        {
+            Select12();
+        }
+    }
+    
+    public void Select12()
+    {
+        if("WHERE".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            SearchCWMatch();
+            lookAheadIndex++;
+            Select13();
+        }
+        else
+        {
+            Select13();
+        }
+    }
+    
+    public void Select13()
+    {
+        if("GROUP".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            if("BY".equals(listadoValores.get(lookAheadIndex)))
+            {
+                lookAheadIndex++;
+                Expression();
+                lookAheadIndex++;
+                Select14();
+            }
+        }
+        else
+        {
+            Select14();
+        }
+    }
+    
+    public void Select14()
+    {
+        if("HAVING".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            SearchCWMatch();
+            lookAheadIndex++;
+            Select15();
+        }
+        else
+        {
+            Select15();
+        }
+    }
+    
+    public void Select15()
+    {
+        if("ORDER".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            if("BY".equals(listadoValores.get(lookAheadIndex)))
+            {
+                lookAheadIndex++;
+                Order();
+            }
+        }
+    }
+    
+    public void Select17()
+    {
+        
+        if("COMA".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            TableSource();
+            lookAheadIndex++;
+            Select17();
+        }
+        else
+        {
+            Select12();
+        }
+    }
+    
+    public void SelectList()
+    {
+        SelectList1();
+        lookAheadIndex++;
+        SelectList7();
+    }
+    
+    public void SelectList1()
+    {
+        if("MULTIPLICAR".equals(listadoValores.get(lookAheadIndex)))
+        {
+            
+        }
+        else if("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            SelectList2();
+        }
+        else
+        {
+            SelectExpression();
+        }
+    }
+    
+    public void SelectList2()
+    {
+        if("PUNTO".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            SelectList3();
+        }
+        else if("ASIGNAR".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            SelectList6();
+        }
+        else
+        {
+        }
+    }
+    
+    public void SelectList3()
+    {
+        if("MULTIPLICAR".equals(listadoValores.get(lookAheadIndex)))
+        {
+            
+        }
+        else if("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            SelectList5();
+        }
+        else
+        {
+            Error();
+        }
+    }
+    
+    public void SelectList5()
+    {
+        if("AS".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            if("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+            {
+            }
+            else
+            {
+                Error();
+            }
+        }
+        else if("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+        {
+            
+        }
+        else
+        {
+            Error();
+        }
+    }
+    
+    public void SelectList6()
+    {
+        SelectExpression();
+    }
+    
+    public void SelectList7()
+    {
+        if ("MULTIPLICACION".equals(listadoValores.get(lookAheadIndex)) || 
+            "DIVISION".equals(listadoValores.get(lookAheadIndex)) || 
+            "IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)) ||
+            "SUMA".equals(listadoValores.get(lookAheadIndex)) ||
+            "RESTA".equals(listadoValores.get(lookAheadIndex)))
+        {
+            
+        }
+        SelectList();
+    }
+    
+    public void SelectExpression()
+    {
+        //Aqui me quede
+    }
+    
+    public void Order()
+    {
+        ScalarExpression();
+        lookAheadIndex++;
+        Order1();
+    }
+    
+    public void Order1(){
+        if("COMA".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            Order();
+        }
+        else
+        {
+            Order2();
+        }
+    }
+    
+    public void Order2(){
+        if ("COLLATE".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            Order3();
+        }
+        else
+        {
+            Order4();
+        }
+    }
+    
+    public void Order3(){
+        if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            Order4();
+        }
+        else
+        {
+            Error();
+        }
+    }
+    
+    public void Order4(){
+        switch(listadoValores.get(lookAheadIndex))
+        {
+            case "ASC": case "DESC":
+                break;
+            default:
+                Error();
+        }
+    }
+    
+    public void Insert(String token)
+    {
+        lookAheadIndex++;
+        if ("TOP".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            if ("PARETENSIS_IZQUIERDO".equals(listadoValores.get(lookAheadIndex)))
+            {
+                lookAheadIndex++;
+                ScalarExpression();
+                lookAheadIndex++;
+                if ("PARETENSIS_DERECHO".equals(listadoValores.get(lookAheadIndex)))
+                {
+                    lookAheadIndex++;
+                    Insert2();
+                }
+                else
+                {
+                    Error();
+                }
+            }
+            else
+            {
+                Error();
+            }
+        }
+        else
+        {
+            Insert3();
+        }
+    }
+    
+    public void Insert2()
+    {
+        if ("PORCENTAJE".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            Insert3();
+        }
+        else
+        {
+            Insert3();
+        }
+    }
+    
+    public void Insert3()
+    {
+        if ("INTO".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            Insert4();
+        }
+        else
+        {
+            Insert5();
+        }
+    }
+    
+    public void Insert4()
+    {
+        Object();
+        Insert5();
+    }
+    
+    public void Insert5()
+    {
+        if ("PARENTESIS_IZQUIERDO".equals(listadoValores.get(lookAheadIndex)))
+        {
+            ColumnList();
+            lookAheadIndex++;
+            Insert6();
+        }
+        else
+        {
+            Insert6();
+        }
+    }
+    
+    public void Insert6()
+    {
+        if ("OUTPUT".equals(listadoValores.get(lookAheadIndex)))
+        {
+            Output();
+        }
+        else
+        {
+            Insert7();
+        }
+    }
+    
+    public void Insert7()
+    {
+        if ("VALUES".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            if ("PARENTESIS_IZQUIERDO".equals(listadoValores.get(lookAheadIndex)))
+            {
+                lookAheadIndex++;
+                Insert8();
+            }
+        }
+        else if ("DEFAULT".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            if ("VALUES".equals(listadoValores.get(lookAheadIndex)))
+            {
+                lookAheadIndex++;
+                Insert9();
+            }
+        }
+        else
+        {
+            Select1();
+            lookAheadIndex++;
+            Insert9();
+        }
+    }
+    
+    public void Select1()
+    {
+        
+    }
+    
+    public void Insert8()
+    {
+        Insert10();
+        lookAheadIndex++;
+        Insert11();
+    }
+    
+    public void Insert9()
+    {
+        if ("PUNTO_Y_COMA".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            System.out.println("Sentencia leida correctamente!");
+            Start();
+        }
+        else
+        {
+            Error();
+        }
+    }
+    
+    public void Insert10()
+    {
+        if ("DEFAULT".equals(listadoValores.get(lookAheadIndex)))
+        {            
+        }
+        else if ("NULL".equals(listadoValores.get(lookAheadIndex)))
+        {
+        }
+        else 
+        {
+            Expression();
+        }
+    }
+    
+    public void Insert11()
+    {
+        
+        if ("COMA".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            Insert8();
+        }
+        else if ("PARENTESIS_DERECHO".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            Insert12();
+        }
+    }
+    
+    public void Insert12()
+    {
+        if ("COMA".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            if ("VALUES".equals(listadoValores.get(lookAheadIndex)))
+            {
+                lookAheadIndex++;
+                if ("PARENTESIS_IZQUIERDO".equals(listadoValores.get(lookAheadIndex)))
+                {
+                    lookAheadIndex++;
+                    Insert8();
+                }
+            }
+        }
+        else
+        {
+            Insert9();
+        }
+    }
+    
+    public void Update(String token)
+    {
+        lookAheadIndex++;
+        DefObject();
+        lookAheadIndex++;        
+        if ("SET".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            Update2();
+        }
+        else
+        {
+            Error();
+        }
+    }
+    
+    public void Update2()
+    {
+        if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            Update3();
+        }
+        else if ("ARROBA".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+            {
+                Update9();
+            }
+            else
+            {
+                Error();
+            }
+            
+        }
+        else
+        {
+            Error();
+        }
+    }
+    
+    public void Update3()
+    {
+        if ("ASIGNAR".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            Update4();
+        }
+        else if ("COMA".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            Update5();
+        }
+        else
+        {
+            Error();
         }        
+    }
+    
+    public void Update4()
+    {
+        if ("DEFAULT".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            Update8();
+        }
+        else if ("NULL".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            Update8();
+        }
+        else
+        {
+            ExpressionComplex();
+            lookAheadIndex++;
+            Update8();
+        }
+    }
+    
+    public void Update5()
+    {
+        if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            Update6();
+        }
+        else if ("WRITE".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            if ("PARENTESIS_IZQUIERDO".equals(listadoValores.get(lookAheadIndex)))
+            {
+                lookAheadIndex++;
+                ExpressionComplex();
+                lookAheadIndex++;
+                if ("COMA".equals(listadoValores.get(lookAheadIndex)))
+                {
+                    lookAheadIndex++;
+                    Update7();
+                    if ("COMA".equals(listadoValores.get(lookAheadIndex)))
+                    {
+                        lookAheadIndex++;
+                        Update7();
+                        lookAheadIndex++;
+                        if ("PARENTESIS_DERECHO".equals(listadoValores.get(lookAheadIndex)))
+                        {
+                            lookAheadIndex++;
+                            Update8();
+                        }
+                        else
+                        {
+                            Error();
+                        }
+
+                    }
+                    else
+                    {
+                        Error();
+                    }
+
+                }
+                else
+                {
+                    Error();
+                }
+            }
+            else
+            {
+                Error();
+            }
+
+        }
+        else
+        {
+            Error();
+        }        
+    }
+    
+    public void Update6()
+    {
+        if ("ASIGNAR".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            ExpressionComplex();
+            lookAheadIndex++;
+            Update8();
+        }
+        else if ("PARENETESIS_IZQUIERDO".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            Argument();
+            lookAheadIndex++;
+            if ("PARENTESIS_DERECHO".equals(listadoTokens.get(lookAheadIndex)))
+            {
+                lookAheadIndex++;
+                Update8();
+            }
+            else
+            {
+                Error();
+            }
+        }
+        else
+        {
+            Error();
+        }
+    }
+    
+    public void Argument()
+    {
+        if ("STRING".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            Argument2();
+        }
+        else
+        {
+            ExpressionComplex();
+            lookAheadIndex++;
+            Argument2();
+        }
+    }
+    
+    public void Argument2()
+    {
+        if ("COMA".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            Argument();
+        }
+    }
+    
+    public void DefObject()
+    {
+        if ("TOP".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            if ("PARENTESIS_IZQUIERDO".equals(listadoValores.get(lookAheadIndex)))
+            {
+                lookAheadIndex++;;
+                ScalarExpression();
+                lookAheadIndex++;
+                if ("PARENTESIS_DERECHO".equals(listadoValores.get(lookAheadIndex)))
+                {
+                    lookAheadIndex++;
+                    DefObject1();
+                }
+                else
+                {
+                    Error();
+                }
+            }
+            else
+            {
+                Error();
+            }
+        }
+        else
+        {
+            DefObject2();
+        }
+    }
+    
+    public void DefObject1()
+    {
+        if ("PORCENTAJE".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            DefObject2();
+        }
+        else
+        {
+            DefObject2();
+        }
+    }
+    
+    public void DefObject2()
+    {
+        if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+        {
+            Object();
+            WH();
+        }
+        else if ("ARROBA".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+            {
+                
+            }
+            else
+            {
+                Error();
+            }
+        }
+        else
+        {
+            RowSetF();
+            lookAheadIndex++;
+            if ("WITH".equals(listadoValores.get(lookAheadIndex)))
+            {
+                
+            }
+            else
+            {
+                Error();
+            }
+        }
+    }
+    
+    public void WH()
+    {
+        if ("WITH".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            if ("PARENTESIS_IZQUIERDO".equals(listadoValores.get(lookAheadIndex)))
+            {
+                lookAheadIndex++;
+                TableHint();
+                lookAheadIndex++;
+                if ("PARENTESIS_DERECHO".equals(listadoValores.get(lookAheadIndex)))
+                {
+                    
+                }
+                else
+                {
+                    Error();
+                }                    
+            }
+            else
+            {
+                Error();
+            } 
+        }
+    }
+    
+    public void TableHint()
+    {
+        if ("INDEX".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            TableHint2();
+        }
+        else if("HOLDLOCK".equals(listadoValores.get(lookAheadIndex)))
+        {
+            
+        }
+        else
+        {
+            Error();
+        }
+    }
+    
+    public void TableHint2()
+    {
+        if ("ASIGNAR".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            TableHint3();
+            lookAheadIndex++;
+            TableHint4();
+        }
+        else if("PARENTESIS_IZQUIERDO".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            TableHint3();
+            lookAheadIndex++;
+            if ("PARENTESIS_DERECHO".equals(listadoValores.get(lookAheadIndex)))
+            {
+            }
+            else
+            {
+                Error();
+            }
+        }
+        else
+        {
+            Error();
+        }
+    }
+    
+    public void TableHint3()
+    {
+        switch(listadoTokens.get(lookAheadIndex))
+        {
+            case "INTEGER": case "IDENTIFIER": case "NULL":
+                break;
+            default:
+                Error();
+                break;
+        }
+    }
+    
+    public void TableHint4()
+    {
+        if("COMA".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            TableHint5();
+        }
+    }
+    
+    public void TableHint5()
+    {
+        switch(listadoTokens.get(lookAheadIndex))
+        {
+            case "INTEGER": case "IDENTIFIER": case "NULL":
+                lookAheadIndex++;
+                TableHint4();
+                break;
+            default:
+                Error();
+                break;
+        }        
+    }
+    public void RowSetF()
+    {
+        if ("OPENDATASOURCE".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            if ("PARENTESIS_IZQUIERDO".equals(listadoValores.get(lookAheadIndex)))
+            {
+                lookAheadIndex++;
+                if ("STRING".equals(listadoTokens.get(lookAheadIndex)))
+                {
+                    lookAheadIndex++;
+                    if ("COMA".equals(listadoValores.get(lookAheadIndex)))
+                    {
+                        lookAheadIndex++;
+                        if ("STRING".equals(listadoTokens.get(lookAheadIndex)))
+                        {
+                            lookAheadIndex++;
+                            if ("PARENTESIS_DERECHO".equals(listadoValores.get(lookAheadIndex)))
+                            {
+                                lookAheadIndex++;
+                            }
+                            else
+                            {
+                                Error();
+                            }
+                        }
+                        else
+                        {
+                            Error();
+                        }
+                    }
+                    else
+                    {
+                        Error();
+                    }
+                }
+                else
+                {
+                    Error();
+                }
+            }
+            else
+            {
+                Error();
+            }
+        }
+        else if ("OPENQUERY".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            if ("PARENTESIS_IZQUIERDO".equals(listadoValores.get(lookAheadIndex)))
+            {
+                lookAheadIndex++;
+                if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+                {
+                    lookAheadIndex++;
+                    if ("COMA".equals(listadoValores.get(lookAheadIndex)))
+                    {
+                        lookAheadIndex++;
+                        if ("STRING".equals(listadoTokens.get(lookAheadIndex)))
+                        {
+                            lookAheadIndex++;
+                            if ("PARENTESIS_DERECHO".equals(listadoValores.get(lookAheadIndex)))
+                            {
+
+                            }
+                            else
+                            {
+                                Error();
+                            }
+                        }
+                        else
+                        {
+                            Error();
+                        }
+                    }
+                    else
+                    {
+                        Error();
+                    }
+                }
+                else
+                {
+                    Error();
+                }
+            }
+            else
+            {
+                Error();
+            }
+        }
+        else
+        {
+            Error();
+        }
+        
+    }
+        
+    
+    public void Update7()
+    {
+        if ("INTEGER".equals(listadoTokens.get(lookAheadIndex)))
+        {
+            
+        }
+        else if ("NULL".equals(listadoTokens.get(lookAheadIndex)))
+        {
+
+        }
+        else if ("ARROBA".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+            {
+                
+            }
+            else
+            {
+                Error();
+            }
+
+        }
+        else
+        {
+            Error();
+        }
+    }
+    
+    public void Update8()
+    {
+        if ("COMA".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            Update2();
+        }
+        else
+        {
+            FinalQuery();
+        }
+    }
+    
+    public void Update9()
+    {
+        if ("ASIGNAR".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            Update10();
+        }
+        else
+        {
+            Error();
+        }
+    }
+    
+    public void Update10()
+    {
+        if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            if ("ASIGNAR".equals(listadoValores.get(lookAheadIndex)))
+            {
+                lookAheadIndex++;
+                ExpressionComplex();
+                lookAheadIndex++;
+                Update8();
+            }
+            else
+            {
+                Error();
+            }
+            
+        }
+        else
+        {
+            ExpressionComplex();
+            lookAheadIndex++;
+            Update8();
+        }   
+    }
+    
+    public void FinalQuery()
+    {
+        if ("OUTPUT".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            Output();
+            lookAheadIndex++;
+            FinalQuery2();
+        }
+        else
+        {
+            FinalQuery2();
+        }        
+    }
+    
+    public void FinalQuery2()
+    {
+        if ("FROM".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            TableSource();
+            lookAheadIndex++;
+            FinalQuery3();
+        }
+        else
+        {
+            FinalQuery3();
+        }
+    }
+    
+    public void FinalQuery3()
+    {
+        if ("WHERE".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            SearchCWMatch();
+            lookAheadIndex++;
+            FinalQuery4();
+        }
+        else
+        {
+            FinalQuery4();
+        }
+    }
+    
+    public void FinalQuery4()
+    {
+        if (lookAheadIndex < listadoValores.size())
+        {
+            if ("PUNTO_Y_COMA".equals(listadoValores.get(lookAheadIndex)) || "GO".equals(listadoValores.get(lookAheadIndex)))
+            {
+                lookAheadIndex++;
+                System.out.println("Sentencia leida correctamente!");
+                Start();
+            }
+            else
+            {
+                Error();
+            }
+        }
+    }
+    
+    public void TableSample()
+    {
+        if("TABLESAMPLE".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            if("PARENTESIS_IZQUIERDO".equals(listadoValores.get(lookAheadIndex)))
+            {
+                lookAheadIndex++;
+                TableSample1();
+                lookAheadIndex++;
+                if("PARENTESIS_DERECHO".equals(listadoValores.get(lookAheadIndex)))
+                {
+                    lookAheadIndex++;
+                }
+                else
+                {
+                    Error();
+                }
+            }
+            else
+            {
+                Error();
+            }
+        }
+        else
+        {
+            Error();
+        }
+    }
+    
+    public void TableSample1()
+    {
+        ScalarExpression();
+        lookAheadIndex++;
+        TableSample2();
+    }
+    
+    public void TableSample2()
+    {
+        if ("PORCENTAJE".equals(listadoValores.get(lookAheadIndex)))
+        {
+            
+        }
+        else if ("ROWS".equals(listadoValores.get(lookAheadIndex)))
+        {
+            
+        }
+            
+    }
+    
+    public void JoinType()
+    {
+        JoinType1();
+        lookAheadIndex++;
+        if ("JOIN".equals(listadoValores.get(lookAheadIndex)))
+        {
+            
+        }
+        else
+        {
+            Error();
+        }
+    }
+    
+    public void JoinType1()
+    {
+        if("INNER".equals(listadoValores.get(lookAheadIndex)))
+        {
+        }
+        else if ("LEFT".equals(listadoValores.get(lookAheadIndex)) || "RIGHT".equals(listadoValores.get(lookAheadIndex)) || "FULL".equals(listadoValores.get(lookAheadIndex)))
+        {
+            JoinType2();   
+        }
+    }
+    
+    public void JoinType2()
+    {
+        switch(listadoValores.get(lookAheadIndex))
+        {
+            case "LEFT": case "RIGHT": case "FULL":
+                lookAheadIndex++;
+                JoinType3();
+                break;
+            default:
+                break;
+        }
+    }
+    
+    public void JoinType3()
+    {
+        if ("OUTER".equals(listadoValores.get(lookAheadIndex)))
+        {
+            
+        }
+    }
+    
+    public void JoinTable()
+    {
+        if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+        {
+            TableSource();
+            lookAheadIndex++;
+            JoinTable1();
+        }
+        else if ("PARENTESIS_IZQUIERDO".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            if ("JOIN".equals(listadoValores.get(lookAheadIndex)))
+            {
+                lookAheadIndex++;
+                if ("PARENTESIS_DERECHO".equals(listadoValores.get(lookAheadIndex)))
+                {
+                    
+                }
+                else
+                {
+                    Error();
+                }
+            }
+            else
+            {
+                Error();
+            }
+        }
+        else
+        {
+            Error();
+        }
+    }
+    
+    public void JoinTable1()
+    {
+        switch(listadoValores.get(lookAheadIndex))
+        {
+            case "INNER": case "LEFT": case "RIGHT": case "FULL": case "JOIN":
+                JoinType();
+                lookAheadIndex++;
+                JoinTable3();
+                break;
+            case "CROSS":
+                lookAheadIndex++;
+                if("COMA".equals(listadoValores.get(lookAheadIndex)))
+                {
+                    lookAheadIndex++;
+                    if("JOIN".equals(listadoValores.get(lookAheadIndex)))
+                    {
+                        lookAheadIndex++;
+                        JoinTable4();
+                    }
+                }
+            break;
+            default:
+                break;
+        }
+    }
+    
+    public void JoinTable2()
+    {
+        switch(listadoValores.get(lookAheadIndex))
+        {
+            case "INNER": case "LEFT": case "RIGHT": case "FULL": case "JOIN":
+                JoinType();
+                lookAheadIndex++;
+                JoinTable3();
+                break;
+            case "CROSS":
+                lookAheadIndex++;
+                if("COMA".equals(listadoValores.get(lookAheadIndex)))
+                {
+                    lookAheadIndex++;
+                    if("JOIN".equals(listadoValores.get(lookAheadIndex)))
+                    {
+                        lookAheadIndex++;
+                        JoinTable4();
+                    }
+                }
+            break;
+            default:
+                Error();
+                break;
+        }
+    }
+    
+    public void JoinTable3()
+    {
+        TableSource();
+        lookAheadIndex++;
+        if ("ON".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            SearchCWMatch();
+            lookAheadIndex++;
+            JoinTable4();
+        }
+    }
+    
+    public void JoinTable4()
+    {
+        switch(listadoValores.get(lookAheadIndex))
+        {
+            case "INNER": case "LEFT": case "RIGHT": case "FULL": case "JOIN": case "CROSS":
+                JoinTable2();
+                break;
+            default:
+                break;
+        }
+    }
+    
+    public void TableSource()
+    {
+        if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+        {
+            TableView();
+            lookAheadIndex++;
+            TableSource1();
+            lookAheadIndex++;
+            TableSource2();
+        }
+        else if ("ARROBA".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            if("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+            {
+                lookAheadIndex++;
+                TableSource1();
+            }
+        }
+        else if ("OPENDATASOURCE".equals(listadoValores.get(lookAheadIndex)) || "OPENQUERY".equals(listadoValores.get(lookAheadIndex)))
+        {
+           RowSetF();
+           lookAheadIndex++;
+           TableSource1();
+        }
+        else
+        {
+            Error();
+        }
+    }
+    
+    public void TableSource1()
+    {
+        if ("AS".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+            {
+                
+            }
+            else
+            {
+                Error();
+            }
+        }
+        else if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+        {
+            
+        }
+    }
+    
+    public void TableSource2()
+    {
+        if ("TABLESAMPLE".equals(listadoValores.get(lookAheadIndex)))
+        {
+            TableSample();            
+        }
+    }
+        
+    public void TableView()
+    {
+        if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            TableView1();
+        }
+        else
+        {
+            Error();
+        }
+    }
+    
+    public void TableView1()
+    {
+        if ("PUNTO".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+            {
+                
+            }
+            else
+            {
+                Error();
+            }
+        }
+    }
+    
+    public void Delete(String token)
+    {
+        lookAheadIndex++;
+        if ("TOP".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            if ("PARENTESIS_IZQUIERDO".equals(listadoValores.get(lookAheadIndex)))
+            {
+                lookAheadIndex++;
+                Expression();
+                lookAheadIndex++;
+                if ("PARENTESIS_DERECHO".equals(listadoValores.get(lookAheadIndex)))
+                {
+                    lookAheadIndex++;
+                    Delete2();
+                }
+                else
+                {
+                    Error();
+                }
+            }
+            else
+            {
+                Error();
+            }
+        }
+        else
+        {
+            Delete3();
+        }
+    }
+    
+    public void Delete2()
+    {
+        if ("PORCENTAJE".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            Delete3();
+        }
+        else
+        {
+            Delete3();
+        }
+    }
+    
+    public void Delete3()
+    {
+        if ("FROM".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            Delete4();
+        }
+        else
+        {
+            Delete4();
+        }
+    }
+    
+    public void Delete4()
+    {
+        if ("ARROBA".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+            {
+                lookAheadIndex++;
+                Delete5();
+            }
+        }
+        else
+        {
+            Object(); //Aqui no se aumenta lookAheadIndex si no se pasa a otro token eignora punto y coma
+            Delete5();
+        }
+    }
+    
+    public void Delete5()
+    {
+        if ("OUTPUT".equals(listadoValores.get(lookAheadIndex)))
+        {
+            Output();
+            lookAheadIndex++;
+            Delete6();
+        }
+        else
+        {            
+            Delete6();
+        }
+    }
+    
+    public void Delete6()
+    {
+        if ("WHERE".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            SearchCWMatch(); //Despues de SearchCWMatch no se mueve el lookAhead 
+            Delete7();
+        }
+        else
+        {
+            Delete7();
+        }
+    }
+    
+    public void Delete7()
+    {
+        if (lookAheadIndex < listadoValores.size())
+        {
+            if ("FROM".equals(listadoValores.get(lookAheadIndex)))
+            {
+                lookAheadIndex++;
+                Object();
+                lookAheadIndex++;
+                Delete8();
+                
+            }
+            else
+            {
+                Delete9();
+            }
+        }
+        
+        
+    }
+    
+    public void Delete8()
+    {
+        if ("COMA".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            Object();
+            lookAheadIndex++;
+            Delete8();
+        }
+        else
+        {
+            Delete9();
+        }
+    }
+    
+    public void Delete9()
+    {
+        if ("WHERE".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            SearchCWMatch();
+            lookAheadIndex++;
+            Delete10();
+        }
+        else
+        {
+            Delete10();
+        }
+    }
+    
+    public void Delete10()
+    {
+        if (lookAheadIndex < listadoValores.size())
+        {
+            if ("PUNTO_Y_COMA".equals(listadoValores.get(lookAheadIndex)) || "GO".equals(listadoValores.get(lookAheadIndex)))
+            {
+                lookAheadIndex++;
+                System.out.println("Sentencia leida correctamente!");
+                Start();
+            }
+            else
+            {
+                Error();
+            }
+        }
+    }
+    
+    public void SearchCWMatch()
+    {
+        if ("NOT".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            Predicado();
+        }
+        else if ("PARENTESIS_IZQUIERDO".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            SearchCWMatch();
+            lookAheadIndex++;
+            if ("PARENTESIS_DERECHO".equals(listadoValores.get(lookAheadIndex))) 
+            {
+                lookAheadIndex++;
+                Scwm2();
+            }
+            else
+            {
+                Error();
+            }
+        }
+        else
+        {
+            Predicado();
+            lookAheadIndex++;
+            Scwm2();
+        }
+        
+    }
+    
+    public void Scwm2()
+    {
+        if (lookAheadIndex < listadoValores.size())
+        {
+            if ("AND".equals(listadoValores.get(lookAheadIndex)))
+            {
+                lookAheadIndex++;
+                Scwm3();
+            }
+            else if ("OR".equals(listadoValores.get(lookAheadIndex)))
+            {
+                lookAheadIndex++;
+                Scwm3();
+            }
+            else
+            {
+                Scwm5();
+            }            
+        }
+    }
+    
+    public void Scwm3()
+    {
+        if ("NOT".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            Scwm4();
+        }
+        else
+        {
+            Scwm4();
+        }
+    }
+    
+    public void Scwm4()
+    {
+        if ("PARENTESIS_IZQUIERDO".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            SearchCWMatch();
+            lookAheadIndex++;
+            if ("PARENTESIS_DERECHO".equals(listadoValores.get(lookAheadIndex))) 
+            {
+                lookAheadIndex++;
+                Scwm5();
+            }
+            else
+            {
+                Error();
+            }
+        }
+        else
+        {            
+            Predicado();
+            lookAheadIndex++;
+            Scwm5();
+        }
+    }
+    
+    public void Scwm5()
+    {
+        if (lookAheadIndex < listadoValores.size())
+        {
+            if ("COMA".equals(listadoValores.get(lookAheadIndex)))
+            {
+                lookAheadIndex++;
+                SearchCWMatch();
+            }
+            else
+            {
+            }
+            
+        }
+    }
+    
+    public void Predicado()
+    {
+        if ("STRING".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            Not1();
+            lookAheadIndex++;
+            if ("LIKE".equals(listadoValores.get(lookAheadIndex)))
+            {
+                lookAheadIndex++;
+                if ("STRING".equals(listadoValores.get(lookAheadIndex)))
+                {
+
+                }
+                else
+                {
+                    Error();
+                }
+            }
+            else
+            {
+                Error();
+            }
+        }
+        else if ("CONTAINS".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            if ("PARENTESIS_IZQUIERDO".equals(listadoValores.get(lookAheadIndex)))
+            {
+                lookAheadIndex++;
+                Ft1();
+                lookAheadIndex++;
+                if ("COMA".equals(listadoValores.get(lookAheadIndex)))
+                {
+                    lookAheadIndex++;
+                    Csc1();
+                    lookAheadIndex++;
+                    if ("PARENTESIS_DERECHO".equals(listadoValores.get(lookAheadIndex)))
+                    {
+                    }
+                    else
+                    {
+                        Error();
+                    }
+                }
+                else
+                {
+                    Error();
+                }
+            }
+            else
+            {
+                Error();
+            }
+        }
+        else if ("FREETEXT".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            if ("PARENTESIS_IZQUIERDO".equals(listadoValores.get(lookAheadIndex)))
+            {
+                lookAheadIndex++;
+                Ft1();
+                lookAheadIndex++;
+                if ("COMA".equals(listadoValores.get(lookAheadIndex)))
+                {
+                    lookAheadIndex++;
+                    if ("STRING".equals(listadoValores.get(lookAheadIndex)))
+                    {
+                        lookAheadIndex++;
+                        if ("PARENTESIS_DERECHO".equals(listadoValores.get(lookAheadIndex)))
+                        {
+                        }
+                        else
+                        {
+                            Error();
+                        }
+                    }
+                    else
+                    {
+                        Error();
+                    }
+                }
+                else
+                {
+                    Error();
+                }
+            }
+            else
+            {
+                Error();
+            }
+        }
+        else
+        {
+            ExpressionComplex();
+            if (lookAheadIndex < listadoValores.size())
+            {
+                lookAheadIndex++;
+            }
+            Predicado1();
+        }
+    }
+    
+    public void Predicado1()
+    {
+        if (lookAheadIndex < listadoValores.size())
+        {
+            if ("IS".equals(listadoValores.get(lookAheadIndex)))
+            {
+                lookAheadIndex++;
+                if ("NOT".equals(listadoValores.get(lookAheadIndex)))
+                {
+                    Not1();
+                    lookAheadIndex++;
+                }
+                if ("NULL".equals(listadoValores.get(lookAheadIndex)))
+                {
+
+                }
+                else
+                {
+                    Error();
+                }
+            }
+            else if ("NOT".equals(listadoValores.get(lookAheadIndex)))
+            {
+                Not1();
+            }
+            else
+            {
+                Comparadores();
+                lookAheadIndex++;
+                ExpressionComplex();
+            }
+        }
+        
+    }
+    
+    public void Comparadores()
+    {
+        switch (listadoValores.get(lookAheadIndex))
+        {
+            case "MENOR": case "MAYOR": case "MENOR_O_IGUAL": case "MAYOR_O_IGUAL": case "IGUAL": case "DIFERENTE": case "BETWEEN": case "AND"://debe de ir between
+            break;
+            default:
+                Error();
+            break;
+        }
+    }
+    
+    public void Csc1()
+    {
+        if ("STRING".equals(listadoValores.get(lookAheadIndex)))
+        {
+        }
+        else if ("PARENTESIS_IZQUIERDO".equals(listadoValores.get(lookAheadIndex)))
+        {            
+            lookAheadIndex++;
+            Csc1();
+            lookAheadIndex++;
+            if ("PARENTESIS_DERECHO".equals(listadoValores.get(lookAheadIndex)))
+            {
+                lookAheadIndex++;
+                Csc2();
+            }
+            else
+            {
+                Error();
+            }
+        }
+        else
+        {
+            Error();
+        }
+    }
+    
+    public void Csc2()
+    {
+        switch(listadoValores.get(lookAheadIndex))
+        {
+            case "AND":
+                lookAheadIndex++;
+                Csc3();
+                break;
+            case "OR":
+                lookAheadIndex++;
+                Csc1();
+                break;
+            case "ANDAND":
+                lookAheadIndex++;
+                Csc1();
+                break;
+            case "OROR":
+                lookAheadIndex++;
+                Csc1();
+                break;
+            default:
+                Error();
+            break;
+        }
+    }
+    
+    public void Csc3()
+    {
+        if ("NOT".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            Csc1();
+        }
+        else
+        {
+            Csc1();
+        }
+    }
+    
+    public void Not1()
+    {
+        if ("NOT".equals(listadoValores.get(lookAheadIndex)))
+        {
+            
+        }
+    }
+    
+    public void Ft1()
+    {
+        if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+        {
+            
+        }
+        else if ("MULTIPLICACION".equals(listadoTokens.get(lookAheadIndex)))
+        {
+            
+        }
+        else
+        {
+            Error();
+        }
+    }
+    
+    public void Output()
+    {
+        if ("OUTPUT".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            Dml();
+            lookAheadIndex++;
+            Output1();
+        }
+    }
+    
+    public void Output1()
+    {
+        if ("INTO".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            Output2();
+        }
+    }
+    
+    public void Output2()
+    {
+        if ("ARROBA".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+            {
+                lookAheadIndex++;
+                Output3();                
+            }
+        }
+        else if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            Output3();                
+        }
+        else
+        {
+            Error();
+        }
+    }
+    
+    public void Output3()
+    {
+        //Vacio o 
+        ColumnList();
+    }
+    
+    public void ColumnList()
+    {
+        if ("PARENTESIS_IZQUIERDO".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            ColumnList1();
+        }
+        else
+        {
+            Error();
+        }
+    }
+    
+    public void ColumnList1()
+    {
+        if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            ColumnList2();
+        }
+        else
+        {
+            Error();
+        }
+    }
+    
+    public void ColumnList2()
+    {
+        if ("COMA".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            ColumnList1();
+        }
+        else if ("PARENTESIS_DERECHO".equals(listadoValores.get(lookAheadIndex)))
+        {
+        }
+        else
+        {
+            Error();
+        }
+    }
+    
+    public void Dml()
+    {
+        Dml2();
+        lookAheadIndex++;
+        Dml3();
+    }
+    
+    public void Dml2()
+    {
+        if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            if ("PUNTO".equals(listadoValores.get(lookAheadIndex)))
+            {
+                lookAheadIndex++;
+                ColumnName();
+            }
+        }
+        else
+        {
+            ScalarExpression();
+        }
+    }
+    
+    public void ScalarExpression()
+    {
+        ScalarExpression3();
+        lookAheadIndex++;
+        ScalarExpression2();
+    }
+        
+    public void ScalarExpression2()
+    {
+        if ("SUMA".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            ScalarExpression3();
+            lookAheadIndex++;
+            ScalarExpression2();
+        }
+        else if ("RESTA".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            ScalarExpression3();
+            lookAheadIndex++;
+            ScalarExpression2();
+        }
+        else
+        {
+            
+        }
+    }
+    
+    public void ScalarExpression3()
+    {
+        ScalarExpression5();
+        lookAheadIndex++;
+        ScalarExpression4();
+    }
+    
+    public void ScalarExpression4()
+    {
+        if ("MULTIPLICACION".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            ScalarExpression5();
+            lookAheadIndex++;
+            ScalarExpression4();
+        }
+        else if ("DIVISION".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            ScalarExpression5();
+            lookAheadIndex++;
+            ScalarExpression4();
+        }
+        else
+        {
+            //Epsilon
+        }
+    }
+    
+    public void ScalarExpression5()
+    {
+        if ("PARENTESIS_IZQUIERDO".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            ScalarExpression();
+            lookAheadIndex++;
+            if ("PARENTESIS_DERECHO".equals(listadoValores.get(lookAheadIndex)))
+            {
+
+            }
+        }
+        else if ("INTEGER".equals(listadoValores.get(lookAheadIndex)))
+        {
+            
+        }
+        else if ("FLOAT".equals(listadoValores.get(lookAheadIndex)))
+        {
+            
+        }
+        else if ("ARROBA".equals(listadoValores.get(lookAheadIndex)))
+        {
+            
+        }
+        else
+        {
+            AggregateFunction();
+        }
+    }
+    
+    public void AggregateFunction()
+    {
+        if ("AVG".equals(listadoTokens.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            if ("PARENTESIS_IZQUIERDO".equals(listadoTokens.get(lookAheadIndex)))
+            {
+                lookAheadIndex++;
+                SelAVG();
+                if ("PARENTESIS_DERECHO".equals(listadoTokens.get(lookAheadIndex)))
+                {
+                    
+                }
+                else
+                {
+                    Error();
+                }
+            }
+            else
+            {
+                Error();
+            }
+        }
+        else if ("COUNT".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            if ("PARENTESIS_IZQUIERDO".equals(listadoTokens.get(lookAheadIndex)))
+            {
+                lookAheadIndex++;
+                SelCount();
+                if ("PARENTESIS_DERECHO".equals(listadoTokens.get(lookAheadIndex)))
+                {
+                    
+                }
+                else
+                {
+                    Error();
+                }
+            }
+            else
+            {
+                Error();
+            }
+        }
+        else if ("MAX".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            if ("PARENTESIS_IZQUIERDO".equals(listadoTokens.get(lookAheadIndex)))
+            {
+                lookAheadIndex++;
+                SelAGR();
+                if ("PARENTESIS_DERECHO".equals(listadoTokens.get(lookAheadIndex)))
+                {
+                    
+                }
+                else
+                {
+                    Error();
+                }
+            }
+            else
+            {
+                Error();
+            }
+        }
+    }
+    
+    public void SelAVG()
+    {
+        SelAVG1();
+        lookAheadIndex++;
+        SelAVG2();
+    }
+    
+    public void SelAVG1()
+    {
+        if ("ALL".equals(listadoValores.get(lookAheadIndex)))
+        {
+            
+        }
+        else if ("DISTINCT".equals(listadoValores.get(lookAheadIndex)))
+        {
+            
+        }
+    }
+    
+    public void SelAVG2()
+    {
+        if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            SelAVG3();
+        }
+        else
+        {            
+            ScalarExpression();
+        }
+    }
+    
+    public void SelAVG3()
+    {
+        if ("PUNTO".equals(listadoValores.get(lookAheadIndex)))
+        {
+            if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+            {
+               
+            }
+            else
+            {
+                Error();
+            }
+        }
+    }
+    
+    public void SelCount()
+    {
+        SelCount1();
+        lookAheadIndex++;
+        SelCount2();
+    }
+    
+    public void SelCount1()
+    {
+        switch(listadoValores.get(lookAheadIndex))
+        {
+            case "ALL":
+            break;
+            case "DISTINCT":
+            break;
+            default:
+            break;
+        }
+    }
+    
+    public void SelCount2()
+    {
+        if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            SelCount3();
+        }
+        else if ("MUTIPLICACION".equals(listadoValores.get(lookAheadIndex)))
+        {
+        }
+        else
+        {
+            ScalarExpression();
+        }
+    }
+    
+    public void SelCount3()
+    {
+        if ("PUNTO".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+            {
+            }
+            else
+            {
+                Error();
+            }
+        }
+    }
+    
+    public void SelAGR()
+    {
+        SelAGR1();
+        lookAheadIndex++;
+        SelAGR2();
+    }
+    
+    public void SelAGR1()
+    {
+        switch(listadoValores.get(lookAheadIndex))
+        {
+            case "ALL":
+            break;
+            case "DISTINCT":
+            break;
+            default:
+            break;
+        }
+    }
+    
+    public void SelAGR2()
+    {
+        if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            SelAGR3();
+        }
+        else
+        {
+            ScalarExpression();
+        }
+    }
+    
+    public void SelAGR3()
+    {
+        if ("PUNTO".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+            {
+            }
+            else
+            {
+                Error();
+            }
+        }
+    }
+    
+    public void ColumnName()
+    {
+        if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+        {
+        }
+        else if ("MUTIPLICACION".equals(listadoValores.get(lookAheadIndex)))
+        {
+        }
+        else
+        {
+            Error();
+        }
+        
+    }
+    
+    public void Dml3()
+    {
+        if ("AS".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+            {
+                lookAheadIndex++;
+                Dml4();
+            }
+        }
+    }
+    
+    public void Dml4()
+    {
+        if ("COMA".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            Dml();
+        }
+    }
+    
+    public void Expression()
+    {
+        T();
+        ExpressionPrima();
+    }
+    
+    public void ExpressionPrima()
+    {
+        switch(listadoValores.get(lookAheadIndex))
+        {
+            case "SUMA": case "RESTA":
+                lookAheadIndex++;
+                T();
+                lookAheadIndex++;
+                ExpressionPrima();
+            break;
+            default:
+            break;
+        }
+    }
+    
+    public void T()
+    {
+        F();
+        TPrima();
+    }
+    
+    public void TPrima()
+    {
+        switch(listadoValores.get(lookAheadIndex))
+        {
+            case "MULTIPLICACION": case "DIVISION":
+                lookAheadIndex++;
+                F();
+                lookAheadIndex++;
+                TPrima();
+            break;
+            default:
+            break;
+        }
+    }
+    
+    public void F()
+    {
+        G();
+        FPrima();
+    }
+    
+    public void FPrima()
+    {
+        switch(listadoValores.get(lookAheadIndex))
+        {
+            case "MENOR": case "MAYOR": case "MENOR_O_IGUAL": case "MAYOR_O_IGUAL": case "DIFERENTE":
+                lookAheadIndex++;
+                G();
+                lookAheadIndex++;
+                FPrima();
+            break;
+            default:
+            break;
+        }
+    }
+    
+    public void G()
+    {
+        if ("PARENTESIS_IZQUIERDO".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            Expression();
+            lookAheadIndex++;
+            if ("PARENTESIS_DERECHO".equals(listadoValores.get(lookAheadIndex)))
+            {                
+
+            }
+            else
+            {
+                Error();
+            }
+        }
+        else
+        {
+            ExpressionComplex();
+        }
+    }
+    
+    public void ExpressionComplex()
+    {
+        if (lookAheadIndex < listadoValores.size())
+        {
+            if("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+            {          
+            }
+            else
+            {
+                switch(listadoTokens.get(lookAheadIndex))
+                {
+                    case "INTEGER": case "FLOAT": case "STRING": case "NULL":
+                        Const();
+                    break;
+                    case "AVG": case "MAX": case "MIN": case "SUM": case "COUNT":
+                        Func();
+                    break;
+                    default:
+
+                        if("ARROBA".equals(listadoValores.get(lookAheadIndex)))
+                        {
+                            lookAheadIndex++;
+                            if("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+                            {           
+                            }
+                            else
+                            {
+                                Error();
+                            }
+                        }
+                        else
+                        {
+                            Error();                    
+                        }
+
+                    break;
+                }
+            }
+        }
+        
+    }
+    
+    public void Const()
+    {
+        switch(listadoTokens.get(lookAheadIndex))
+        {
+            case "NULL":
+                break;
+            case "INTEGER":
+                break;
+            case "FLOAT":
+                break;
+            case "STRING":
+                break;
+            default:
+                Error();
+                break;                
+        }
+    }
+    
+    public void Expression2()
+    {
+        T2();
+        ExpressionPrima2();
+    }
+    
+    public void ExpressionPrima2()
+    {
+        switch(listadoValores.get(lookAheadIndex))
+        {
+            case "SUMA": case "RESTA":
+                lookAheadIndex++;
+                T2();
+                lookAheadIndex++;
+                ExpressionPrima2();
+            break;
+            default:
+            break;
+        }
+    }
+    
+    public void T2()
+    {
+        F2();
+        TPrima2();
+    }
+    
+    public void TPrima2()
+    {
+        switch(listadoValores.get(lookAheadIndex))
+        {
+            case "MULTIPLICACION": case "DIVISION":
+                lookAheadIndex++;
+                F2();
+                lookAheadIndex++;
+                TPrima2();
+            break;
+            default:
+            break;
+        }
+    }
+    
+    public void F2()
+    {
+        G2();
+        FPrima2();
+    }
+    
+    public void FPrima2()
+    {
+        switch(listadoValores.get(lookAheadIndex))
+        {
+            case "MENOR": case "MAYOR": case "MENOR_O_IGUAL": case "MAYOR_O_IGUAL": case "DIFERENTE":
+                lookAheadIndex++;
+                G2();
+                lookAheadIndex++;
+                FPrima2();
+            break;
+            default:
+            break;
+        }
+    }
+    
+    public void G2()
+    {
+        if ("PARENTESIS_IZQUIERDO".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            Expression2();
+            lookAheadIndex++;
+            if ("PARENTESIS_DERECHO".equals(listadoValores.get(lookAheadIndex)))
+            {                
+
+            }
+            else
+            {
+                Error();
+            }
+        }
+        else if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+        {
+            
+        }        
+        else if ("ARROBA".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+            {
+
+            }
+        }
+        else if ("FLOAT".equals(listadoValores.get(lookAheadIndex)))
+        {
+            
+        }
+        else if ("INTEGER".equals(listadoValores.get(lookAheadIndex)))
+        {
+            
+        }
+        else
+        {
+            Error();
+        }
+    }
+    
+    public void Func()
+    {
+        switch(listadoValores.get(lookAheadIndex))
+        {
+            case "AVG":
+            case "MAX":
+            case "MIN":  
+            case "SUM":
+                if ("PARENTESIS_IZQUIERDO".equals(listadoValores.get(lookAheadIndex)))
+                {
+                    lookAheadIndex++;
+                    Func2();
+                    lookAheadIndex++;
+                    if ("PARENTESIS_DERECHO".equals(listadoValores.get(lookAheadIndex)))
+                    {
+                    }
+                    else
+                    {
+                        Error();
+                    }
+                }
+                else
+                {
+                    Error();
+                }
+            break;                
+            case "COUNT":
+                if ("PARENTESIS_IZQUIERDO".equals(listadoValores.get(lookAheadIndex)))
+                {
+                    lookAheadIndex++;
+                    Func3();
+                    lookAheadIndex++;
+                    if ("PARENTESIS_DERECHO".equals(listadoValores.get(lookAheadIndex)))
+                    {
+                    }
+                    else
+                    {
+                        Error();
+                    }
+                }
+                else
+                {
+                    Error();
+                }
+            break;
+            default:
+                Error();
+            break;
+        }
+    }
+    
+    public void Func2()
+    {
+        switch(listadoValores.get(lookAheadIndex))
+        {
+            case "ALL":
+            case "DISTINCT":
+            break;
+            default:
+                Func4();
+            break;
+        }
+    }
+    
+    public void Func3()
+    {
+        if ("MULTIPLICACION".equals(listadoValores.get(lookAheadIndex)))
+        {
+            
+        }
+        else
+        {
+            Expression2();
+        }
+    }
+    
+    public void Func4()
+    {
+        if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+        {
+            
+        }
+        else
+        {
+            switch(listadoValores.get(lookAheadIndex))
+            {
+                case "INTEGER":
+                case "FLOAT":
+                    lookAheadIndex++;
+                    Func5();
+                break;
+                case "ARROBA":
+                    lookAheadIndex++;
+                    if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+                    {
+                        lookAheadIndex++;
+                        Func5();
+                    }
+                break;
+                default:
+                    Error();
+                break;
+            }
+        }
+    }
+    
+    public void Func5()
+    {
+        if("OPERATOR".equals(listadoTokens.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            Func4();
+        }
+        else
+        {
+            //Epsilon
+        }
+            
+    }
+    
+    /* DDL */
+    public void Create(String token)
+    {
+        lookAheadIndex++;
+        CreateP();
+        lookAheadIndex++;
+        if ("PUNTO_Y_COMA".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            System.out.println("Sentencia leida correctamente");
+            Start();
+        }
+    }
+    
+    public void CreateP()
+    {
+        switch(listadoValores.get(lookAheadIndex))
+        {
+            case "TABLE":
+                lookAheadIndex++;
+                CreateTable1();
+                break;
+//            case "USER":
+//            case "VIEW":
+//                lookAheadIndex++;
+//                CreateU1();
+//            case "DATABASE":
+//                lookAheadIndex++;
+//               CreateDatabase1();
+//            case "INDEX":
+//                lookAheadIndex++;
+//                CreateTableIndex1();
+//                break;
+            default:
+                Error();
+                break;
+        }
+    }
+    
+    public void CreateTable1()
+    {
+        Object();
+        CreateTable2();
+    }
+    
+    public void CreateTable2()
+    {
+        if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            CreateTable4();
+            lookAheadIndex++;
+            ColumnConstraint4();
+        }
+        else if ("CONSTRAINT".equals(listadoValores.get(lookAheadIndex)))
+        {
+            TableConstraint();
+            lookAheadIndex++;
+            CreateTable3();
+            lookAheadIndex++;
+            ColumnConstraint4();
+        }
+        else if ("INDEX".equals(listadoValores.get(lookAheadIndex)))
+        {
+            TableIndex();
+            lookAheadIndex++;
+            ColumnConstraint4();
+        }
+    }
+    
+    public void CreateTable3()
+    {
+        
+        if ("COMA".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            if ("CONSTRAINT".equals(listadoValores.get(lookAheadIndex)))
+            {
+                TableConstraint();
+                lookAheadIndex++;
+                CreateTable3();
+            }
+            else
+            {
+                Error();
+            }
+        }
+    }
+    
+    public void CreateTable4()
+    {
+        if ("DATATYPE".equals(listadoValores.get(lookAheadIndex)))
+        {
+            ColumnDefinition();
+        }
+        else
+        {
+            Ccd();
+        }
+    }
+    
+    public void Seed()
+    {
+        switch(listadoTokens.get(lookAheadIndex))
+        {
+            case "INTEGER": case "DOUBLE":
+                break;
+            default:
+                Error();
+            break;
+        }
+    }
+    
+    public void ColumnDefinition()
+    {
+        if ("DATATYPE".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            ColumnDefinition2();
+        }
+        else
+        {
+            Error();
+        }
+    }
+    
+    public void ColumnDefinition2()
+    {
+        if ("COLLATE".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+            {
+                lookAheadIndex++;
+                ColumnDefinition3();
+            }
+            else
+            {
+                Error();
+            }
+        }
+        else
+        {
+            ColumnDefinition3();
+        }
+    }
+    
+    public void ColumnDefinition3()
+    {
+        if ("CONSTRAINT".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+            {
+                lookAheadIndex++;
+                ColumnDefinition4();
+            }
+            else
+            {
+                Error();
+            }
+        }
+        else
+        {
+            ColumnDefinition5();
+        }
+    }
+    
+    public void ColumnDefinition4()
+    {
+        if ("DEFAULT".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            if ("CONST".equals(listadoValores.get(lookAheadIndex)))
+            {
+                lookAheadIndex++;
+                ColumnDefinition5();
+            }
+            else
+            {
+                Error();
+            }
+        }
+        else
+        {
+            ColumnDefinition5();
+        }
+    }
+    
+    public void ColumnDefinition5()
+    {
+        if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            ColumnDefinition6();
+        }
+        else
+        {
+            ColumnDefinition7();
+        }
+    }
+    
+    public void ColumnDefinition6()
+    {
+        if ("PARENTESIS_IZQUIERDO".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            Seed();
+            lookAheadIndex++;
+            if ("COMA".equals(listadoValores.get(lookAheadIndex)))
+            {
+                lookAheadIndex++;
+                Seed();
+                lookAheadIndex++;
+                if ("PARENTESIS_DERECHO".equals(listadoValores.get(lookAheadIndex)))
+                {
+                    lookAheadIndex++;
+                    ColumnDefinition7();
+                }
+                else
+                {
+                    Error();
+                }
+            }
+            else
+            {
+                Error();
+            }
+        }
+        else
+        {
+            ColumnDefinition7();
+        }
+    }
+    
+    public void ColumnDefinition7()
+    {
+        if ("NOT".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            ColumnDefinition8();
+        }
+        else
+        {
+            ColumnDefinition9();
+        }
+    }
+    
+    public void ColumnDefinition8()
+    {
+        if ("FOR".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            if ("REPLICATION".equals(listadoValores.get(lookAheadIndex)))
+            {
+                lookAheadIndex++;
+                ColumnDefinition9();
+            }
+        }
+        else if ("NULL".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            ColumnDefinition10();
+        }
+        else
+        {
+            Error();
+        }
+    }
+    
+    public void ColumnDefinition9()
+    {
+        if ("NOT".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            if ("NULL".equals(listadoValores.get(lookAheadIndex)))
+            {
+                lookAheadIndex++;
+                ColumnDefinition10();
+            }
+            else
+            {
+                Error();
+            }
+        }
+        else if ("NULL".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            ColumnDefinition10();
+        }
+        else
+        {
+            ColumnDefinition10();
+        }
+    }
+    
+    public void ColumnDefinition10()
+    {
+        if ("ROWGUIDCOL".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            ColumnDefinition11();
+        }
+        else
+        {
+            ColumnDefinition11();
+        }
+    }
+    
+    public void ColumnDefinition11()
+    {
+        if("CONSTRAINT".equals(listadoValores.get(lookAheadIndex)))
+        {
+            ColumnConstraint();
+            lookAheadIndex++;
+            ColumnDefinition13();
+            lookAheadIndex++;
+            ColumnDefinition12();
+        }
+        else
+        {
+            ColumnDefinition12();
+        }
+    }
+    
+    public void ColumnDefinition12()
+    {
+        if ("INDEX".equals(listadoValores.get(lookAheadIndex)))
+        {
+            ColumnIndex();            
+        }
+    }
+    
+    public void ColumnDefinition13()
+    {
+        if ("COMA".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            ColumnConstraint();
+            lookAheadIndex++;
+            ColumnDefinition13();
+        }
+    }
+    
+    public void ColumnConstraint()
+    {
+        if ("CONSTRAINT".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+            {
+                lookAheadIndex++;
+                ColumnConstraint2();
+            }
+            else
+            {
+                Error();
+            }
+        }
+        else
+        {
+            ColumnConstraint2();
+        }
+    }
+    
+    public void ColumnConstraint2()
+    {
+        switch(listadoValores.get(lookAheadIndex))
+        {
+            case "PRIMARY":
+                lookAheadIndex++;
+                if ("KEY".equals(listadoValores.get(lookAheadIndex)))
+                {
+                    lookAheadIndex++;
+                    ColumnConstraint3();
+                }
+                else
+                {
+                    Error();
+                }
+            break;
+            case "UNIQUE":         
+                lookAheadIndex++;
+                ColumnConstraint3();
+            break;
+            case "FOREIGN":
+                lookAheadIndex++;
+                ColumnConstraint5();
+            break;
+            case "REFERENCES":
+                lookAheadIndex++;
+                ColumnConstraint5();
+                break;
+            case "CHECK":
+                lookAheadIndex++;
+                ColumnConstraint16();
+            break;
+        }
+    }
+    
+    public void ColumnConstraint3()
+    {
+        switch(listadoValores.get(lookAheadIndex))
+        {
+            case "CLUSTERED": case "NONCLUSTERED":
+                ColumnConstraint4();
+                break;
+            default:
+                ColumnConstraint4();
+                break;
+        }
+    }
+    
+    public void ColumnConstraint4()
+    {
+        if ("ON".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+            {
+                lookAheadIndex++;
+                if ("PARENTESIS_IZQUIERDO".equals(listadoValores.get(lookAheadIndex)))
+                {
+                    lookAheadIndex++;
+                    if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+                    {
+                        lookAheadIndex++;                        
+                        if ("PARENTESIS_DERECHO".equals(listadoValores.get(lookAheadIndex)))
+                        {
+
+                        }
+                        else
+                        {
+                            Error();
+                        }
+                    }
+                    else
+                    {
+                        Error();
+                    }
+                }
+                else
+                {
+                    Error();
+                }
+                
+            }
+            else
+            {
+                Error();
+            }
+        }
+        else if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+        {
+
+        }
+        else
+        {
+        }
+    }
+    
+    public void ColumnConstraint5()
+    {
+        if("FOREIGN".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;            
+            if ("KEY".equals(listadoValores.get(lookAheadIndex)))
+            {
+                lookAheadIndex++;
+                ColumnConstraint6();
+            }
+            else
+            {
+                Error();
+            }
+        }
+        else
+        {
+            ColumnConstraint6();
+        }
+    }
+    
+    public void ColumnConstraint6()
+    {
+        if ("REFERENCES".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;            
+            if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+            {
+                lookAheadIndex++;
+                ColumnConstraint7();
+            }
+            else
+            {
+                Error();
+            }
+        }
+        else
+        {
+            Error();
+        }
+    }
+    
+    public void ColumnConstraint7()
+    {
+        
+        if ("COMA".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+            {
+                lookAheadIndex++;
+                ColumnConstraint8();
+            }
+            else
+            {
+                Error();
+            }
+        }
+        else
+        {
+            ColumnConstraint8();
+        }
+    }
+    
+    public void ColumnConstraint8()
+    {
+        if ("PARENTESIS_IZQUIERDO".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+            {
+                lookAheadIndex++;
+                ColumnConstraint10();
+                lookAheadIndex++;
+                if ("PARENTESIS_DERECHO".equals(listadoValores.get(lookAheadIndex)))
+                {
+                    lookAheadIndex++;
+                    ColumnConstraint9();
+                }
+                else
+                {
+                    Error();
+                }
+            }
+            else
+            {
+                Error();
+            }
+        }
+        else
+        {
+            ColumnConstraint9();
+        }
+    }
+    
+    public void ColumnConstraint9()
+    {
+        if ("ON".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            ColumnConstraint11();
+        }
+        else
+        {
+            ColumnConstraint15();
+        }
+    }
+    
+    public void ColumnConstraint10()
+    {
+        if ("COMA".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+            {
+                lookAheadIndex++;
+                ColumnConstraint10();
+            }
+            else
+            {
+                Error();
+            }
+
+        }
+    }
+    
+    public void ColumnConstraint11()
+    {
+        
+        if ("DELETE".equals(listadoTokens.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            ColumnConstraint12();
+            lookAheadIndex++;
+            ColumnConstraint14();
+            
+        }
+        else if ("UPDATE".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            ColumnConstraint12();
+            lookAheadIndex++;
+            ColumnConstraint15();
+        }
+        else
+        {
+            Error();
+        }
+    }
+    
+    public void ColumnConstraint12()
+    {
+        if ("NO".equals(listadoValores.get(lookAheadIndex)))
+        {
+            if ("ACTION".equals(listadoValores.get(lookAheadIndex)))
+            {
+                
+            }
+            else
+            {
+                Error();
+            }
+            
+        }
+        else if ("CASCADE".equals(listadoValores.get(lookAheadIndex)))
+        {
+
+        }
+        else if ("SET".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            ColumnConstraint13();
+        }
+        else
+        {
+            Error();
+        }
+    }
+    
+    public void ColumnConstraint13()
+    {
+        if ("NULL".equals(listadoValores.get(lookAheadIndex)))
+        {
+
+        }
+        else if ("DEFAULT".equals(listadoValores.get(lookAheadIndex)))
+        {
+            
+        }
+        else
+        {
+            Error();
+        }
+    }
+    
+    public void ColumnConstraint14()
+    {
+        if ("ON".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            if ("UPDATE".equals(listadoValores.get(lookAheadIndex)))
+            {
+                lookAheadIndex++;
+                ColumnConstraint12();
+                lookAheadIndex++;
+                ColumnConstraint15();
+            }
+            else
+            {
+                Error();
+            }
+
+        }
+        else
+        {
+            ColumnConstraint15();
+        }
+        
+    }
+    
+    public void ColumnConstraint15()
+    {
+        
+        if ("NOT".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            if ("FOR".equals(listadoValores.get(lookAheadIndex)))
+            {
+                lookAheadIndex++;
+                if ("REPLICATION".equals(listadoValores.get(lookAheadIndex)))
+                {
+
+                }
+                else
+                {
+                    Error();
+                }
+            }
+            else
+            {
+                Error();
+            }
+        }
+    }
+    
+    public void ColumnConstraint16()
+    {
+        if ("CHECK".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            ColumnConstraint17();
+            lookAheadIndex++;
+            if ("PARENTESIS_IZQUIERDO".equals(listadoValores.get(lookAheadIndex)))
+            {
+                lookAheadIndex++;
+                Expression();
+                lookAheadIndex++;
+                if ("PARENTESIS_DERECHO".equals(listadoValores.get(lookAheadIndex)))
+                {
+
+                }
+                else
+                {
+                    Error();
+                }                
+            }
+            else
+            {
+                Error();
+            }
+        }
+        else
+        {
+            Error();
+        }
+    }
+    
+    public void ColumnConstraint17()
+    {
+        if ("NOT".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            if ("FOR".equals(listadoValores.get(lookAheadIndex)))
+            {
+                lookAheadIndex++;
+                if ("REPLICATION".equals(listadoValores.get(lookAheadIndex)))
+                {
+
+                }
+                else
+                {
+                    Error();
+                }
+            }
+            else
+            {
+                Error();
+            }
+
+        }       
+    }
+    
+    public void ColumnIndex()
+    {
+        if ("INDEX".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+            {
+                lookAheadIndex++;
+                ColumnIndex1();
+                lookAheadIndex++;
+                ColumnIndex2();
+            }
+        }
+        else
+        {
+            Error();
+        }
+    }
+    
+    public void ColumnIndex1(){
+        
+        switch(listadoValores.get(lookAheadIndex))
+        {
+            case "CLUSTERED": case "NONCLUSTERED":
+                break;
+            default:
+                break;
+        }
+    }
+    
+    public void ColumnIndex2()
+    {
+        ColumnConstraint4();
+    }
+    public void TableConstraint()
+    {
+        if ("CONSTRAINT".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+            {
+                TableConstraint1();
+            }
+            else
+            {
+                Error();
+            }
+        }
+        else
+        {
+            TableConstraint1();
+        }
+    }
+    
+    public void TableConstraint1()
+    {
+        switch(listadoValores.get(lookAheadIndex))
+        {
+            case "PRIMARY":
+                lookAheadIndex++;
+                if ("KEY".equals(listadoValores.get(lookAheadIndex)))
+                {
+                    lookAheadIndex++;
+                    TableConstraint2();
+                    lookAheadIndex++;
+                    TableConstraint3();
+                }
+                else
+                {
+                    Error();
+                }
+            break;
+            case "UNIQUE":                
+                lookAheadIndex++;
+                TableConstraint2();
+                lookAheadIndex++;
+                TableConstraint3();
+            break;
+            case "FOREIGN":
+                lookAheadIndex++;
+                if ("KEY".equals(listadoValores.get(lookAheadIndex)))
+                {
+                    lookAheadIndex++;
+                    if ("PARENTESIS_IZQUIERDO".equals(listadoValores.get(lookAheadIndex)))
+                    {
+                        lookAheadIndex++;
+                        if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+                        {
+                            lookAheadIndex++;
+                            TableConstraint7();
+                            lookAheadIndex++;
+                            if ("PARENTESIS_DERECHO".equals(listadoValores.get(lookAheadIndex)))
+                            {
+                                lookAheadIndex++;
+                                ColumnConstraint6();
+                            }
+                            else
+                            {
+                                Error();
+                            }
+                        }
+                        else
+                        {
+                            Error();
+                        }
+                    }
+                    else
+                    {
+                        Error();
+                    }
+                }
+                else
+                {
+                    Error();
+                }
+            break;
+            case "CHECK":
+                lookAheadIndex++;
+                ColumnConstraint16();
+            break;
+        }
+    }
+    
+    public void TableConstraint2()
+    {
+        switch(listadoValores.get(lookAheadIndex))
+        {
+            case "CLUSTERED": case "NONCLUSTERED":
+                break;
+            default:
+                break;
+        }
+    }
+    
+    public void TableConstraint3()
+    {
+        if ("PARENTESIS_IZQUIERDO".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            TableConstraint8();
+            lookAheadIndex++;
+            if ("PARENTESIS_DERECHO".equals(listadoValores.get(lookAheadIndex)))
+            {
+                lookAheadIndex++;
+                ColumnConstraint4();
+            }
+            else
+            {
+                Error();
+            }
+        }
+        else
+        {
+            Error();
+        }
+    }
+    
+    public void TableConstraint4()
+    {
+        if ("ASC".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            TableConstraint6();
+        }
+        else if ("DESC".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            TableConstraint6();
+            
+        }
+        else
+        {
+            TableConstraint6();
+        }
+    }
+    
+    public void TableConstraint6()
+    {
+        if ("COMA".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            TableConstraint8();
+        }
+    }
+    
+    public void TableConstraint7()
+    {
+        if ("COMA".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+            {
+                TableConstraint7();                
+            }
+            else
+            {
+                Error();
+            }
+        }
+    }
+    
+    public void TableIndex()
+    {
+        if ("INDEX".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+            {
+                lookAheadIndex++;
+                TableConstraint2();
+                lookAheadIndex++;
+                if ("PARENTESIS_IZQUIERDO".equals(listadoValores.get(lookAheadIndex)))
+                {
+                    lookAheadIndex++;
+                    TableConstraint8();
+                    lookAheadIndex++;
+                    if ("PARENTESIS_DERECHO".equals(listadoValores.get(lookAheadIndex)))
+                    {
+                        lookAheadIndex++;
+                        ColumnConstraint4();
+                    }
+                    else
+                    {
+                        Error();
+                    }
+                }
+                else
+                {
+                    Error();
+                }
+            }
+            else
+            {
+                Error();
+            }
+        }
+        else
+        {
+            Error();
+        }
+    }
+    
+    public void TableConstraint8()
+    {
+        if ("IDENTIFIER".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            TableConstraint4();
+        }
+        else
+        {
+            Error();
+        }
+    }
+    
+    public void Alter(String token)
+    {
+        lookAheadIndex++;
+        AlterP1();
+        lookAheadIndex++;
+        if ("PUNTO_Y_COMA".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            System.out.println("Sentencia leida correctamente");
+            Start();
+        }
+    }
+    
+    public void AlterP1()
+    {
+        switch(listadoValores.get(lookAheadIndex))
+        {
+            case "VIEW":
+                lookAheadIndex++;
+                AlterView();
+                break;
+            case "TABLE":
+                lookAheadIndex++;
+                AlterTable();
+                break;
+            case "USER":
+                lookAheadIndex++;
+                AlterUser();
+                break;
+            case "DATABASE":
+                lookAheadIndex++;
+                AlterDatabase();
+                break;
+            default:
+                Error();
+                break;
+        }   
+    }
+    
+    public void AlterView()
+    {
+        AlterView1();
+        AlterView3();
+        if ("AS".equals(listadoValores.get(lookAheadIndex)))
+        {
+            //lookAheadIndex++;
+            //SelStatement();
+            lookAheadIndex++;
+            AlterView5();
+        }
+        else
+        {
+            Error();
+        }
+    }
+    
+    public void AlterView1()
+    {
+        if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            AlterView2();
+        }
+        else
+        {
+            Error();
+        }
+    }
+    
+    public void AlterView2()
+    {
+        if ("PUNTO".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+            {
+                
+            }
+            else
+            {
+                Error();
+            }
+        }
+    }
+    
+    public void AlterView3()
+    {
+        if ("PARENTESIS_IZQUIERDO".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+            {
+                lookAheadIndex++;
+                AlterView4();
+            }
+            else
+            {
+                Error();
+            }
+        }        
+    }
+    
+    public void AlterView4()
+    {
+        if ("COMA".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+            {
+                lookAheadIndex++;
+                AlterView4();
+            }
+            else
+            {
+                Error();
+            }
+        }
+        else
+        {
+            if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+            {
+                lookAheadIndex++;
+                if ("PARENTESIS_DERECHO".equals(listadoValores.get(lookAheadIndex)))
+                {
+                }
+                else
+                {
+                    Error();
+                }
+            }
+            else
+            {
+                Error();
+            }
+        }
+    }
+    
+    public void AlterView5()
+    {
+        if ("WITH".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            if ("CHECK".equals(listadoValores.get(lookAheadIndex)))
+            {
+                lookAheadIndex++;
+                if ("OPTION".equals(listadoValores.get(lookAheadIndex)))
+                {
+                }
+                else
+                {
+                    Error();
+                }
+            }
+            else
+            {
+                Error();
+            }
+        }
+    }
+    
+    public void AlterUser()
+    {
+        if ("USER".equals(listadoValores.get(lookAheadIndex)))
+        {
+            if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+            {
+            }
+            else
+            {
+                Error();
+            }
+        }
+        else
+        {
+            Error();
+        }
+    }
+    
+    public void AlterDatabase()
+    {
+        if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            AlterDatabase2();
+        }
+        else if ("CURRENT".equals(listadoValores.get(lookAheadIndex)))
+            {
+                lookAheadIndex++;
+                AlterDatabase2();
+            }
+        else
+        {
+            Error();
+        }
+    }
+    
+    public void AlterDatabase2()
+    {
+        if ("COLLATE".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+            {
+                
+            }
+            else
+            {
+                Error();
+            }
+        }
+        else
+        {
+            Error();
+        }
+    }
+    
+    public void AlterTable()
+    {
+        Object();
+        Alter1();
+    }
+    
+    public void Alter1()
+    {
+        switch(listadoValores.get(lookAheadIndex))
+        {
+            case "ALTER":
+                lookAheadIndex++;
+                if("COLUMN".equals(listadoValores.get(lookAheadIndex)))
+                {
+                    lookAheadIndex++;
+                    if("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+                    {
+                        lookAheadIndex++;
+                        Alter1();
+                    }
+                }
+                    
+                break;
+            case "ADD":
+                lookAheadIndex++;
+                AlterTable8();
+                break;
+            case "DROP":
+                lookAheadIndex++;
+                AlterTable10();
+                break;
+            default:
+                break;
+        }
+    }
+    
+    public void AlterTable1()
+    {
+        if("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            AlterTable2();
+        }
+        else
+        {
+            AlterTable6();
+        }
+    }
+    
+    public void AlterTable2()
+    {
+        if("PUNTO".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            if("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+            {
+                lookAheadIndex++;
+                AlterTable3();
+            }
+            else
+            {
+                Error();
+            }
+        }
+        else
+        {
+            AlterTable3();
+        }
+    }
+    
+    public void AlterTable3()
+    {
+        if("PARENTESIS_IZQUIERDO".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            if ("INTEGER".equals(listadoValores.get(lookAheadIndex)))
+            {
+                lookAheadIndex++;
+                Ent();
+                lookAheadIndex++;
+                if ("PARENTESIS_DERECHO".equals(listadoValores.get(lookAheadIndex)))
+                {
+                    lookAheadIndex++;
+                    AlterTable4(); 
+                }
+            }
+        }
+        else
+        {
+            AlterTable4();
+        }
+    }
+    
+    public void Ent()
+    {
+        if ("COMA".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            if ("INTEGER".equals(listadoValores.get(lookAheadIndex)))
+            {
+                
+            }
+            else
+            {
+                Error();
+            }
+        }
+    }
+    
+    public void AlterTable4()
+    {
+        if ("COLLATE".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+            {
+                lookAheadIndex++;
+                AlterTable5();
+            }
+            else
+            {
+                Error();
+            }
+        }
+        else
+        {
+            AlterTable5();
+        }
+    }
+    
+    public void AlterTable5()
+    {
+        if ("NULL".equals(listadoValores.get(lookAheadIndex)))
+        {
+            
+        }
+        else if ("NOT".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            if ("NULL".equals(listadoValores.get(lookAheadIndex)))
+            {
+
+            }
+        }
+    }
+    
+    public void AlterTable6()
+    {
+        if ("ADD".equals(listadoValores.get(lookAheadIndex)))
+        {            
+            lookAheadIndex++;
+            AlterTable7();
+        }
+        else if ("DROP".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            AlterTable7();
+        }        
+    }
+    
+    public void AlterTable7()
+    {
+        if ("ROWDGUIDCOL".equals(listadoValores.get(lookAheadIndex)))
+        {
+            
+        }
+        else
+        {
+            if ("NOT".equals(listadoValores.get(lookAheadIndex)))
+            {
+                if ("FOR".equals(listadoValores.get(lookAheadIndex)))
+                {                    
+                    if ("REPLICATION".equals(listadoValores.get(lookAheadIndex)))
+                    {
+
+                    }
+                    else
+                    {
+                        Error();
+                    }
+                }
+                else
+                {
+                    Error();
+                }
+            }
+            else
+            {
+                Error();
+            }
+        }
+    }
+    
+    public void AlterTable8()
+    {
+        if ("AS".equals(listadoValores.get(lookAheadIndex)))
+        {
+            Ccd();
+            lookAheadIndex++;
+            AlterTable9();
+        }
+        else if ("CONSTRAINT".equals(listadoValores.get(lookAheadIndex)))
+        {
+            TableConstraint();
+            lookAheadIndex++;
+            AlterTable9();
+        }
+        else
+        {
+            ColumnDefinition();
+            lookAheadIndex++;
+            AlterTable9();
+        }
+    }
+    
+    public void Ccd()
+    {
+        if ("AS".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+            {
+                lookAheadIndex++;
+                ColumnConstraint2();
+            }
+            else
+            {
+                Error();
+            }
+        }
+    }
+    
+    public void AlterTable9()
+    {
+        if ("COMA".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            AlterTable8();
+        }
+    }
+    
+    public void AlterTable10()
+    {
+        if ("CONSTRAINT".equals(listadoValores.get(lookAheadIndex)))
+        {
+            AlterTable11();
+            lookAheadIndex++;
+            AlterTable12();
+            lookAheadIndex++;
+            if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+            {
+                lookAheadIndex++;
+                AlterTable13();
+            }
+        }
+        else if ("COLUMN".equals(listadoValores.get(lookAheadIndex)))
+        {
+            AlterTable12();
+            lookAheadIndex++;
+            if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+            {
+                lookAheadIndex++;
+                AlterTable13();
+            }
+        }
+    }
+    
+    public void AlterTable11()
+    {
+        if ("CONSTRAINT".equals(listadoValores.get(lookAheadIndex)))
+        {
+            
+        }
+    }
+    
+    public void AlterTable12()
+    {        
+        if ("IF".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            if ("EXISTS".equals(listadoValores.get(lookAheadIndex)))
+            {
+
+            }
+            else
+            {
+                Error();
+            }
+        }
+    }
+    
+    public void AlterTable13()
+    {      
+        if ("COMA".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+            {
+                lookAheadIndex++;
+                AlterTable13();
+            }
+            else
+            {
+                Error();
+            }
+        }
+        
+    }
+        
+    
+    public void Truncate(String token)
+    {
+        lookAheadIndex++;
+        switch(listadoValores.get(lookAheadIndex))
+        {
+            case "TABLE":
+                TruncateTable();//TERMINADO
+            break;            
+            default:
+                Error();
+            break;
+        }    
+    }
+    public void TruncateTable()
+    {
+        lookAheadIndex++;
+        Object();
+        TruncateTable2();
+    }
+    public void TruncateTable2()
+    {
+        if ("PUNTO_Y_COMA".equals(listadoValores.get(lookAheadIndex)) || "GO".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            System.out.println("Sentencia leida correctamente");
+            Start();
+        }
+//        if ("WITH".equals(listadoValores.get(lookAheadIndex)))
+//        {
+//            lookAheadIndex++;
+//            if ("PARENTESIS_IZQUIERDO".equals(listadoValores.get(lookAheadIndex)))
+//            {
+//                lookAheadIndex++;
+//                if ("PARTITION".equals(listadoValores.get(lookAheadIndex)))
+//                { 
+//                    lookAheadIndex++;
+//                    if ("PARENTESIS_IZQUIERDO".equals(listadoValores.get(lookAheadIndex)))
+//                        { 
+//                            lookAheadIndex++;
+//                            TruncateTable3();
+//                        }
+//                        else
+//                        {
+//                            Error();                    
+//                        }
+//                }
+//                else
+//                {
+//                    Error();                    
+//                }
+//            }
+//            else
+//            {
+//                Error();                    
+//            }
+//        }
+//        else
+//        {
+//            TruncateTable4();
+//        }
+    }
+    public void TruncateTable3()
+    {
+        if ("INTEGER".equals(listadoTokens.get(lookAheadIndex)))
+        { 
+            lookAheadIndex++;
+            TruncateTable5();
+        }
+        else
+        {
+            Error();                    
+        }
+    }
+    public void TruncateTable4()
+    {
+        if ("PUNTO_Y_COMA".equals(listadoValores.get(lookAheadIndex)))
+        { 
+            lookAheadIndex++;
+            System.out.println("Sentencia terminada correctamente");
+            Start();
+        }
+        else
+        {
+            Error();                  
+        }
+    }
+    public void TruncateTable5()
+    {
+        if ("TO".equals(listadoValores.get(lookAheadIndex)))
+        { 
+            lookAheadIndex++;
+            if ("INTEGER".equals(listadoTokens.get(lookAheadIndex)))
+            { 
+                lookAheadIndex++;
+                TruncateTable6();
+            }
+            else
+            {
+                Error();                    
+            }
+        }
+        else
+        {
+            TruncateTable6();                 
+        }
+    }
+    public void TruncateTable6()
+    {
+        if ("COMA".equals(listadoValores.get(lookAheadIndex)))
+        { 
+            lookAheadIndex++;
+            TruncateTable3();
+        }
+        else
+        {
+            if ("PARENTESIS_DERECHO".equals(listadoValores.get(lookAheadIndex)))
+            { 
+                lookAheadIndex++;
+                if ("PARENTESIS_DERECHO".equals(listadoValores.get(lookAheadIndex)))
+                { 
+                    lookAheadIndex++;
+                    TruncateTable4();
+                }
+                else
+                {
+                    Error();                 
+                } 
+            }
+            else
+            {
+                   Error();                 
+            }                 
+        }
+    }
+    public void Drop(String token)
+    {
+        lookAheadIndex++;
+        switch(listadoValores.get(lookAheadIndex))
+        {
+            case "TABLE":
+                DropTable();//TERMINADO
+            break;
+            case "DATABASE":
+                DropDatabase();//TERMINADO             
+            break;
+            case "LOGIN":
+                DropLogin();//TERMINADO     
+            break;
+            case "INDEX":
+                DropIndex();//TERMINADO     
+            break;
+            case "VIEW":
+                DropView();//TERMINADO     
+            break;
+            default:
+                Error();
+            break;
+        }        
+    }
+    public void DropTable()
+    {
+        lookAheadIndex++;
+        if ("IF".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            if ("EXISTS".equals(listadoValores.get(lookAheadIndex)))
+            { 
+                DropTable2();
+            }
+            else
+            {
+                Error();                    
+            }
+        }
+        else
+        {
+            DropTable2();
+        }
+        
+    }
+    public void DropTable2() 
+    {
+        Object();
+        DropTable3();        
+    }    
+    public void DropTable3()
+    { 
+        if (lookAheadIndex < listadoValores.size())
+        {
+            if ("COMA".equals(listadoValores.get(lookAheadIndex)))
+            {
+                DropTable2();
+            }
+            else if ("PUNTO_Y_COMA".equals(listadoValores.get(lookAheadIndex)))
+            {
+                lookAheadIndex++;                
+                System.out.println("Se terminó de leer un statement de forma correcta!");
+                Start();
+            }
+        }        
+    }   
+    public void Object()
+    {
+        if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+        {
+            Object2();
+        }
+        else
+        {
+            Error();
+        }
+    }    
+    public void Object2()
+    {
+        lookAheadIndex++;        
+        switch(listadoValores.get(lookAheadIndex))
+        {
+            case "PUNTO":
+                lookAheadIndex++;
+                if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+                {
+                    lookAheadIndex++;
+                    Object3(); 
+                }
+                else
+                {
+                    Error();
+                }
+            break;
+            default:
+                Object3(); 
+            break;
+        } 
+    }    
+    public void Object3()
+    {
+        switch(listadoValores.get(lookAheadIndex))
+        {
+            case "PUNTO":
+                lookAheadIndex++;
+                if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+                {
+                }
+                else
+                {
+                    Error();
+                }
+            break;
+            default:
+                //epsilon
+            break;
+        } 
+        
+    }    
+    public void DropDatabase()
+    {        
+        lookAheadIndex++;
+        if ("IF".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            if ("EXISTS".equals(listadoValores.get(lookAheadIndex)))
+            {
+                lookAheadIndex++;
+                DropDatabase2();
+            }
+            else
+            {
+                Error();
+            }
+        }
+        else
+        {
+            DropDatabase2();
+        }
+    }    
+    public void DropDatabase2()
+    {
+        if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+        {
+            DropDatabase3();
+        }
+        else
+        {
+            Error();
+        }        
+    }    
+    public void DropDatabase3()
+    {
+        lookAheadIndex++;
+        if ("COMA".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            DropDatabase2();
+        }
+        else if ("PUNTO_Y_COMA".equals(listadoValores.get(lookAheadIndex)))
+        {
+            //Terminó
+            lookAheadIndex++;
+            System.out.println("Se terminó de leer un statement de forma correcta!");
+            Start();
+        }
+        else
+        {
+            //Epsilon
+        }
+    }    
+    public void DropLogin()
+    {
+        lookAheadIndex++;
+        if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            if ("PUNTO_Y_COMA".equals(listadoValores.get(lookAheadIndex)))
+            {
+                lookAheadIndex++;
+                System.out.println("Se terminó de leer un statement de forma correcta!");
+                Start();
+            }
+        }
+    }    
+    public void DropIndex()
+    {
+        lookAheadIndex++;
+        if ("IF".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            if ("EXISTS".equals(listadoValores.get(lookAheadIndex)))
+            {
+                lookAheadIndex++;
+                DropIndex2();                    
+            }
+        }
+        else
+        {
+            DropIndex2();
+        }
+    }    
+    public void DropIndex2()
+    {
+        if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+        {
+            DropIndex3();                    
+        }
+        else
+        {
+            Error();
+        }
+    }    
+    public void DropIndex3()
+    {
+        lookAheadIndex++;
+        if ("ON".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            Object();    
+            DropIndex5();                 
+        }
+        else if ("PUNTO".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+            {
+                DropIndex4();                    
+            }
+            else
+            {
+                Error();
+            }
+        }
+    }    
+    public void DropIndex4()
+    {
+        
+        lookAheadIndex++;
+        if ("PUNTO".equals(listadoValores.get(lookAheadIndex)))
+        {  
+            lookAheadIndex++;
+            DropIndex5();                 
+        }
+        else
+        {
+            lookAheadIndex++;
+            DropIndex5();            
+        }
+    }    
+    public void DropIndex5()
+    {
+        if ("COMA".equals(listadoValores.get(lookAheadIndex)))
+        {  
+            lookAheadIndex++;
+            DropIndex2();                 
+        }        
+        else if ("PUNTO_Y_COMA".equals(listadoValores.get(lookAheadIndex)))
+        {
+            //Terminó
+            lookAheadIndex++;
+            System.out.println("Se terminó de leer un statement de forma correcta!");
+            Start();
+        }
+        else
+        {
+            Error();           
+        }
+    }    
+    public void DropView()
+    {
+        lookAheadIndex++;
+        if ("IF".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            if ("EXISTS".equals(listadoValores.get(lookAheadIndex)))
+            {
+                lookAheadIndex++;
+                DropView2();
+            }
+            else
+            {
+                Error();
+            }
+        }
+        else 
+        {
+            DropView2();                
+        }        
+        
+    }    
+    public void DropView2()
+    {
+        if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+        {
+            DropView3();
+        }
+        else 
+        {
+            Error();                
+        }         
+    }    
+    public void DropView3()
+    {
+        lookAheadIndex++;
+        if ("PUNTO".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            if ("IDENTIFIER".equals(listadoTokens.get(lookAheadIndex)))
+            {
+                DropView4();
+            }
+            else
+            {
+                Error();
+            }
+        }
+        else 
+        {
+            DropView4();             
+        }
+    }    
+    public void DropView4()
+    {
+        lookAheadIndex++;
+        if ("COMA".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            DropView2();
+        }
+        else if ("PUNTO_Y_COMA".equals(listadoValores.get(lookAheadIndex)))
+        {
+            lookAheadIndex++;
+            System.out.println("Se terminó de leer un statement de forma correcta!");
+            Start();
+        }
+        else
+        {
+            //Epsilon
+        }     
+    }    
+    
+    public void Error()
+    {
+        System.out.println("Encontró un error en token: " + listadoValores.get(lookAheadIndex));
+        while (!"PUNTO_Y_COMA".equals(listadoValores.get(lookAheadIndex)))
+        {
+            if (lookAheadIndex < listadoTokens.size())
+            {
+                lookAheadIndex++;
+            }
+            if (lookAheadIndex == listadoTokens.size())
+            {
+                break;
+            }
+        }
+        if (lookAheadIndex < listadoTokens.size())
+        {
+            lookAheadIndex++;
+        }
+        Start();
     }
     
     /**

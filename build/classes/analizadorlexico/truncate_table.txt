@@ -1,0 +1,2 @@
+TRUNCATE TABLE HumanResources.JobCandidate;
+TRUNCATE TABLE PartitionTable1;  

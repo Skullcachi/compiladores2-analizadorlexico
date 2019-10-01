@@ -1,0 +1,3 @@
+DROP DATABASE Sales;
+DROP DATABASE Sales, NewSales;
+v

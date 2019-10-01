@@ -1,0 +1,4 @@
+DROP DATABASE Sales;
+DROP DATABASE Sales, NewSales;
+DROP DATABASE sales_snapshot0600;
+DROP sales, sales2 DATABASE;

@@ -1,0 +1,7 @@
+DROP INDEX IX_ProductVendor_BusinessEntityID   
+    ON Purchasing.ProductVendor; 
+DROP INDEX  
+    IX_PurchaseOrderHeader_EmployeeID ON Purchasing.PurchaseOrderHeader,   
+    IX_Address_StateProvinceID ON Person.Address;  
+DROP INDEX PXML_ProductModel_CatalogDescription   
+    ON Production.ProductModel;  

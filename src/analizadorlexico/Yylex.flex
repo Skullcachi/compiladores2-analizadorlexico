@@ -1,6 +1,6 @@
 package analizadorlexico;
 import java.io.*;
-
+import java_cup.runtime.*;
 %%
 
 %public
@@ -13,7 +13,9 @@ import java.io.*;
 
 %column
 
-%type String
+%cup
+
+%type Symbol
 
 MULTILINE_COMMENT = "/*" ~"*/" | "/*" "*"+ "/"
 
@@ -380,362 +382,374 @@ L = [a-zA-Z_]
     public int line;
     public int column;
     public int length;
+
+    private Symbol symbol(int type){
+        return new Symbol(type, yyline, yycolumn);
+    }
+
+    private Symbol symbol(int type, Object value){
+        return new Symbol(type, yyline, yycolumn, value);
+    }
 %}
 %%
 // OPERATOR_OR_PUNTUATION_MARKs
 //{OPERATORS_OR_PUNTUATION_MARKS}                                  { return "OPERATOR OR PUNTATION MARK: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); }
 
-{OP_SUMA} { return "OPERATOR: SUMA " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{OP_RESTA} { return "OPERATOR: RESTA " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{OP_MULTIPLICACION} { return "OPERATOR: MULTIPLICACION " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{OP_DIVISION} { return "OPERATOR: DIVISION " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{OP_PORCENTAJE} { return "OPERATOR: PORCENTAJE " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{OP_MENOR} { return "OPERATOR: MENOR " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{OP_MENORIGUAL} { return "OPERATOR: MENOR_O_IGUAL " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{OP_MAYOR} { return "OPERATOR: MAYOR " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{OP_MAYORIGUAL} { return "OPERATOR: MAYOR_O_IGUAL " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{OP_ASIGNAR} { return "OPERATOR: ASIGNAR " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{OP_IGUAL} { return "OPERATOR: IGUAL " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{OP_DIFERENTE} { return "OPERATOR: DIFERENTE " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{OP_AND} { return "OPERATOR: ANDAND " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{OP_OR} { return "OPERATOR: OROR " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{OP_NEGACION} { return "OPERATOR: NEGACION " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{OP_PUNTOYCOMA} { return "OPERATOR: PUNTO_Y_COMA " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{OP_COMA} { return "OPERATOR: COMA " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{OP_PUNTO} { return "OPERATOR: PUNTO " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{OP_CORCHETE_IZQ} { return "OPERATOR: CORCHETE_IZQUIERDO " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{OP_CORCHETE_DER} { return "OPERATOR: CORCHETE_DERECHO " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{OP_PARENTESIS_IZQ} { return "OPERATOR: PARENTESIS_IZQUIERDO " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{OP_PARENTESIS_DER} { return "OPERATOR: PARENTESIS_DERECHO " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{OP_LLAVE_IZQ} { return "OPERATOR: LLAVE IZQUIERDO " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{OP_LLAVE_DER} { return "OPERATOR: LLAVE DERECHO " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{OP_CORCHETES} { return "OPERATOR: CORCHETES " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{OP_PARENTESIS} { return "OPERATOR: PARENTESIS " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{OP_LLAVES} { return "OPERATOR: LLAVES " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{OP_ARROBA} { return "OPERATOR: ARROBA " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{OP_NUMERAL} { return "OPERATOR: NUMERAL " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{OP_DOBLE_NUMERAL} { return "OPERATOR: DOBLE NUMERAL " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); }
+{OP_SUMA} { return symbol(sym.OP_SUMA, new String(yytext())); } 
+{OP_RESTA} { return symbol(sym.OP_RESTA, new String(yytext())); } 
+{OP_MULTIPLICACION} { return symbol(sym.OP_MULTIPLICACION, new String(yytext())); } 
+{OP_DIVISION} { return symbol(sym.OP_DIVISION, new String(yytext())); } 
+{OP_PORCENTAJE} { return symbol(sym.OP_PORCENTAJE, new String(yytext())); } 
+{OP_MENOR} { return symbol(sym.OP_MENOR, new String(yytext())); } 
+{OP_MENORIGUAL} { return symbol(sym.OP_MENORIGUAL, new String(yytext())); } 
+{OP_MAYOR} { return symbol(sym.OP_MAYOR, new String(yytext())); } 
+{OP_MAYORIGUAL} { return symbol(sym.OP_MAYORIGUAL, new String(yytext())); } 
+{OP_ASIGNAR} { return symbol(sym.OP_ASIGNAR, new String(yytext())); } 
+{OP_IGUAL} { return symbol(sym.OP_IGUAL, new String(yytext())); } 
+{OP_DIFERENTE} { return symbol(sym.OP_DIFERENTE, new String(yytext())); } 
+{OP_AND} { return symbol(sym.OP_AND, new String(yytext())); } 
+{OP_OR} { return symbol(sym.OP_OR, new String(yytext())); } 
+{OP_NEGACION} { return symbol(sym.OP_NEGACION, new String(yytext())); } 
+{OP_PUNTOYCOMA} { return symbol(sym.OP_PUNTOYCOMA, new String(yytext())); } 
+{OP_COMA} { return symbol(sym.OP_COMA, new String(yytext())); } 
+{OP_PUNTO} { return symbol(sym.OP_PUNTO, new String(yytext())); } 
+{OP_CORCHETE_IZQ} { return symbol(sym.OP_CORCHETE_IZQ, new String(yytext())); } 
+{OP_CORCHETE_DER} { return symbol(sym.OP_CORCHETE_DER, new String(yytext())); } 
+{OP_PARENTESIS_IZQ} { return symbol(sym.OP_PARENTESIS_IZQ, new String(yytext())); } 
+{OP_PARENTESIS_DER} { return symbol(sym.OP_PARENTESIS_DER, new String(yytext())); } 
+{OP_LLAVE_IZQ} { return symbol(sym.OP_LLAVE_IZQ, new String(yytext())); } 
+{OP_LLAVE_DER} { return symbol(sym.OP_LLAVE_DER, new String(yytext())); } 
+{OP_CORCHETES} { return symbol(sym.OP_CORCHETES, new String(yytext())); } 
+{OP_PARENTESIS} { return symbol(sym.OP_PARENTESIS, new String(yytext())); } 
+{OP_LLAVES} { return symbol(sym.OP_LLAVES, new String(yytext())); } 
+{OP_ARROBA} { return symbol(sym.OP_ARROBA, new String(yytext())); } 
+{OP_NUMERAL} { return symbol(sym.OP_NUMERAL, new String(yytext())); } 
+{OP_DOBLE_NUMERAL} { return symbol(sym.OP_DOBLE_NUMERAL, new String(yytext())); }
 
 // UNFINISHED_STRING
-//['][^'\n]*|[´][^´\n]*                                            { return "ERROR, malformed STRING: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); }
+//['][^'\n]*|[´][^´\n]*                                             { 
+//                                                                        //return "ERROR, malformed STRING: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1);
+//                                                                        lexeme = yytext();
+//                                                                        System.out.print("ERROR, malformed STRING " + lexeme + " found in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1));
+//                                                                    }
 
 // STRINGs
-[´][^´\n]*[´]|['][^'\n]*[']                                      { return "STRING: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); }
+[´][^´\n]*[´]|['][^'\n]*[']                                      { return symbol(sym.STRING, new String(yytext())); }
 
 // RESERVED_WORDs
 //{RESERVED_WORDS}                                                 { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); }
-{ABSOLUTE} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{ACTION} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{ADA} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{ADD} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{ALL} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{ALLOCATE} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{ALTER} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{AND} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{ANY} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{ARE} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{AS} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{ASC} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{ASSERTION} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{AT} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{AUTHORIZATION} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{AVG} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{BACKUP} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{BEGIN} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{BETWEEN} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{BIT} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{BIT_LENGTH} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{BOTH} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{BREAK} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{BROWSE} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{BULK} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{BY} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{CASCADE} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{CASCADED} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{CASE} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{CAST} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{CATALOG} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{CHAR} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{CHAR_LENGTH} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{CHARACTER} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{CHARACTER_LENGTH} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{CHECK} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{CHECKPOINT} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{CLOSE} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{CLUSTERED} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{COALESCE} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{COLLATE} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{COLLATION} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{COLUMN} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{COMMIT} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{COMPUTE} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{CONNECT} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{CONNECTION} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{CONSTRAINT} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{CONSTRAINTS} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{CONTAINS} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{CONTAINSTABLE} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{CONTINUE} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{CONVERT} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{CORRESPONDING} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{COUNT} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{CREATE} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{CROSS} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{CURRENT} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{CURRENT_DATE} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{CURRENT_TIME} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{CURRENT_TIMESTAMP} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{CURRENT_USER} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{CURSOR} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{DATABASE} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{DATE} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{DAY} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{DBCC} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{DEALLOCATE} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{DEC} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{DECIMAL} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{DECLARE} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{DEFAULT} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{DEFERRABLE} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{DEFERRED} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{DELETE} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{DENY} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{DESC} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{DESCRIBE} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{DESCRIPTOR} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{DIAGNOSTICS} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{DISCONNECT} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{DISK} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{DISTINCT} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{DISTRIBUTED} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{DOMAIN} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{DOUBLE} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{DROP} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{DUMP} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{ELSE} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{END} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{END_EXEC} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{ERRLVL} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{ESCAPE} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{EXCEPT} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{EXCEPTION} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{EXEC} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{EXECUTE} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{EXISTS} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{EXIT} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{EXTERNAL} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{EXTRACT} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{FALSE} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{FETCH} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{FILE} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{FILLFACTOR} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{FIRST} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{FLOAT} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{FOR} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{FOREIGN} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{FORTRAN} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{FOUND} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{FREETEXT} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{FREETEXTTABLE} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{FROM} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{FULL} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{FUNCTION} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{GET} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{GLOBAL} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{GO} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{GOTO} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{GRANT} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{GROUP} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{HAVING} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{HOLDLOCK} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{HOUR} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{IDENTITY} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{IDENTITY_INSERT} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{IDENTITYCOL} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{IF} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{IMMEDIATE} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{IN} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{INCLUDE} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{INDEX} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{INDICATOR} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{INITIALLY} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{INNER} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{INPUT} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{INSENSITIVE} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{INSERT} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{INT} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{INTEGER} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{INTERSECT} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{INTERVAL} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{INTO} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{IS} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{ISOLATION} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{JOIN} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{KEY} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{KILL} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{LANGUAGE} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{LAST} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{LEADING} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{LEFT} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{LEVEL} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{LIKE} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{LINENO} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{LOAD} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{LOCAL} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{LOWER} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{MATCH} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{MAX} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{MERGE} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{MIN} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{MINUTE} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{MODULE} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{MONTH} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{NAMES} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{NATIONAL} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{NATURAL} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{NCHAR} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{NEXT} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{NO} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{NOCHECK} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{NONCLUSTERED} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{NONE} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{NOT} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{NULL} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{NULLIF} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{NUMERIC} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{OCTET_LENGTH} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{OF} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{OFF} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{OFFSETS} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{ON} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{ONLY} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{OPEN} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{OPENDATASOURCE} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{OPENQUERY} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{OPENROWSET} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{OPENXML} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{OPTION} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{OR} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{ORDER} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{OUTER} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{OUTPUT} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{OVER} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{OVERLAPS} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{PAD} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{PARTIAL} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{PASCAL} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{PERCENT} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{PIVOT} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{PLAN} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{POSITION} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{PRECISION} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{PREPARE} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{PRESERVE} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{PRIMARY} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{PRINT} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{PRIOR} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{PRIVILEGES} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{PROC} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{PROCEDURE} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{PUBLIC} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{RAISERROR} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{READ} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{READTEXT} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{REAL} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{RECONFIGURE} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{REFERENCES} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{RELATIVE} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{REPLICATION} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{RESTORE} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{RESTRICT} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{RETURN} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{REVERT} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{REVOKE} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{RIGHT} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{ROLLBACK} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{ROWCOUNT} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{ROWGUIDCOL} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{ROWS} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{RULE} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{SAVE} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{SCHEMA} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{SCROLL} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{SECOND} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{SECTION} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{SECURITYAUDIT} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{SELECT} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{SEMANTICKEYPHRASETABLE} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{SEMANTICSIMILARITYDETAILSTABLE} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{SEMANTICSIMILARITYTABLE} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{SESSION} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{SESSION_USER} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{SET} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{SETUSER} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{SHUTDOWN} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{SIZE} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{SMALLINT} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{SOME} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{SPACE} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{SQL} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{SQLCA} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{SQLCODE} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{SQLERROR} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{SQLSTATE} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{SQLWARNING} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{STATISTICS} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{SUBSTRING} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{SUM} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{SYSTEM_USER} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{TABLE} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{TABLESAMPLE} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{TEMPORARY} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{TEXTSIZE} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{THEN} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{TIME} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{TIMESTAMP} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{TIMEZONE_HOUR} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{TIMEZONE_MINUTE} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{TO} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{TOP} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{TRAILING} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{TRAN} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{TRANSACTION} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{TRANSLATE} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{TRANSLATION} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{TRIGGER} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{TRIM} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{TRUE} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{TRUNCATE} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{TRY_CONVERT} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{TSEQUAL} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{UNION} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{UNIQUE} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{UNKNOWN} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{UNPIVOT} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{UPDATE} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{UPDATETEXT} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{UPPER} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{USAGE} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{USE} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{USER} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{USING} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{VALUE} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{VALUES} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{VARCHAR} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{VARYING} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{VIEW} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{WAITFOR} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{WHEN} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{WHENEVER} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{WHERE} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{WHILE} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{WITH} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{WITHIN_GROUP} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{WORK} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{WRITE} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{WRITETEXT} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{YEAR} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); } 
-{ZONE} { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); }
+{ABSOLUTE} {return symbol(sym.ABSOLUTE, new String("RESERVED WORD: " + yytext()));}
+{ACTION} {return symbol(sym.ACTION, new String("RESERVED WORD: " + yytext()));}
+{ADA} {return symbol(sym.ADA, new String("RESERVED WORD: " + yytext()));}
+{ADD} {return symbol(sym.ADD, new String("RESERVED WORD: " + yytext()));}
+{ALL} {return symbol(sym.ALL, new String("RESERVED WORD: " + yytext()));}
+{ALLOCATE} {return symbol(sym.ALLOCATE, new String("RESERVED WORD: " + yytext()));}
+{ALTER} {return symbol(sym.ALTER, new String("RESERVED WORD: " + yytext()));}
+{AND} {return symbol(sym.AND, new String("RESERVED WORD: " + yytext()));}
+{ANY} {return symbol(sym.ANY, new String("RESERVED WORD: " + yytext()));}
+{ARE} {return symbol(sym.ARE, new String("RESERVED WORD: " + yytext()));}
+{AS} {return symbol(sym.AS, new String("RESERVED WORD: " + yytext()));}
+{ASC} {return symbol(sym.ASC, new String("RESERVED WORD: " + yytext()));}
+{ASSERTION} {return symbol(sym.ASSERTION, new String("RESERVED WORD: " + yytext()));}
+{AT} {return symbol(sym.AT, new String("RESERVED WORD: " + yytext()));}
+{AUTHORIZATION} {return symbol(sym.AUTHORIZATION, new String("RESERVED WORD: " + yytext()));}
+{AVG} {return symbol(sym.AVG, new String("RESERVED WORD: " + yytext()));}
+{BACKUP} {return symbol(sym.BACKUP, new String("RESERVED WORD: " + yytext()));}
+{BEGIN} {return symbol(sym.BEGIN, new String("RESERVED WORD: " + yytext()));}
+{BETWEEN} {return symbol(sym.BETWEEN, new String("RESERVED WORD: " + yytext()));}
+{BIT} {return symbol(sym.BIT, new String("RESERVED WORD: " + yytext()));}
+{BIT_LENGTH} {return symbol(sym.BIT_LENGTH, new String("RESERVED WORD: " + yytext()));}
+{BOTH} {return symbol(sym.BOTH, new String("RESERVED WORD: " + yytext()));}
+{BREAK} {return symbol(sym.BREAK, new String("RESERVED WORD: " + yytext()));}
+{BROWSE} {return symbol(sym.BROWSE, new String("RESERVED WORD: " + yytext()));}
+{BULK} {return symbol(sym.BULK, new String("RESERVED WORD: " + yytext()));}
+{BY} {return symbol(sym.BY, new String("RESERVED WORD: " + yytext()));}
+{CASCADE} {return symbol(sym.CASCADE, new String("RESERVED WORD: " + yytext()));}
+{CASCADED} {return symbol(sym.CASCADED, new String("RESERVED WORD: " + yytext()));}
+{CASE} {return symbol(sym.CASE, new String("RESERVED WORD: " + yytext()));}
+{CAST} {return symbol(sym.CAST, new String("RESERVED WORD: " + yytext()));}
+{CATALOG} {return symbol(sym.CATALOG, new String("RESERVED WORD: " + yytext()));}
+{CHAR} {return symbol(sym.CHAR, new String("RESERVED WORD: " + yytext()));}
+{CHAR_LENGTH} {return symbol(sym.CHAR_LENGTH, new String("RESERVED WORD: " + yytext()));}
+{CHARACTER} {return symbol(sym.CHARACTER, new String("RESERVED WORD: " + yytext()));}
+{CHARACTER_LENGTH} {return symbol(sym.CHARACTER_LENGTH, new String("RESERVED WORD: " + yytext()));}
+{CHECK} {return symbol(sym.CHECK, new String("RESERVED WORD: " + yytext()));}
+{CHECKPOINT} {return symbol(sym.CHECKPOINT, new String("RESERVED WORD: " + yytext()));}
+{CLOSE} {return symbol(sym.CLOSE, new String("RESERVED WORD: " + yytext()));}
+{CLUSTERED} {return symbol(sym.CLUSTERED, new String("RESERVED WORD: " + yytext()));}
+{COALESCE} {return symbol(sym.COALESCE, new String("RESERVED WORD: " + yytext()));}
+{COLLATE} {return symbol(sym.COLLATE, new String("RESERVED WORD: " + yytext()));}
+{COLLATION} {return symbol(sym.COLLATION, new String("RESERVED WORD: " + yytext()));}
+{COLUMN} {return symbol(sym.COLUMN, new String("RESERVED WORD: " + yytext()));}
+{COMMIT} {return symbol(sym.COMMIT, new String("RESERVED WORD: " + yytext()));}
+{COMPUTE} {return symbol(sym.COMPUTE, new String("RESERVED WORD: " + yytext()));}
+{CONNECT} {return symbol(sym.CONNECT, new String("RESERVED WORD: " + yytext()));}
+{CONNECTION} {return symbol(sym.CONNECTION, new String("RESERVED WORD: " + yytext()));}
+{CONSTRAINT} {return symbol(sym.CONSTRAINT, new String("RESERVED WORD: " + yytext()));}
+{CONSTRAINTS} {return symbol(sym.CONSTRAINTS, new String("RESERVED WORD: " + yytext()));}
+{CONTAINS} {return symbol(sym.CONTAINS, new String("RESERVED WORD: " + yytext()));}
+{CONTAINSTABLE} {return symbol(sym.CONTAINSTABLE, new String("RESERVED WORD: " + yytext()));}
+{CONTINUE} {return symbol(sym.CONTINUE, new String("RESERVED WORD: " + yytext()));}
+{CONVERT} {return symbol(sym.CONVERT, new String("RESERVED WORD: " + yytext()));}
+{CORRESPONDING} {return symbol(sym.CORRESPONDING, new String("RESERVED WORD: " + yytext()));}
+{COUNT} {return symbol(sym.COUNT, new String("RESERVED WORD: " + yytext()));}
+{CREATE} {return symbol(sym.CREATE, new String("RESERVED WORD: " + yytext()));}
+{CROSS} {return symbol(sym.CROSS, new String("RESERVED WORD: " + yytext()));}
+{CURRENT} {return symbol(sym.CURRENT, new String("RESERVED WORD: " + yytext()));}
+{CURRENT_DATE} {return symbol(sym.CURRENT_DATE, new String("RESERVED WORD: " + yytext()));}
+{CURRENT_TIME} {return symbol(sym.CURRENT_TIME, new String("RESERVED WORD: " + yytext()));}
+{CURRENT_TIMESTAMP} {return symbol(sym.CURRENT_TIMESTAMP, new String("RESERVED WORD: " + yytext()));}
+{CURRENT_USER} {return symbol(sym.CURRENT_USER, new String("RESERVED WORD: " + yytext()));}
+{CURSOR} {return symbol(sym.CURSOR, new String("RESERVED WORD: " + yytext()));}
+{DATABASE} {return symbol(sym.DATABASE, new String("RESERVED WORD: " + yytext()));}
+{DATE} {return symbol(sym.DATE, new String("RESERVED WORD: " + yytext()));}
+{DAY} {return symbol(sym.DAY, new String("RESERVED WORD: " + yytext()));}
+{DBCC} {return symbol(sym.DBCC, new String("RESERVED WORD: " + yytext()));}
+{DEALLOCATE} {return symbol(sym.DEALLOCATE, new String("RESERVED WORD: " + yytext()));}
+{DEC} {return symbol(sym.DEC, new String("RESERVED WORD: " + yytext()));}
+{DECIMAL} {return symbol(sym.DECIMAL, new String("RESERVED WORD: " + yytext()));}
+{DECLARE} {return symbol(sym.DECLARE, new String("RESERVED WORD: " + yytext()));}
+{DEFAULT} {return symbol(sym.DEFAULT, new String("RESERVED WORD: " + yytext()));}
+{DEFERRABLE} {return symbol(sym.DEFERRABLE, new String("RESERVED WORD: " + yytext()));}
+{DEFERRED} {return symbol(sym.DEFERRED, new String("RESERVED WORD: " + yytext()));}
+{DELETE} {return symbol(sym.DELETE, new String("RESERVED WORD: " + yytext()));}
+{DENY} {return symbol(sym.DENY, new String("RESERVED WORD: " + yytext()));}
+{DESC} {return symbol(sym.DESC, new String("RESERVED WORD: " + yytext()));}
+{DESCRIBE} {return symbol(sym.DESCRIBE, new String("RESERVED WORD: " + yytext()));}
+{DESCRIPTOR} {return symbol(sym.DESCRIPTOR, new String("RESERVED WORD: " + yytext()));}
+{DIAGNOSTICS} {return symbol(sym.DIAGNOSTICS, new String("RESERVED WORD: " + yytext()));}
+{DISCONNECT} {return symbol(sym.DISCONNECT, new String("RESERVED WORD: " + yytext()));}
+{DISK} {return symbol(sym.DISK, new String("RESERVED WORD: " + yytext()));}
+{DISTINCT} {return symbol(sym.DISTINCT, new String("RESERVED WORD: " + yytext()));}
+{DISTRIBUTED} {return symbol(sym.DISTRIBUTED, new String("RESERVED WORD: " + yytext()));}
+{DOMAIN} {return symbol(sym.DOMAIN, new String("RESERVED WORD: " + yytext()));}
+{DOUBLE} {return symbol(sym.DOUBLE, new String("RESERVED WORD: " + yytext()));}
+{DROP} {return symbol(sym.DROP, new String("RESERVED WORD: " + yytext()));}
+{DUMP} {return symbol(sym.DUMP, new String("RESERVED WORD: " + yytext()));}
+{ELSE} {return symbol(sym.ELSE, new String("RESERVED WORD: " + yytext()));}
+{END} {return symbol(sym.END, new String("RESERVED WORD: " + yytext()));}
+{END_EXEC} {return symbol(sym.END_EXEC, new String("RESERVED WORD: " + yytext()));}
+{ERRLVL} {return symbol(sym.ERRLVL, new String("RESERVED WORD: " + yytext()));}
+{ESCAPE} {return symbol(sym.ESCAPE, new String("RESERVED WORD: " + yytext()));}
+{EXCEPT} {return symbol(sym.EXCEPT, new String("RESERVED WORD: " + yytext()));}
+{EXCEPTION} {return symbol(sym.EXCEPTION, new String("RESERVED WORD: " + yytext()));}
+{EXEC} {return symbol(sym.EXEC, new String("RESERVED WORD: " + yytext()));}
+{EXECUTE} {return symbol(sym.EXECUTE, new String("RESERVED WORD: " + yytext()));}
+{EXISTS} {return symbol(sym.EXISTS, new String("RESERVED WORD: " + yytext()));}
+{EXIT} {return symbol(sym.EXIT, new String("RESERVED WORD: " + yytext()));}
+{EXTERNAL} {return symbol(sym.EXTERNAL, new String("RESERVED WORD: " + yytext()));}
+{EXTRACT} {return symbol(sym.EXTRACT, new String("RESERVED WORD: " + yytext()));}
+{FALSE} {return symbol(sym.FALSE, new String("RESERVED WORD: " + yytext()));}
+{FETCH} {return symbol(sym.FETCH, new String("RESERVED WORD: " + yytext()));}
+{FILE} {return symbol(sym.FILE, new String("RESERVED WORD: " + yytext()));}
+{FILLFACTOR} {return symbol(sym.FILLFACTOR, new String("RESERVED WORD: " + yytext()));}
+{FIRST} {return symbol(sym.FIRST, new String("RESERVED WORD: " + yytext()));}
+{FLOAT} {return symbol(sym.FLOAT, new String("RESERVED WORD: " + yytext()));}
+{FOR} {return symbol(sym.FOR, new String("RESERVED WORD: " + yytext()));}
+{FOREIGN} {return symbol(sym.FOREIGN, new String("RESERVED WORD: " + yytext()));}
+{FORTRAN} {return symbol(sym.FORTRAN, new String("RESERVED WORD: " + yytext()));}
+{FOUND} {return symbol(sym.FOUND, new String("RESERVED WORD: " + yytext()));}
+{FREETEXT} {return symbol(sym.FREETEXT, new String("RESERVED WORD: " + yytext()));}
+{FREETEXTTABLE} {return symbol(sym.FREETEXTTABLE, new String("RESERVED WORD: " + yytext()));}
+{FROM} {return symbol(sym.FROM, new String("RESERVED WORD: " + yytext()));}
+{FULL} {return symbol(sym.FULL, new String("RESERVED WORD: " + yytext()));}
+{FUNCTION} {return symbol(sym.FUNCTION, new String("RESERVED WORD: " + yytext()));}
+{GET} {return symbol(sym.GET, new String("RESERVED WORD: " + yytext()));}
+{GLOBAL} {return symbol(sym.GLOBAL, new String("RESERVED WORD: " + yytext()));}
+{GO} {return symbol(sym.GO, new String("RESERVED WORD: " + yytext()));}
+{GOTO} {return symbol(sym.GOTO, new String("RESERVED WORD: " + yytext()));}
+{GRANT} {return symbol(sym.GRANT, new String("RESERVED WORD: " + yytext()));}
+{GROUP} {return symbol(sym.GROUP, new String("RESERVED WORD: " + yytext()));}
+{HAVING} {return symbol(sym.HAVING, new String("RESERVED WORD: " + yytext()));}
+{HOLDLOCK} {return symbol(sym.HOLDLOCK, new String("RESERVED WORD: " + yytext()));}
+{HOUR} {return symbol(sym.HOUR, new String("RESERVED WORD: " + yytext()));}
+{IDENTITY} {return symbol(sym.IDENTITY, new String("RESERVED WORD: " + yytext()));}
+{IDENTITY_INSERT} {return symbol(sym.IDENTITY_INSERT, new String("RESERVED WORD: " + yytext()));}
+{IDENTITYCOL} {return symbol(sym.IDENTITYCOL, new String("RESERVED WORD: " + yytext()));}
+{IF} {return symbol(sym.IF, new String("RESERVED WORD: " + yytext()));}
+{IMMEDIATE} {return symbol(sym.IMMEDIATE, new String("RESERVED WORD: " + yytext()));}
+{IN} {return symbol(sym.IN, new String("RESERVED WORD: " + yytext()));}
+{INCLUDE} {return symbol(sym.INCLUDE, new String("RESERVED WORD: " + yytext()));}
+{INDEX} {return symbol(sym.INDEX, new String("RESERVED WORD: " + yytext()));}
+{INDICATOR} {return symbol(sym.INDICATOR, new String("RESERVED WORD: " + yytext()));}
+{INITIALLY} {return symbol(sym.INITIALLY, new String("RESERVED WORD: " + yytext()));}
+{INNER} {return symbol(sym.INNER, new String("RESERVED WORD: " + yytext()));}
+{INPUT} {return symbol(sym.INPUT, new String("RESERVED WORD: " + yytext()));}
+{INSENSITIVE} {return symbol(sym.INSENSITIVE, new String("RESERVED WORD: " + yytext()));}
+{INSERT} {return symbol(sym.INSERT, new String("RESERVED WORD: " + yytext()));}
+{INT} {return symbol(sym.INT, new String("RESERVED WORD: " + yytext()));}
+{INTEGER} {return symbol(sym.INTEGER, new String("RESERVED WORD: " + yytext()));}
+{INTERSECT} {return symbol(sym.INTERSECT, new String("RESERVED WORD: " + yytext()));}
+{INTERVAL} {return symbol(sym.INTERVAL, new String("RESERVED WORD: " + yytext()));}
+{INTO} {return symbol(sym.INTO, new String("RESERVED WORD: " + yytext()));}
+{IS} {return symbol(sym.IS, new String("RESERVED WORD: " + yytext()));}
+{ISOLATION} {return symbol(sym.ISOLATION, new String("RESERVED WORD: " + yytext()));}
+{JOIN} {return symbol(sym.JOIN, new String("RESERVED WORD: " + yytext()));}
+{KEY} {return symbol(sym.KEY, new String("RESERVED WORD: " + yytext()));}
+{KILL} {return symbol(sym.KILL, new String("RESERVED WORD: " + yytext()));}
+{LANGUAGE} {return symbol(sym.LANGUAGE, new String("RESERVED WORD: " + yytext()));}
+{LAST} {return symbol(sym.LAST, new String("RESERVED WORD: " + yytext()));}
+{LEADING} {return symbol(sym.LEADING, new String("RESERVED WORD: " + yytext()));}
+{LEFT} {return symbol(sym.LEFT, new String("RESERVED WORD: " + yytext()));}
+{LEVEL} {return symbol(sym.LEVEL, new String("RESERVED WORD: " + yytext()));}
+{LIKE} {return symbol(sym.LIKE, new String("RESERVED WORD: " + yytext()));}
+{LINENO} {return symbol(sym.LINENO, new String("RESERVED WORD: " + yytext()));}
+{LOAD} {return symbol(sym.LOAD, new String("RESERVED WORD: " + yytext()));}
+{LOCAL} {return symbol(sym.LOCAL, new String("RESERVED WORD: " + yytext()));}
+{LOWER} {return symbol(sym.LOWER, new String("RESERVED WORD: " + yytext()));}
+{MATCH} {return symbol(sym.MATCH, new String("RESERVED WORD: " + yytext()));}
+{MAX} {return symbol(sym.MAX, new String("RESERVED WORD: " + yytext()));}
+{MERGE} {return symbol(sym.MERGE, new String("RESERVED WORD: " + yytext()));}
+{MIN} {return symbol(sym.MIN, new String("RESERVED WORD: " + yytext()));}
+{MINUTE} {return symbol(sym.MINUTE, new String("RESERVED WORD: " + yytext()));}
+{MODULE} {return symbol(sym.MODULE, new String("RESERVED WORD: " + yytext()));}
+{MONTH} {return symbol(sym.MONTH, new String("RESERVED WORD: " + yytext()));}
+{NAMES} {return symbol(sym.NAMES, new String("RESERVED WORD: " + yytext()));}
+{NATIONAL} {return symbol(sym.NATIONAL, new String("RESERVED WORD: " + yytext()));}
+{NATURAL} {return symbol(sym.NATURAL, new String("RESERVED WORD: " + yytext()));}
+{NCHAR} {return symbol(sym.NCHAR, new String("RESERVED WORD: " + yytext()));}
+{NEXT} {return symbol(sym.NEXT, new String("RESERVED WORD: " + yytext()));}
+{NO} {return symbol(sym.NO, new String("RESERVED WORD: " + yytext()));}
+{NOCHECK} {return symbol(sym.NOCHECK, new String("RESERVED WORD: " + yytext()));}
+{NONCLUSTERED} {return symbol(sym.NONCLUSTERED, new String("RESERVED WORD: " + yytext()));}
+{NONE} {return symbol(sym.NONE, new String("RESERVED WORD: " + yytext()));}
+{NOT} {return symbol(sym.NOT, new String("RESERVED WORD: " + yytext()));}
+{NULL} {return symbol(sym.NULL, new String("RESERVED WORD: " + yytext()));}
+{NULLIF} {return symbol(sym.NULLIF, new String("RESERVED WORD: " + yytext()));}
+{NUMERIC} {return symbol(sym.NUMERIC, new String("RESERVED WORD: " + yytext()));}
+{OCTET_LENGTH} {return symbol(sym.OCTET_LENGTH, new String("RESERVED WORD: " + yytext()));}
+{OF} {return symbol(sym.OF, new String("RESERVED WORD: " + yytext()));}
+{OFF} {return symbol(sym.OFF, new String("RESERVED WORD: " + yytext()));}
+{OFFSETS} {return symbol(sym.OFFSETS, new String("RESERVED WORD: " + yytext()));}
+{ON} {return symbol(sym.ON, new String("RESERVED WORD: " + yytext()));}
+{ONLY} {return symbol(sym.ONLY, new String("RESERVED WORD: " + yytext()));}
+{OPEN} {return symbol(sym.OPEN, new String("RESERVED WORD: " + yytext()));}
+{OPENDATASOURCE} {return symbol(sym.OPENDATASOURCE, new String("RESERVED WORD: " + yytext()));}
+{OPENQUERY} {return symbol(sym.OPENQUERY, new String("RESERVED WORD: " + yytext()));}
+{OPENROWSET} {return symbol(sym.OPENROWSET, new String("RESERVED WORD: " + yytext()));}
+{OPENXML} {return symbol(sym.OPENXML, new String("RESERVED WORD: " + yytext()));}
+{OPTION} {return symbol(sym.OPTION, new String("RESERVED WORD: " + yytext()));}
+{OR} {return symbol(sym.OR, new String("RESERVED WORD: " + yytext()));}
+{ORDER} {return symbol(sym.ORDER, new String("RESERVED WORD: " + yytext()));}
+{OUTER} {return symbol(sym.OUTER, new String("RESERVED WORD: " + yytext()));}
+{OUTPUT} {return symbol(sym.OUTPUT, new String("RESERVED WORD: " + yytext()));}
+{OVER} {return symbol(sym.OVER, new String("RESERVED WORD: " + yytext()));}
+{OVERLAPS} {return symbol(sym.OVERLAPS, new String("RESERVED WORD: " + yytext()));}
+{PAD} {return symbol(sym.PAD, new String("RESERVED WORD: " + yytext()));}
+{PARTIAL} {return symbol(sym.PARTIAL, new String("RESERVED WORD: " + yytext()));}
+{PASCAL} {return symbol(sym.PASCAL, new String("RESERVED WORD: " + yytext()));}
+{PERCENT} {return symbol(sym.PERCENT, new String("RESERVED WORD: " + yytext()));}
+{PIVOT} {return symbol(sym.PIVOT, new String("RESERVED WORD: " + yytext()));}
+{PLAN} {return symbol(sym.PLAN, new String("RESERVED WORD: " + yytext()));}
+{POSITION} {return symbol(sym.POSITION, new String("RESERVED WORD: " + yytext()));}
+{PRECISION} {return symbol(sym.PRECISION, new String("RESERVED WORD: " + yytext()));}
+{PREPARE} {return symbol(sym.PREPARE, new String("RESERVED WORD: " + yytext()));}
+{PRESERVE} {return symbol(sym.PRESERVE, new String("RESERVED WORD: " + yytext()));}
+{PRIMARY} {return symbol(sym.PRIMARY, new String("RESERVED WORD: " + yytext()));}
+{PRINT} {return symbol(sym.PRINT, new String("RESERVED WORD: " + yytext()));}
+{PRIOR} {return symbol(sym.PRIOR, new String("RESERVED WORD: " + yytext()));}
+{PRIVILEGES} {return symbol(sym.PRIVILEGES, new String("RESERVED WORD: " + yytext()));}
+{PROC} {return symbol(sym.PROC, new String("RESERVED WORD: " + yytext()));}
+{PROCEDURE} {return symbol(sym.PROCEDURE, new String("RESERVED WORD: " + yytext()));}
+{PUBLIC} {return symbol(sym.PUBLIC, new String("RESERVED WORD: " + yytext()));}
+{RAISERROR} {return symbol(sym.RAISERROR, new String("RESERVED WORD: " + yytext()));}
+{READ} {return symbol(sym.READ, new String("RESERVED WORD: " + yytext()));}
+{READTEXT} {return symbol(sym.READTEXT, new String("RESERVED WORD: " + yytext()));}
+{REAL} {return symbol(sym.REAL, new String("RESERVED WORD: " + yytext()));}
+{RECONFIGURE} {return symbol(sym.RECONFIGURE, new String("RESERVED WORD: " + yytext()));}
+{REFERENCES} {return symbol(sym.REFERENCES, new String("RESERVED WORD: " + yytext()));}
+{RELATIVE} {return symbol(sym.RELATIVE, new String("RESERVED WORD: " + yytext()));}
+{REPLICATION} {return symbol(sym.REPLICATION, new String("RESERVED WORD: " + yytext()));}
+{RESTORE} {return symbol(sym.RESTORE, new String("RESERVED WORD: " + yytext()));}
+{RESTRICT} {return symbol(sym.RESTRICT, new String("RESERVED WORD: " + yytext()));}
+{RETURN} {return symbol(sym.RETURN, new String("RESERVED WORD: " + yytext()));}
+{REVERT} {return symbol(sym.REVERT, new String("RESERVED WORD: " + yytext()));}
+{REVOKE} {return symbol(sym.REVOKE, new String("RESERVED WORD: " + yytext()));}
+{RIGHT} {return symbol(sym.RIGHT, new String("RESERVED WORD: " + yytext()));}
+{ROLLBACK} {return symbol(sym.ROLLBACK, new String("RESERVED WORD: " + yytext()));}
+{ROWCOUNT} {return symbol(sym.ROWCOUNT, new String("RESERVED WORD: " + yytext()));}
+{ROWGUIDCOL} {return symbol(sym.ROWGUIDCOL, new String("RESERVED WORD: " + yytext()));}
+{ROWS} {return symbol(sym.ROWS, new String("RESERVED WORD: " + yytext()));}
+{RULE} {return symbol(sym.RULE, new String("RESERVED WORD: " + yytext()));}
+{SAVE} {return symbol(sym.SAVE, new String("RESERVED WORD: " + yytext()));}
+{SCHEMA} {return symbol(sym.SCHEMA, new String("RESERVED WORD: " + yytext()));}
+{SCROLL} {return symbol(sym.SCROLL, new String("RESERVED WORD: " + yytext()));}
+{SECOND} {return symbol(sym.SECOND, new String("RESERVED WORD: " + yytext()));}
+{SECTION} {return symbol(sym.SECTION, new String("RESERVED WORD: " + yytext()));}
+{SECURITYAUDIT} {return symbol(sym.SECURITYAUDIT, new String("RESERVED WORD: " + yytext()));}
+{SELECT} {return symbol(sym.SELECT, new String("RESERVED WORD: " + yytext()));}
+{SEMANTICKEYPHRASETABLE} {return symbol(sym.SEMANTICKEYPHRASETABLE, new String("RESERVED WORD: " + yytext()));}
+{SEMANTICSIMILARITYDETAILSTABLE} {return symbol(sym.SEMANTICSIMILARITYDETAILSTABLE, new String("RESERVED WORD: " + yytext()));}
+{SEMANTICSIMILARITYTABLE} {return symbol(sym.SEMANTICSIMILARITYTABLE, new String("RESERVED WORD: " + yytext()));}
+{SESSION} {return symbol(sym.SESSION, new String("RESERVED WORD: " + yytext()));}
+{SESSION_USER} {return symbol(sym.SESSION_USER, new String("RESERVED WORD: " + yytext()));}
+{SET} {return symbol(sym.SET, new String("RESERVED WORD: " + yytext()));}
+{SETUSER} {return symbol(sym.SETUSER, new String("RESERVED WORD: " + yytext()));}
+{SHUTDOWN} {return symbol(sym.SHUTDOWN, new String("RESERVED WORD: " + yytext()));}
+{SIZE} {return symbol(sym.SIZE, new String("RESERVED WORD: " + yytext()));}
+{SMALLINT} {return symbol(sym.SMALLINT, new String("RESERVED WORD: " + yytext()));}
+{SOME} {return symbol(sym.SOME, new String("RESERVED WORD: " + yytext()));}
+{SPACE} {return symbol(sym.SPACE, new String("RESERVED WORD: " + yytext()));}
+{SQL} {return symbol(sym.SQL, new String("RESERVED WORD: " + yytext()));}
+{SQLCA} {return symbol(sym.SQLCA, new String("RESERVED WORD: " + yytext()));}
+{SQLCODE} {return symbol(sym.SQLCODE, new String("RESERVED WORD: " + yytext()));}
+{SQLERROR} {return symbol(sym.SQLERROR, new String("RESERVED WORD: " + yytext()));}
+{SQLSTATE} {return symbol(sym.SQLSTATE, new String("RESERVED WORD: " + yytext()));}
+{SQLWARNING} {return symbol(sym.SQLWARNING, new String("RESERVED WORD: " + yytext()));}
+{STATISTICS} {return symbol(sym.STATISTICS, new String("RESERVED WORD: " + yytext()));}
+{SUBSTRING} {return symbol(sym.SUBSTRING, new String("RESERVED WORD: " + yytext()));}
+{SUM} {return symbol(sym.SUM, new String("RESERVED WORD: " + yytext()));}
+{SYSTEM_USER} {return symbol(sym.SYSTEM_USER, new String("RESERVED WORD: " + yytext()));}
+{TABLE} {return symbol(sym.TABLE, new String("RESERVED WORD: " + yytext()));}
+{TABLESAMPLE} {return symbol(sym.TABLESAMPLE, new String("RESERVED WORD: " + yytext()));}
+{TEMPORARY} {return symbol(sym.TEMPORARY, new String("RESERVED WORD: " + yytext()));}
+{TEXTSIZE} {return symbol(sym.TEXTSIZE, new String("RESERVED WORD: " + yytext()));}
+{THEN} {return symbol(sym.THEN, new String("RESERVED WORD: " + yytext()));}
+{TIME} {return symbol(sym.TIME, new String("RESERVED WORD: " + yytext()));}
+{TIMESTAMP} {return symbol(sym.TIMESTAMP, new String("RESERVED WORD: " + yytext()));}
+{TIMEZONE_HOUR} {return symbol(sym.TIMEZONE_HOUR, new String("RESERVED WORD: " + yytext()));}
+{TIMEZONE_MINUTE} {return symbol(sym.TIMEZONE_MINUTE, new String("RESERVED WORD: " + yytext()));}
+{TO} {return symbol(sym.TO, new String("RESERVED WORD: " + yytext()));}
+{TOP} {return symbol(sym.TOP, new String("RESERVED WORD: " + yytext()));}
+{TRAILING} {return symbol(sym.TRAILING, new String("RESERVED WORD: " + yytext()));}
+{TRAN} {return symbol(sym.TRAN, new String("RESERVED WORD: " + yytext()));}
+{TRANSACTION} {return symbol(sym.TRANSACTION, new String("RESERVED WORD: " + yytext()));}
+{TRANSLATE} {return symbol(sym.TRANSLATE, new String("RESERVED WORD: " + yytext()));}
+{TRANSLATION} {return symbol(sym.TRANSLATION, new String("RESERVED WORD: " + yytext()));}
+{TRIGGER} {return symbol(sym.TRIGGER, new String("RESERVED WORD: " + yytext()));}
+{TRIM} {return symbol(sym.TRIM, new String("RESERVED WORD: " + yytext()));}
+{TRUE} {return symbol(sym.TRUE, new String("RESERVED WORD: " + yytext()));}
+{TRUNCATE} {return symbol(sym.TRUNCATE, new String("RESERVED WORD: " + yytext()));}
+{TRY_CONVERT} {return symbol(sym.TRY_CONVERT, new String("RESERVED WORD: " + yytext()));}
+{TSEQUAL} {return symbol(sym.TSEQUAL, new String("RESERVED WORD: " + yytext()));}
+{UNION} {return symbol(sym.UNION, new String("RESERVED WORD: " + yytext()));}
+{UNIQUE} {return symbol(sym.UNIQUE, new String("RESERVED WORD: " + yytext()));}
+{UNKNOWN} {return symbol(sym.UNKNOWN, new String("RESERVED WORD: " + yytext()));}
+{UNPIVOT} {return symbol(sym.UNPIVOT, new String("RESERVED WORD: " + yytext()));}
+{UPDATE} {return symbol(sym.UPDATE, new String("RESERVED WORD: " + yytext()));}
+{UPDATETEXT} {return symbol(sym.UPDATETEXT, new String("RESERVED WORD: " + yytext()));}
+{UPPER} {return symbol(sym.UPPER, new String("RESERVED WORD: " + yytext()));}
+{USAGE} {return symbol(sym.USAGE, new String("RESERVED WORD: " + yytext()));}
+{USE} {return symbol(sym.USE, new String("RESERVED WORD: " + yytext()));}
+{USER} {return symbol(sym.USER, new String("RESERVED WORD: " + yytext()));}
+{USING} {return symbol(sym.USING, new String("RESERVED WORD: " + yytext()));}
+{VALUE} {return symbol(sym.VALUE, new String("RESERVED WORD: " + yytext()));}
+{VALUES} {return symbol(sym.VALUES, new String("RESERVED WORD: " + yytext()));}
+{VARCHAR} {return symbol(sym.VARCHAR, new String("RESERVED WORD: " + yytext()));}
+{VARYING} {return symbol(sym.VARYING, new String("RESERVED WORD: " + yytext()));}
+{VIEW} {return symbol(sym.VIEW, new String("RESERVED WORD: " + yytext()));}
+{WAITFOR} {return symbol(sym.WAITFOR, new String("RESERVED WORD: " + yytext()));}
+{WHEN} {return symbol(sym.WHEN, new String("RESERVED WORD: " + yytext()));}
+{WHENEVER} {return symbol(sym.WHENEVER, new String("RESERVED WORD: " + yytext()));}
+{WHERE} {return symbol(sym.WHERE, new String("RESERVED WORD: " + yytext()));}
+{WHILE} {return symbol(sym.WHILE, new String("RESERVED WORD: " + yytext()));}
+{WITH} {return symbol(sym.WITH, new String("RESERVED WORD: " + yytext()));}
+{WITHIN_GROUP} {return symbol(sym.WITHIN_GROUP, new String("RESERVED WORD: " + yytext()));}
+{WORK} {return symbol(sym.WORK, new String("RESERVED WORD: " + yytext()));}
+{WRITE} {return symbol(sym.WRITE, new String("RESERVED WORD: " + yytext()));}
+{WRITETEXT} {return symbol(sym.WRITETEXT, new String("RESERVED WORD: " + yytext()));}
+{YEAR} {return symbol(sym.YEAR, new String("RESERVED WORD: " + yytext()));}
+{ZONE} {return symbol(sym.ZONE, new String("RESERVED WORD: " + yytext()));}
 
 // IDENTIFIERs
 {L}({L}|{D})*                                                    { 
@@ -743,18 +757,20 @@ L = [a-zA-Z_]
                                                                     {
                                                                         String aux = yytext().substring(0,31);
                                                                         
-                                                                        return "IDENTIFIER: " + aux + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1) + " exceeded the max limit length. Identifier truncated.";                                                                       
+                                                                        //return "IDENTIFIER: " + aux + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1) + " exceeded the max limit length. Identifier truncated.";                                                                       
+                                                                        return symbol(sym.IDENTIFICADOR, new String(aux));
                                                                     }
                                                                     else 
                                                                     {
-                                                                        return "IDENTIFIER: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); 
+                                                                        //return "IDENTIFIER: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); 
+                                                                        return symbol(sym.IDENTIFICADOR, new String("IDENTIFIER: " + yytext()));
                                                                     }
                                                                  }
 // INTs
-{D}+	                                                         { return "INTEGER: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); }
+{D}+	                                                         { return symbol(sym.INTCONSTANT, new Integer(yytext())); }
 
 // FLOATs
-[-+]?[0-9]+"."|[-+]?[0-9]+"."([0-9]+|("E"|"e")[-+]?[0-9]+|[0-9]+("E"|"e")[-+]?[0-9]+) { return "FLOAT: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); }
+[-+]?[0-9]+"."|[-+]?[0-9]+"."([0-9]+|("E"|"e")[-+]?[0-9]+|[0-9]+("E"|"e")[-+]?[0-9]+) { return symbol(sym.FLOAT, new String(yytext())); }
 
 // LINE COUNTER
 [ \n]                                                            { /*lleva la cuenta de lineas*/ }
@@ -763,7 +779,7 @@ L = [a-zA-Z_]
 [\s]+                                                            { /*se ignoran los espacios y tabuladores*/ }
 
 //UNFINISHED COMMENTs
-{UNFINISHED_COMMENT}                                            { return "Unfinished comment " + yytext() + " found in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); }
+{UNFINISHED_COMMENT}                                            { System.out.print("Unfinished comment " + yytext() + " found in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1)); }
 
 //MULTILINE COMMENTs
 {MULTILINE_COMMENT}                                              { /*se ignoran los comentarios de bloque*/ }
@@ -772,4 +788,7 @@ L = [a-zA-Z_]
 {SINGLELINE_COMMENT}                                             { /*se ignoran los comentarios de linea*/ }
 
 // ERRORs
-.	                                                         { lexeme = yytext(); line = (yyline + 1); column = (yycolumn + 1); length = yylength(); return "Lexical error:"; }
+.	                                                         { 
+                                                                    lexeme = yytext(); line = (yyline + 1); column = (yycolumn + 1); length = yylength(); 
+                                                                    System.out.print("Lexical error: invalid token ") ;
+                                                                 }

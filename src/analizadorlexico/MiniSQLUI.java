@@ -16,6 +16,8 @@ import java.io.Reader;
 import java.util.ArrayList;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import analizadorlexico.asintactico;
+import java_cup.runtime.*;
 
 /**
  *
@@ -107,7 +109,6 @@ public class MiniSQLUI extends javax.swing.JFrame {
             if (returnVal == jFileChooser1.APPROVE_OPTION)
             {
                 File file = jFileChooser1.getSelectedFile();
-                //This is where a real application would open the file.
                 jTextField1.setText("Selected file: " + file.getAbsolutePath());
                 ProbarLexerFile(file);
                 if (hayError)
@@ -162,30 +163,37 @@ public class MiniSQLUI extends javax.swing.JFrame {
     public void ProbarLexerFile(File filetoread) throws IOException{
         Reader reader;
         reader = new BufferedReader(new FileReader(filetoread.getAbsolutePath()));
-        Yylex lexer = new Yylex(reader);
+        Yylex lexer = new Yylex(reader); 
+
         
         while (true){
-            String token = lexer.yylex();
-            if (token == null){
+            //String token = lexer.yylex();
+            Symbol token = lexer.next_token();
+            if (token.sym == 0){
                 resultados = resultados + "EOF";
                 jTextArea1.setText(resultados);
                 hayError = false;
+                //FASE 2
+                //this.AnalisisSintacticoDescendente();
+                //FASE 3
                 
-                this.AnalisisSintactico();
+                String[] testFile = { filetoread.getName()};
+                asintactico.main(testFile);
+                
                 return;
             }
             else
             {
-                if (token.contains("Lexical error:"))
-                {                    
+                if (token.sym == 1)
+                {
                     resultados = resultados + "\n*** ERROR: line: " + lexer.line + ". \n*** Unrecognized char: '" + lexer.lexeme + "'.\n\n";
                     hayError = true;
                     listaErrores.add("\n*** ERROR: line: " + lexer.line + ". \n*** Unrecognized char: '" + lexer.lexeme + "'.\n\n");
                 }
                 else 
                 {                    
-                    resultados +=  "\n" + token + ".\n";
-                    listaTokens.add(token);
+                    resultados +=  "\n Token: " + token.value + ".\n";
+                    //listaTokens.add(token.value);
                 }
             }
         } 
@@ -194,7 +202,7 @@ public class MiniSQLUI extends javax.swing.JFrame {
     public ArrayList<String> listadoValores = new ArrayList<String>();
     public ArrayList<String> listadoTokens = new ArrayList<String>();
     public int lookAheadIndex = 0;
-    public void AnalisisSintactico()
+    public void AnalisisSintacticoDescendente()
     {
         for (int i = 0; i < listaTokens.size(); i++) {
             //System.out.println(listaTokens.get(i));

@@ -1,0 +1,524 @@
+package analizadorlexico;
+import java_cup.runtime.*;
+import java.io.FileReader;
+
+parser code {:
+
+    public void report_error(String message, Object info){
+        StringBuilder m = new StringBuilder("Error");
+        if (info instanceof java_cup.runtime.Symbol){
+            java_cup.runtime.Symbol s = ((java_cup.runtime.Symbol) info);
+            if (s.left >= 0) {
+                m.append(" in line " + (s.left + 1));
+                if (s.right >= 0)
+                {
+                    m.append(", column " + (s.right + 1));
+                }
+            }
+        }
+        m.append(" : " + message);
+        System.err.println(m);
+    }
+
+    public void report_fatal_error(String message, Object info){
+        StringBuilder m = new StringBuilder("Error");
+        if (info instanceof java_cup.runtime.Symbol){
+            java_cup.runtime.Symbol s = ((java_cup.runtime.Symbol) info);
+            if (s.left >= 0) {
+                m.append(" in line " + (s.left + 1));
+                if (s.right >= 0)
+                {
+                    m.append(", column " + (s.right + 1));
+                }
+            }
+        }
+        m.append(" : " + message);
+        System.err.println(m);
+    }
+
+    public static void main(String[] args){
+        try {
+            System.out.println("\n*** Resultados finales ***");
+            asintactico asin = new asintactico(new Yylex( new FileReader(args[0])));
+            Object result = asin.parse().value;            
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+:};
+
+/* Declaracion de simbolos terminales y no terminales */
+terminal ABSOLUTE , ACTION , ADA , ADD , ALL , ALLOCATE , ALTER , AND , ANY , ARE , AS , ASC , ASSERTION , AT , AUTHORIZATION , AVG , BACKUP , BEGIN , BETWEEN , BIT , BIT_LENGTH , BOTH , BREAK , BROWSE , BULK , BY , CASCADE , CASCADED , CASE , CAST , CATALOG , CHAR , CHAR_LENGTH , CHARACTER , CHARACTER_LENGTH , CHECK , CHECKPOINT , CLOSE , CLUSTERED , COALESCE , COLLATE , COLLATION , COLUMN , COMMIT , COMPUTE , CONNECT , CONNECTION , CONSTRAINT , CONSTRAINTS , CONTAINS , CONTAINSTABLE , CONTINUE , CONVERT , CORRESPONDING , COUNT , CREATE , CROSS , CURRENT , CURRENT_DATE , CURRENT_TIME , CURRENT_TIMESTAMP , CURRENT_USER , CURSOR , DATABASE , DATE , DAY , DBCC , DEALLOCATE , DEC , DECIMAL , DECLARE , DEFAULT , DEFERRABLE , DEFERRED , DELETE , DENY , DESC , DESCRIBE , DESCRIPTOR , DIAGNOSTICS , DISCONNECT , DISK , DISTINCT , DISTRIBUTED , DOMAIN , DOUBLE , DROP , DUMP , ELSE , END , END_EXEC , ERRLVL , ESCAPE , EXCEPT , EXCEPTION , EXEC , EXECUTE , EXISTS , EXIT , EXTERNAL , EXTRACT , FALSE , FETCH , FILE , FILLFACTOR , FIRST , FLOAT , FOR , FOREIGN , FORTRAN , FOUND , FREETEXT , FREETEXTTABLE , FROM , FULL , FUNCTION , GET , GLOBAL , GO , GOTO , GRANT , GROUP , HAVING , HOLDLOCK , HOUR , IDENTITY , IDENTITY_INSERT , IDENTITYCOL , IF , IMMEDIATE , IN , INCLUDE , INDEX , INDICATOR , INITIALLY , INNER , INPUT , INSENSITIVE , INSERT , INT , INTEGER , INTERSECT , INTERVAL , INTO , IS , ISOLATION , JOIN , KEY , KILL , LANGUAGE , LAST , LEADING , LEFT , LEVEL , LIKE , LINENO , LOAD , LOCAL , LOWER , MATCH , MAX , MERGE , MIN , MINUTE , MODULE , MONTH , NAMES , NATIONAL , NATURAL , NCHAR , NEXT , NO , NOCHECK , NONCLUSTERED , NONE , NOT , NULL , NULLIF , NUMERIC , OCTET_LENGTH , OF , OFF , OFFSETS , ON , ONLY , OPEN , OPENDATASOURCE , OPENQUERY , OPENROWSET , OPENXML , OPTION , OR , ORDER , OUTER , OUTPUT , OVER , OVERLAPS , PAD , PARTIAL , PASCAL , PERCENT , PIVOT , PLAN , POSITION , PRECISION , PREPARE , PRESERVE , PRIMARY , PRINT , PRIOR , PRIVILEGES , PROC , PROCEDURE , PUBLIC , RAISERROR , READ , READTEXT , REAL , RECONFIGURE , REFERENCES , RELATIVE , REPLICATION , RESTORE , RESTRICT , RETURN , REVERT , REVOKE , RIGHT , ROLLBACK , ROWCOUNT , ROWGUIDCOL , ROWS , RULE , SAVE , SCHEMA , SCROLL , SECOND , SECTION , SECURITYAUDIT , SELECT , SEMANTICKEYPHRASETABLE , SEMANTICSIMILARITYDETAILSTABLE , SEMANTICSIMILARITYTABLE , SESSION , SESSION_USER , SET , SETUSER , SHUTDOWN , SIZE , SMALLINT , SOME , SPACE , SQL , SQLCA , SQLCODE , SQLERROR , SQLSTATE , SQLWARNING , STATISTICS , SUBSTRING , SUM , SYSTEM_USER , TABLE , TABLESAMPLE , TEMPORARY , TEXTSIZE , THEN , TIME , TIMESTAMP , TIMEZONE_HOUR , TIMEZONE_MINUTE , TO , TOP , TRAILING , TRAN , TRANSACTION , TRANSLATE , TRANSLATION , TRIGGER , TRIM , TRUE , TRUNCATE , TRY_CONVERT , TSEQUAL , UNION , UNIQUE , UNKNOWN , UNPIVOT , UPDATE , UPDATETEXT , UPPER , USAGE , USE , USER , USING , VALUE , VALUES , VARCHAR , VARYING , VIEW , WAITFOR , WHEN , WHENEVER , WHERE , WHILE , WITH , WITHIN_GROUP , WORK , WRITE , WRITETEXT , YEAR , ZONE;
+terminal OP_SUMA , OP_RESTA , OP_MULTIPLICACION , OP_DIVISION , OP_PORCENTAJE , OP_MENOR , OP_MENORIGUAL , OP_MAYOR , OP_MAYORIGUAL , OP_ASIGNAR , OP_IGUAL , OP_DIFERENTE , OP_AND , OP_OR , OP_NEGACION , OP_PUNTOYCOMA , OP_COMA , OP_PUNTO , OP_CORCHETE_IZQ , OP_CORCHETE_DER , OP_PARENTESIS_IZQ , OP_PARENTESIS_DER , OP_LLAVE_IZQ , OP_LLAVE_DER , OP_CORCHETES , OP_PARENTESIS , OP_LLAVES , OP_ARROBA , OP_NUMERAL , OP_DOBLE_NUMERAL;
+terminal IDENTIFICADOR, STRING, INTCONSTANT;
+
+non terminal Start, Sentencias, Del1, Del2, Del3, Del4, Del5, Del6, Del7, Del8, Del9, Del10, Sexp, Sexp1, Sexp2, Sexp3, Sexp4, Sexp5, Outcl, Outcl1, Outcl2, Outcl3, Colst, Colst1, Colst2, ObjectS, Object1, Object2, Object3, Agg_fn, Sel_avg,Sel_avg1, Sel_avg2, Sel_avg3, Sel_count, Sel_count1, Sel_count2, Sel_count3, Sel_agr, Sel_agr1, Sel_agr2, Sel_agr3 ;
+non terminal Dml1, Dml2, Dml3, Dml4, Colname, Colname1, Jointb, Jointb1, Jointb2, Jointb3, Jointb4, Tb_source, Tb_source1, Tb_source2, Rowset, Sam_cl, Sam_cl1, Sam_cl2, Join_type, Join_type1, Join_type2, Join_type3;
+non terminal SearchC, SearchC1, SearchC2, SearchCWM, SearchCWM1, SearchCWM2, SearchCWM3, Predicate, Predicate1, Predicate2, Predicate3, Predicate4, Predicate5, Predicate6, Predicate7, Predicate8, Predicate9;
+non terminal Casewhen, Casewhen1, Casewhen2, Casewhen3, Str_fn, Str_fn1, Str_fn2, Dt_fn, Dt_fn1, Dt_fn2, Conv, Conv1, Conv2, Conv3, Conv4, Conv5, Oth_fn, Oth_fn1, Oth_fn2, Oth_fn3, Compare_opr;
+non terminal Orderb, Orderb1, Orderb2, Orderb3, Orderb4, Expression, Expression1, Expression2, Expression3, Expression4, Ar_opr, Logic_opr, Selist, Selist1, Selist2, Selist3, Selist4, Selist5, Selist6, Gsp, Gsp1;
+non terminal Data_type, Data_type2, Data_type3, Data_type4, Data_type5;
+
+/* Precedencias */
+precedence left JOIN;
+precedence left FROM, WHERE, DELETE, GO;
+precedence left OP_SUMA, OP_RESTA, OP_MULTIPLICACION, OP_DIVISION, OP_PARENTESIS_IZQ, OP_PARENTESIS_DER, WHEN, IDENTIFICADOR, JOIN, OP_PUNTO, OP_COMA, OP_PUNTOYCOMA;
+precedence left AND;
+precedence left BETWEEN, ESCAPE, IN, IS, LIKE, NOT, OR, OP_MENOR, OP_MENORIGUAL, OP_MAYOR, OP_MAYORIGUAL, OP_DIFERENTE ;
+
+start with Start;
+/* Gramaticas */
+Start   ::= Start Sentencias
+        |   /* Epsilon */
+        ;
+
+Sentencias  ::= Del1
+            ;
+
+Del1    ::= DELETE Del2
+        ;
+Del2    ::= TOP OP_PARENTESIS_IZQ Sexp OP_PARENTESIS_DER Del3
+        | Del4
+        ;
+Del3    ::= PERCENT Del4
+        | Del4
+        ;
+Del4 ::= FROM Del5
+    | Del5
+    ;
+Del5 ::= ObjectS Del6
+    | OP_ARROBA IDENTIFICADOR Del6
+    ;
+Del6 ::= Outcl Del7
+    | Del7
+    ;
+Del7 ::= FROM Jointb Del8
+    | Del9
+    ;
+Del8 ::= OP_COMA Jointb Del8
+    | Del9
+    ;
+Del9 ::= WHERE Expression Del10
+    | Del10
+    ;
+Del10 ::= OP_PUNTOYCOMA
+    | GO
+    ;
+
+/* METODOS COMUNES */
+    ObjectS ::= IDENTIFICADOR Object1
+            ;
+    Object1 ::= OP_PUNTO IDENTIFICADOR Object2
+            |   /* Epsilon */
+            ;
+    Object2 ::= OP_PUNTO IDENTIFICADOR Object3
+            |   /* Epsilon */
+            ;
+    Object3 ::= OP_PUNTO IDENTIFICADOR
+            |   /* Epsilon */
+            ;
+
+    Sexp    ::= Sexp3 Sexp2
+            ;
+    Sexp2   ::= OP_SUMA Sexp3 Sexp2
+            | OP_RESTA Sexp3 Sexp2
+            |   /* Epsilon */
+            ;
+    Sexp3 ::= Sexp5 Sexp4
+        ;
+    Sexp4   ::= OP_MULTIPLICACION Sexp5 Sexp4
+            |   OP_DIVISION Sexp5 Sexp4
+            |   /* Epsilon */
+            ;
+    Sexp5 ::= OP_PARENTESIS_IZQ Sexp OP_PARENTESIS_DER
+        | INTEGER
+        | FLOAT
+        | OP_ARROBA IDENTIFICADOR
+        | Agg_fn
+        ;
+
+    Agg_fn ::= AVG OP_PARENTESIS_IZQ Sel_avg OP_PARENTESIS_DER
+            | COUNT OP_PARENTESIS_IZQ Sel_count OP_PARENTESIS_DER
+            | MAX OP_PARENTESIS_IZQ Sel_agr OP_PARENTESIS_DER
+            | MIN OP_PARENTESIS_IZQ Sel_agr OP_PARENTESIS_DER
+            | SUM OP_PARENTESIS_IZQ Sel_agr OP_PARENTESIS_DER
+            ;
+    Sel_avg ::= Sel_avg1 Sel_avg2
+            ;
+    Sel_avg1 ::= ALL
+                | DISTINCT
+                | /* Epsilon */
+                ;
+    Sel_avg2 ::= Sexp
+                | IDENTIFICADOR Sel_avg3
+                ;
+    Sel_avg3 ::= OP_PUNTO IDENTIFICADOR
+                | /* Epsilon */
+                ;
+    Sel_count ::= Sel_count1 Sel_count2
+                ;
+    Sel_count1 ::= ALL
+                | DISTINCT
+                | /* Epsilon */
+                ;
+    Sel_count2 ::= OP_MULTIPLICACION
+                | IDENTIFICADOR Sel_count3
+                | Sexp 
+                ;
+    Sel_count3 ::= OP_PUNTO IDENTIFICADOR
+                | /* Epsilon */
+                ;
+    Sel_agr ::= Sel_agr1 Sel_agr2
+            ;
+    Sel_agr1 ::= ALL
+            | DISTINCT
+            | /* Epsilon */
+            ;
+    Sel_agr2 ::= IDENTIFICADOR Sel_agr3
+            | Sexp
+            ;
+    Sel_agr3 ::= OP_PUNTO IDENTIFICADOR
+            | /* Epsilon */
+            ;
+
+    Outcl ::= OUTPUT Dml1 Outcl1
+            | /* Epsilon */
+            ;
+    Outcl1 ::= INTO Outcl2
+            | /* Epsilon */
+            ;
+    Outcl2 ::= OP_ARROBA IDENTIFICADOR Outcl3
+            | IDENTIFICADOR Outcl3
+            ;
+    Outcl3 ::= Colst
+            | /* Epsilon */
+            ;
+
+    Colst ::= OP_PARENTESIS_IZQ Colst1
+            ;
+    Colst1 ::= IDENTIFICADOR Colst2
+            ;
+    Colst2 ::= OP_COMA Colst1
+            | OP_PARENTESIS_DER
+            ;
+            
+    Dml1 ::= Dml2 Dml3
+        ;
+    Dml2 ::= Colname
+        | Sexp
+        ;
+    Dml3 ::= AS IDENTIFICADOR Dml4
+        | /* Epsilon */
+        ;
+    Dml4 ::= OP_COMA Dml1
+        | /* Epsilon */
+        ;
+
+    Colname ::= IDENTIFICADOR OP_PUNTO Colname1
+            ;
+    Colname1 ::= OP_MULTIPLICACION
+            | IDENTIFICADOR
+            ;
+
+    Jointb ::= Tb_source Jointb1
+                | OP_PARENTESIS_IZQ JOIN OP_PARENTESIS_DER
+                ;
+    Jointb1 ::= Join_type Jointb3
+                | CROSS JOIN Jointb4
+                | /* Epsilon */
+                ;
+    Jointb2 ::= Join_type Jointb3
+                | CROSS JOIN Jointb4
+                ;
+    Jointb3 ::= Tb_source ON SearchC Jointb4
+                ;
+    Jointb4 ::= Jointb2
+                | /* Epsilon */ 
+                ;
+
+    Tb_source ::= ObjectS Tb_source1 Tb_source2
+                | Rowset Tb_source1
+                | OP_ARROBA IDENTIFICADOR Tb_source1
+                ;
+    Tb_source1 ::= AS IDENTIFICADOR
+                | IDENTIFICADOR
+                | /* Epsilon */ 
+                ;
+    Tb_source2 ::= Sam_cl
+                | /* Epsilon */ 
+                ;
+
+    Rowset::= OPENDATASOURCE OP_PARENTESIS_IZQ STRING OP_COMA STRING OP_PARENTESIS_DER
+            | OPENQUERY OP_PARENTESIS_IZQ IDENTIFICADOR OP_COMA STRING OP_PARENTESIS_DER
+            ;
+
+    Sam_cl ::= TABLESAMPLE OP_PARENTESIS_IZQ Sam_cl1 OP_PARENTESIS_DER
+            ;
+    Sam_cl1 ::= Sexp Sam_cl2
+            ;
+    Sam_cl2 ::= PERCENT
+            | ROWS
+            | /* Epsilon */ 
+            ;
+
+    Join_type ::= Join_type1 JOIN
+                ;
+    Join_type1 ::= INNER
+                | Join_type2 
+                | /* Epsilon */ 
+                ;
+    Join_type2 ::= LEFT Join_type3
+                | RIGHT Join_type3
+                | FULL Join_type3
+                | /* Epsilon */ 
+                ;
+    Join_type3 ::= OUTER
+                | /* Epsilon */ 
+                ;
+
+    SearchC ::= SearchC1 SearchC2
+            ;
+    SearchC1 ::= MATCH OP_PARENTESIS_IZQ Gsp OP_PARENTESIS_DER 
+            | SearchCWM
+            ;
+    SearchC2 ::= AND SearchC
+            ;
+
+    SearchCWM ::= NOT Predicate SearchCWM1
+            | OP_PARENTESIS_IZQ SearchCWM OP_PARENTESIS_DER SearchCWM1
+            ;
+    SearchCWM1 ::= OR SearchCWM2
+            | /* Epsilon */ 
+            ;
+    SearchCWM2 ::= NOT SearchCWM3
+            | SearchCWM3
+            ;
+    SearchCWM3 ::= Predicate SearchCWM1
+            | OP_PARENTESIS_IZQ SearchCWM OP_PARENTESIS_DER SearchCWM1
+            ;
+
+    Predicate ::= Predicate1 Predicate2
+                | CONTAINS OP_PARENTESIS_IZQ Predicate7 OP_COMA Predicate8 OP_PARENTESIS_DER
+                | FREETEXT OP_PARENTESIS_IZQ Predicate7 OP_COMA Predicate9 OP_PARENTESIS_DER
+                ;
+    Predicate1 ::= IDENTIFICADOR
+                | Sexp
+                | Casewhen
+                | Agg_fn
+                | Str_fn
+                | Dt_fn
+                | Conv
+                | Oth_fn
+                ;
+    Predicate2 ::= Compare_opr Predicate1
+                | NOT Predicate3
+                | LIKE Predicate1 Predicate6
+                | BETWEEN Predicate1 AND Predicate1
+                | IS Predicate4 NULL
+                | IN Predicate1 Predicate5
+                ;
+    Predicate3 ::= LIKE Predicate1 Predicate6
+                | BETWEEN Predicate1 AND Predicate1
+                | IN Predicate1 Predicate5
+                ;
+    Predicate4 ::= NOT
+                | /* Epsilon */ 
+                ;
+    Predicate5 ::= OP_COMA Predicate1 Predicate5
+                | /* Epsilon */ 
+                ;
+    Predicate6 ::= ESCAPE STRING
+                | /* Epsilon */ 
+                ;
+    Predicate7 ::= OP_MULTIPLICACION
+                | ObjectS
+                ;
+    Predicate8 ::= SearchC
+                ;
+    Predicate9 ::= STRING
+                | OP_ARROBA IDENTIFICADOR
+                ;
+
+    Casewhen ::= CASE Casewhen1 /* Esta como CASEW en la gramatica */
+            ;
+    Casewhen1 ::= Expression Casewhen2
+            | Casewhen2
+            ;
+    Casewhen2 ::= WHEN Expression THEN Expression Casewhen3
+            ;
+    Casewhen3 ::= ELSE Expression END
+            | Casewhen2
+            | END
+            ;
+
+    Str_fn ::= LOWER OP_PARENTESIS_IZQ Str_fn1 OP_PARENTESIS_DER
+            | TRANSLATE OP_PARENTESIS_IZQ Str_fn1 OP_COMA Str_fn1 OP_COMA Str_fn1 OP_PARENTESIS_DER
+            | UPPER OP_PARENTESIS_IZQ Str_fn1 OP_PARENTESIS_DER
+            | CHAR OP_PARENTESIS_IZQ Sexp OP_PARENTESIS_DER
+            | LEFT OP_PARENTESIS_IZQ Str_fn1 OP_COMA Sexp OP_PARENTESIS_DER
+            | TRIM OP_PARENTESIS_IZQ Str_fn1 Str_fn2 OP_PARENTESIS_DER
+            | NCHAR OP_PARENTESIS_IZQ Sexp OP_PARENTESIS_DER
+            | RIGHT OP_PARENTESIS_IZQ Str_fn1 OP_COMA Sexp OP_PARENTESIS_DER
+            | SPACE OP_PARENTESIS_IZQ Sexp OP_PARENTESIS_DER
+            | SUBSTRING OP_PARENTESIS_IZQ Str_fn1 OP_COMA Sexp OP_COMA Sexp OP_PARENTESIS_DER
+            ;
+    Str_fn1 ::= OP_ARROBA IDENTIFICADOR
+                | STRING
+                | IDENTIFICADOR
+                ;
+    Str_fn2 ::= FROM Str_fn1
+                | /* Epsilon */ 
+                ;
+
+    Dt_fn::= CURRENT_TIMESTAMP
+                | DAY OP_PARENTESIS_IZQ Dt_fn1 OP_PARENTESIS_DER
+                | MONTH OP_PARENTESIS_IZQ Dt_fn1 OP_PARENTESIS_DER
+                | YEAR OP_PARENTESIS_IZQ Dt_fn1 OP_PARENTESIS_DER
+                | SET LANGUAGE Dt_fn2
+                ;
+    Dt_fn1 ::= STRING
+                | OP_ARROBA IDENTIFICADOR
+                ;
+    Dt_fn2 ::= OP_ARROBA IDENTIFICADOR
+                | IDENTIFICADOR
+                ;
+                
+    Conv ::= CAST OP_PARENTESIS_IZQ Conv1 
+            | CONVERT OP_PARENTESIS_IZQ Conv2                
+            ;
+    Conv1 ::= Expression AS Data_type Conv3 OP_PARENTESIS_DER
+            ;
+    Conv2 ::= Data_type Conv3 Conv4
+            ;
+    Conv3 ::= OP_PARENTESIS_IZQ INTEGER OP_PARENTESIS_DER
+            | /* Epsilon */
+            ;
+    Conv4 ::= Expression Conv5
+            ;
+    Conv5 ::= OP_COMA Sexp
+            | OP_PARENTESIS_DER
+            ;
+
+    Oth_fn ::= NEXT VALUE FOR IDENTIFICADOR Oth_fn1
+                | SYSTEM_USER
+                | SESSION_USER
+                | NULLIF OP_PARENTESIS_IZQ Expression OP_COMA Expression OP_PARENTESIS_DER
+                ;
+    Oth_fn1 ::=  OP_PUNTO IDENTIFICADOR Oth_fn2
+                | Oth_fn2
+                ;
+    Oth_fn2 ::= OP_PUNTO IDENTIFICADOR Oth_fn3
+                | Oth_fn3
+                ;
+    Oth_fn3 ::= OVER ORDER BY Orderb
+            ;
+
+    Compare_opr ::= OP_MAYOR
+                    | OP_MENOR
+                    | OP_MAYORIGUAL
+                    | OP_MENORIGUAL
+                    | OP_DIFERENTE
+                    ;
+                    
+    Orderb ::= Selist Orderb1
+            ;
+    Orderb1 ::= Orderb2
+                | OP_COMA Orderb
+                ;
+    Orderb2 ::= COLLATE Orderb3
+                | Orderb4
+                ;
+    Orderb3 ::= IDENTIFICADOR Orderb4
+            ;
+    Orderb4 ::= ASC
+                | DESC
+                ;
+                
+    Expression ::= Sexp Expression1 Expression3
+                | Expression2 OP_SUMA Expression2
+                | NOT Expression Expression4
+                | /* Epsilon */
+                ;
+    Expression1 ::= Ar_opr
+                | Compare_opr
+                | OP_SUMA
+                ;
+    Expression2 ::= STRING
+                | IDENTIFICADOR
+                ;
+    Expression3 ::= Sexp
+                | IDENTIFICADOR
+                | STRING
+                ;
+    Expression4 ::= Compare_opr
+                | Logic_opr
+                ;
+
+    Ar_opr ::= OP_RESTA
+            | OP_MULTIPLICACION
+            | OP_DIVISION
+            | OP_PORCENTAJE
+            ;
+
+    Logic_opr ::= BETWEEN
+            | IN
+            | LIKE
+            ;
+
+    Selist::= Selist1
+            ;
+    Selist1 ::= OP_MULTIPLICACION
+                | IDENTIFICADOR Selist2
+                | Expression Selist5
+                | Agg_fn Selist5
+                | Str_fn Selist5
+                | Dt_fn Selist5
+                | Conv Selist5
+                | Casewhen Selist5
+                ;
+    Selist2 ::= OP_PUNTO Selist3
+                | OP_IGUAL Selist6
+                | /* Epsilon */
+                ;
+    Selist3 ::= OP_MULTIPLICACION
+                | IDENTIFICADOR Selist5
+                ;
+    Selist5 ::= AS IDENTIFICADOR
+                | IDENTIFICADOR 
+                | /* Epsilon */
+                ;
+    Selist6 ::= Expression
+            ;
+
+    Gsp ::= IDENTIFICADOR Gsp1 IDENTIFICADOR
+        ;
+    Gsp1 ::= OP_MENOR OP_RESTA OP_PARENTESIS_IZQ IDENTIFICADOR OP_PARENTESIS_DER OP_RESTA
+        | OP_RESTA OP_PARENTESIS_IZQ IDENTIFICADOR OP_PARENTESIS_DER OP_RESTA OP_MAYOR
+        ;
+
+    Data_type ::= IDENTIFICADOR Data_type2
+                |Data_type3
+                ; 
+    Data_type2 ::= OP_PUNTO IDENTIFICADOR
+                ;
+    Data_type3 ::= BIT Data_type4
+                |INT Data_type4
+                |INTEGER Data_type4
+                |FLOAT Data_type4
+                |VARCHAR Data_type4
+                |DATE Data_type4
+                |REAL Data_type4
+                |DECIMAL Data_type4
+                |NUMERIC Data_type4
+                |SMALLINT Data_type4
+                |TIME Data_type4
+                |CHAR Data_type4
+                |NCHAR Data_type4
+                ;
+    Data_type4 ::= OP_PARENTESIS_IZQ INTCONSTANT Data_type5
+                    | /* Epsilon */
+                    ;
+    Data_type5 ::= OP_COMA INTCONSTANT OP_PARENTESIS_DER
+                    | OP_PARENTESIS_DER
+                    ;
+    

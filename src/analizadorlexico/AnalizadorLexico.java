@@ -10,6 +10,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java_cup.runtime.*;
 
 /**
  *
@@ -19,17 +20,36 @@ public class AnalizadorLexico {
 
     //static String PATH = "C:/Users/cachi/OneDrive/Documents/NetBeansProjects/AnalizadorLexico/src/analizadorlexico/Yylex.flex";
     static String PATH = "../AnalizadorLexico/src/analizadorlexico/Yylex.flex";
+    static String PATHCUP = "../AnalizadorLexico/src/analizadorlexico/asintactico.cup";
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
         // TODO code application logic here
         GenerarLexer(PATH);
+        GenerarCup(PATHCUP);
     }
     
     public static void GenerarLexer(String path){
         File output = new File(path);
         jflex.Main.generate(output);
+    }
+    
+    public static void GenerarCup(String path){
+        File output = new File(path);
+        System.out.println(output);
+        String[] asintactico = {"-parser","asintactico", "-expect", "6", path};
+        try
+        {
+            java_cup.Main.main(asintactico);
+        }
+        catch (Exception ex)
+        {
+            Logger.getLogger(AnalizadorLexico.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        /* Los archivos se generan en la carpeta raiz del proyecto, por lo que hay que moverlos para que funcionen correctamente*/
+        moveFile("asintactico.java");
+        moveFile("sym.java");
     }
     
     public static boolean moveFile(String fileName)

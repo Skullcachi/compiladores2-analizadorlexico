@@ -1,0 +1,9 @@
+
+ Token: RESERVED WORD: DROP.
+
+ Token: IDENTIFIER: LOGIN.
+
+ Token: IDENTIFIER: misesion.
+
+ Token: ;.
+EOF

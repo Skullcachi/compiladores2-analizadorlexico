@@ -47,7 +47,15 @@
 
  Token: RESERVED WORD: SELECT.
 
- Token: *.
+ Token: IDENTIFIER: campo1.
+
+ Token: ,.
+
+ Token: IDENTIFIER: campo2.
+
+ Token: ,.
+
+ Token: IDENTIFIER: campo3.
 
  Token: RESERVED WORD: FROM.
 

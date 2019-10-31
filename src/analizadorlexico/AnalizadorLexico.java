@@ -38,7 +38,7 @@ public class AnalizadorLexico {
     public static void GenerarCup(String path){
         File output = new File(path);
         System.out.println(output);
-        String[] asintactico = {"-parser","asintactico", "-expect", "951", path};
+        String[] asintactico = {"-parser","asintactico", "-expect", "1026", path};
         try
         {
             java_cup.Main.main(asintactico);

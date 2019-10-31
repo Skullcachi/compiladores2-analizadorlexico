@@ -50,7 +50,7 @@ parser code {:
 :};
 
 /* Declaracion de simbolos terminales y no terminales */
-terminal ABSOLUTE , ACTION , ADA , ADD , ALL , ALLOCATE , ALTER , AND , ANY , ARE , AS , ASC , ASSERTION , AT , AUTHORIZATION , AVG , BACKUP , BEGIN , BETWEEN , BIT , BIT_LENGTH , BOTH , BREAK , BROWSE , BULK , BY , CASCADE , CASCADED , CASE , CAST , CATALOG , CHAR , CHAR_LENGTH , CHARACTER , CHARACTER_LENGTH , CHECK , CHECKPOINT , CLOSE , CLUSTERED , COALESCE , COLLATE , COLLATION , COLUMN , COMMIT , COMPUTE , CONNECT , CONNECTION , CONSTRAINT , CONSTRAINTS , CONTAINS , CONTAINSTABLE , CONTINUE , CONVERT , CORRESPONDING , COUNT , CREATE , CROSS , CURRENT , CURRENT_DATE , CURRENT_TIME , CURRENT_TIMESTAMP , CURRENT_USER , CURSOR , DATABASE , DATE , DAY , DBCC , DEALLOCATE , DEC , DECIMAL , DECLARE , DEFAULT , DEFERRABLE , DEFERRED , DELETE , DENY , DESC , DESCRIBE , DESCRIPTOR , DIAGNOSTICS , DISCONNECT , DISK , DISTINCT , DISTRIBUTED , DOMAIN , DOUBLE , DROP , DUMP , ELSE , END , END_EXEC , ERRLVL , ESCAPE , EXCEPT , EXCEPTION , EXEC , EXECUTE , EXISTS , EXIT , EXTERNAL , EXTRACT , FALSE , FETCH , FILE , FILLFACTOR , FIRST , FLOAT , FOR , FOREIGN , FORTRAN , FOUND , FREETEXT , FREETEXTTABLE , FROM , FULL , FUNCTION , GET , GLOBAL , GO , GOTO , GRANT , GROUP , HAVING , HOLDLOCK , HOUR , IDENTITY , IDENTITY_INSERT , IDENTITYCOL , IF , IMMEDIATE , IN , INCLUDE , INDEX , INDICATOR , INITIALLY , INNER , INPUT , INSENSITIVE , INSERT , INT , INTEGER , INTERSECT , INTERVAL , INTO , IS , ISOLATION , JOIN , KEY , KILL , LANGUAGE , LAST , LEADING , LEFT , LEVEL , LIKE , LINENO , LOAD , LOCAL , LOWER , MATCH , MAX , MERGE , MIN , MINUTE , MODULE , MONTH , NAMES , NATIONAL , NATURAL , NCHAR , NEXT , NO , NOCHECK , NONCLUSTERED , NONE , NOT , NULL , NULLIF , NUMERIC , OCTET_LENGTH , OF , OFF , OFFSETS , ON , ONLY , OPEN , OPENDATASOURCE , OPENQUERY , OPENROWSET , OPENXML , OPTION , OR , ORDER , OUTER , OUTPUT , OVER , OVERLAPS , PAD , PARTIAL , PASCAL , PERCENT , PIVOT , PLAN , POSITION , PRECISION , PREPARE , PRESERVE , PRIMARY , PRINT , PRIOR , PRIVILEGES , PROC , PROCEDURE , PUBLIC , RAISERROR , READ , READTEXT , REAL , RECONFIGURE , REFERENCES , RELATIVE , REPLICATION , RESTORE , RESTRICT , RETURN , REVERT , REVOKE , RIGHT , ROLLBACK , ROWCOUNT , ROWGUIDCOL , ROWS , RULE , SAVE , SCHEMA , SCROLL , SECOND , SECTION , SECURITYAUDIT , SELECT , SEMANTICKEYPHRASETABLE , SEMANTICSIMILARITYDETAILSTABLE , SEMANTICSIMILARITYTABLE , SESSION , SESSION_USER , SET , SETUSER , SHUTDOWN , SIZE , SMALLINT , SOME , SPACE , SQL , SQLCA , SQLCODE , SQLERROR , SQLSTATE , SQLWARNING , STATISTICS , SUBSTRING , SUM , SYSTEM_USER , TABLE , TABLESAMPLE , TEMPORARY , TEXTSIZE , THEN , TIME , TIMESTAMP , TIMEZONE_HOUR , TIMEZONE_MINUTE , TO , TOP , TRAILING , TRAN , TRANSACTION , TRANSLATE , TRANSLATION , TRIGGER , TRIM , TRUE , TRUNCATE , TRY_CONVERT , TSEQUAL , UNION , UNIQUE , UNKNOWN , UNPIVOT , UPDATE , UPDATETEXT , UPPER , USAGE , USE , USER , USING , VALUE , VALUES , VARCHAR , VARYING , VIEW , WAITFOR , WHEN , WHENEVER , WHERE , WHILE , WITH , WITHIN_GROUP , WORK , WRITE , WRITETEXT , YEAR , ZONE;
+terminal ABSOLUTE , ACTION , ADA , ADD , ALL , ALLOCATE , ALTER , AND , ANY , ARE , AS , ASC , ASSERTION , AT , AUTHORIZATION , AVG , BACKUP , BEGIN , BETWEEN , BIT , BIT_LENGTH , BOTH , BREAK , BROWSE , BULK , BY , CASCADE , CASCADED , CASE , CAST , CATALOG , CHAR , CHAR_LENGTH , CHARACTER , CHARACTER_LENGTH , CHECK , CHECKPOINT , CLOSE , CLUSTERED , COALESCE , COLLATE , COLLATION , COLUMN , COMMIT , COMPUTE , CONNECT , CONNECTION , CONSTRAINT , CONSTRAINTS , CONTAINS , CONTAINSTABLE , CONTINUE , CONVERT , CORRESPONDING , COUNT , CREATE , CROSS , CURRENT , CURRENT_DATE , CURRENT_TIME , CURRENT_TIMESTAMP , CURRENT_USER , CURSOR , DATABASE , DATE , DAY , DBCC , DEALLOCATE , DEC , DECIMAL , DECLARE , DEFAULT , DEFERRABLE , DEFERRED , DELETE , DENY , DESC , DESCRIBE , DESCRIPTOR , DIAGNOSTICS , DISCONNECT , DISK , DISTINCT , DISTRIBUTED , DOMAIN , DOUBLE , DROP , DUMP , ELSE , END , END_EXEC , ERRLVL , ESCAPE , EXCEPT , EXCEPTION , EXEC , EXECUTE , EXISTS , EXIT , EXTERNAL , EXTRACT , FALSE , FETCH , FILE , FILLFACTOR , FIRST , FLOAT , FOR , FOREIGN , FORTRAN , FOUND , FREETEXT , FREETEXTTABLE , FROM , FULL , FUNCTION , GET , GLOBAL , GO , GOTO , GRANT , GROUP , HAVING , HOLDLOCK , HOUR , IDENTITY , IDENTITY_INSERT , IDENTITYCOL , IF , IMMEDIATE , IN , INCLUDE , INDEX , INDICATOR , INITIALLY , INNER , INPUT , INSENSITIVE , INSERT , INT , INTEGER , INTERSECT , INTERVAL , INTO , IS , ISOLATION , JOIN , KEY , KILL , LANGUAGE , LAST , LEADING , LEFT , LEVEL , LIKE , LINENO , LOAD , LOCAL , LOWER , MATCH , MAX , MERGE , MIN , MINUTE , MODULE , MONTH , NAMES , NATIONAL , NATURAL , NCHAR , NEXT , NO , NOCHECK , NONCLUSTERED , NONE , NOT , NULL , NULLIF , NUMERIC , OCTET_LENGTH , OF , OFF , OFFSETS , ON , ONLY , OPEN , OPENDATASOURCE , OPENQUERY , OPENROWSET , OPENXML , OPTION , OR , ORDER , OUTER , OUTPUT , OVER , OVERLAPS , PAD , PARTIAL , PASCAL , PERCENT , PIVOT , PLAN , POSITION , PRECISION , PREPARE , PRESERVE , PRIMARY , PRINT , PRIOR , PRIVILEGES , PROC , PROCEDURE , PUBLIC , RAISERROR , READ , READTEXT , REAL , RECONFIGURE , REFERENCES , RELATIVE , REPLICATION , RESTORE , RESTRICT , RETURN, RETURNS, REVERT , REVOKE , RIGHT , ROLLBACK , ROWCOUNT , ROWGUIDCOL , ROWS , RULE , SAVE , SCHEMA , SCROLL , SECOND , SECTION , SECURITYAUDIT , SELECT , SEMANTICKEYPHRASETABLE , SEMANTICSIMILARITYDETAILSTABLE , SEMANTICSIMILARITYTABLE , SESSION , SESSION_USER , SET , SETUSER , SHUTDOWN , SIZE , SMALLINT , SOME , SPACE , SQL , SQLCA , SQLCODE , SQLERROR , SQLSTATE , SQLWARNING , STATISTICS , SUBSTRING , SUM , SYSTEM_USER , TABLE , TABLESAMPLE , TEMPORARY , TEXTSIZE , THEN , TIME , TIMESTAMP , TIMEZONE_HOUR , TIMEZONE_MINUTE , TO , TOP , TRAILING , TRAN , TRANSACTION , TRANSLATE , TRANSLATION , TRIGGER , TRIM , TRUE , TRUNCATE , TRY_CONVERT , TSEQUAL , UNION , UNIQUE , UNKNOWN , UNPIVOT , UPDATE , UPDATETEXT , UPPER , USAGE , USE , USER , USING , VALUE , VALUES , VARCHAR , VARYING , VIEW , WAITFOR , WHEN , WHENEVER , WHERE , WHILE , WITH , WITHIN_GROUP , WORK , WRITE , WRITETEXT , YEAR , ZONE;
 terminal OP_SUMA , OP_RESTA , OP_MULTIPLICACION , OP_DIVISION , OP_PORCENTAJE , OP_MENOR , OP_MENORIGUAL , OP_MAYOR , OP_MAYORIGUAL , OP_ASIGNAR , OP_IGUAL , OP_DIFERENTE , OP_AND , OP_OR , OP_NEGACION , OP_PUNTOYCOMA , OP_COMA , OP_PUNTO , OP_CORCHETE_IZQ , OP_CORCHETE_DER , OP_PARENTESIS_IZQ , OP_PARENTESIS_DER , OP_LLAVE_IZQ , OP_LLAVE_DER , OP_CORCHETES , OP_PARENTESIS , OP_LLAVES , OP_ARROBA , OP_NUMERAL , OP_DOBLE_NUMERAL;
 terminal IDENTIFICADOR, STRING, INTCONSTANT;
 terminal ENCRYPTION, RECOMPILE, OUT;
@@ -59,7 +59,7 @@ non terminal Begin, Sentencias, Del1, Del2, Del3, Del4, Del5, Del6, Del7, Del8, 
 non terminal Dml1, Dml2, Dml3, Dml4, Colname, Colname1, Jointb, Jointb1, Jointb2, Jointb3, Jointb4, Tb_source, Tb_source1, Tb_source2, Rowset, Sam_cl, Sam_cl1, Sam_cl2, Join_type, Join_type1, Join_type2, Join_type3;
 non terminal SearchC, SearchC1, SearchC2, SearchCWM, SearchCWM1, SearchCWM2, SearchCWM3, SearchCWM4, Predicate, Predicate1, Predicate2, Predicate3, Predicate4, Predicate5, Predicate6, Predicate7, Predicate8, Predicate9;
 non terminal Casewhen, Casewhen1, Casewhen2, Casewhen3, Str_fn, Str_fn1, Str_fn2, Dt_fn, Dt_fn1, Dt_fn2, Conv, Conv1, Conv2, Conv3, Conv4, Conv5, Oth_fn, Oth_fn1, Oth_fn2, Oth_fn3, Compare_opr;
-non terminal Orderb, Orderb1, Orderb2, Orderb3, Orderb4, Expression, Expression1, Expression2, Expression3, Expression4, Ar_opr, Logic_opr, Selist, Selist1, Selist2, Selist3, Selist4, Selist5, Selist6, Selist7, Gsp, Gsp1;
+non terminal Orderb, Orderb1, Orderb2, Orderb3, Orderb4, Expression, Expression1, Expression2, Expression3, Expression4, Ar_opr, Logic_opr, Selist, Selist_function, Selist_func_parameter, Selist1, Selist2, Selist3, Selist4, Selist5, Selist6, Selist7, Gsp, Gsp1;
 non terminal Data_type, Data_type2, Data_type3, Data_type4, Data_type5, Drop, Drop2, Drop3, Drop4, Drop5, Drop6, Drop7, Drop8, Drop9, Drop11, Drop12, Truncate, Truncate1, Truncate2;
 non terminal Insert_expression, Insert, Insert1, Insert2, Insert3, Insert4, Insert5, Insert6, Insert7, Insert8, Insert9, Insert10, Insert11, Insert12;
 non terminal Select, Select1, Select2, Select3, Select4, Select5, Select6, Select7, Select8, Select9,  Select11, Select12, Select13, Select14, Select15, Select17, Select18, Select19, Select20;
@@ -67,7 +67,7 @@ non terminal Update, Update1, Update2, Update3, Update4, Update5, Update6, Updat
 non terminal Create, Create1, Create2, Create3, Create4, Create5, Create6, Create7, Create8, Create9, Create10, Create11, Create12, Create13, Create14, Create15, Create16, Create17, Create18, Create19, Create20, Create21;
 non terminal Col_def, Col_def1, Col_def2, Col_def3, Col_def4, Col_def5, Col_def6, Col_def7, Col_def8, Col_def10;
 non terminal Tb_cst, Tb_cst1, Tb_cst2, Tb_cst3, Tb_cst4, Tb_cst5, Tb_cst6, Tb_cst7, Tb_cst8, Tb_cst9, Tb_cst10, Tb_cst11, Tb_cst12, Tb_cst13, Tb_cst14, Tb_cst15, Tb_cst16, Tb_cst17, Tb_cst18, Tb_cst19, Tb_cst20, Tb_cst21, Tb_cst22, Tb_cst23;
-non terminal Col_cst, Col_cst1, Col_cst2, Col_cst3, Col_cst4, Col_cst5, Col_cst6, Col_cst7, Col_cst8, Col_cst9, Col_cst10, Col_cst11, Col_cst12, Col_cst13, Col_cst14, Col_cst15, Col_cst16;
+non terminal Col_cst, Col_cst1, Col_cst2, Col_cst3, Col_cst4, Col_cst5, Col_cst6, Col_cst7, Col_cst8, Col_cst9, Col_cst10, Col_cst11, Col_cst12, Col_cst13, Col_cst14, Col_cst15, Col_cst16, Col_cst17;
 non terminal Const_exp;
 non terminal Alter, Alter1, Alter2, Alter3, Alter4, Alter5, Alter6, Alter7, Alter8, Alter9, Alter10, Alter11, Alter12, Alter13, Alter14, Alter15, Alter16, Alter17, Alter18, Alter19, Alter20, Alter21, Alter22, Alter23, Alter24;
 non terminal Commit, Commit1, Commit2, Commit3, Commit4, Commit5;
@@ -75,7 +75,8 @@ non terminal Rollback, Rollback1, Rollback2, Rollback3;
 non terminal Savepoint, Savepoint1, Savepoint2, Savepoint3;
 non terminal Begend;
 non terminal BeginT, BeginT1, BeginT2, BeginT3;
-non terminal Stored_procedure1, Stored_procedure2, Stored_procedure3, Stored_procedure4, Stored_procedure5, Stored_procedure6, Stored_procedure7, Stored_procedure8, Stored_procedure9, Stored_procedure10, Stored_procedure11, Stored_procedure12, Stored_procedure13, Stored_procedure14, Stored_procedure15, Stored_procedure16, Stored_procedure17, Stored_procedure_end, Stored_procedure_exec;
+non terminal Stored_procedure1, Stored_procedure2, Stored_procedure3, Stored_procedure4, Stored_procedure5, Stored_procedure6, Stored_procedure7, Stored_procedure8, Stored_procedure9, Stored_procedure10, Stored_procedure11, Stored_procedure12, Stored_procedure13, Stored_procedure14, Stored_procedure15, Stored_procedure16, Stored_procedure17, Stored_procedure18, Stored_procedure_end, Stored_procedure_exec;
+non terminal Execute_Stored_procedure, Execute_Stored_procedure1, Execute_Stored_procedure2, Execute_Stored_procedure3, Execute_Stored_procedure4;
 non terminal Function1, Function2, Function3, Function4, Function5, Function6, Function7, Function8, Function9, Function10, Function11, Function12, Function13,Function14, Function15, Function16, FunctionEnd;
 non terminal Cursor1, Cursor2, Cursor3, Cursor4, Cursor5, Cursor6, Cursor7, Cursor8;
 non terminal Declare1, Declare2, Declare3;
@@ -104,8 +105,12 @@ Sentencias  ::= Del1
             | Rollback
             | Savepoint
             | BeginT
+            | Execute_Stored_procedure
             | error OP_PUNTOYCOMA
-            | error GO;
+            | error GO
+            | GO
+            |/* Epsilon */
+            ;
 
 Del1    ::= DELETE Del2
         ;
@@ -285,6 +290,7 @@ Create1 ::= DATABASE IDENTIFICADOR
             | Create14 Create15
             | Create14 PROCEDURE Stored_procedure1
             | Create14 PROC Stored_procedure1
+            | Create14 FUNCTION Function1
             ;
 Create2 ::= UNIQUE Create3
             | Create3
@@ -383,7 +389,9 @@ Alter1 ::= VIEW Alter2
         | TABLE ObjectS Alter6
         | USER IDENTIFICADOR Alter17
         | DATABASE Alter22 Alter23
-        | Stored_procedure1
+        | PROC Stored_procedure1
+        | PROCEDURE Stored_procedure1
+        | FUNCTION Function1
         ;
 Alter2 ::= IDENTIFICADOR Alter3
         ;
@@ -459,9 +467,11 @@ Commit ::= COMMIT Commit1 Commit5
 Commit1 ::= TRAN Commit2 
         | TRANSACTION Commit2
         | WORK
+        | /* Epsilon */
         ;
 Commit2 ::= IDENTIFICADOR
         | OP_ARROBA IDENTIFICADOR
+        | /* Epsilon */
         ;
 Commit5 ::= OP_PUNTOYCOMA
         | GO
@@ -503,6 +513,7 @@ BeginT1 ::= TRAN BeginT2
         ;
 BeginT2 ::=  IDENTIFICADOR 
         | OP_ARROBA IDENTIFICADOR
+        | /* Epsilon */
         ;
 BeginT3 ::= OP_PUNTOYCOMA
         | GO
@@ -545,7 +556,7 @@ Stored_procedure12 ::= STRING
 Stored_procedure13 ::= FOR REPLICATION Stored_procedure14
                     | Stored_procedure14 
                     ;
-Stored_procedure14 ::= AS Stored_procedure15 Stored_procedure16 Stored_procedure17 Stored_procedure_end
+Stored_procedure14 ::= AS Stored_procedure15 Stored_procedure16 Stored_procedure17 Stored_procedure18
                     ;
 Stored_procedure15 ::= BEGIN
                     | /* Epsilon */ 
@@ -554,64 +565,77 @@ Stored_procedure16 ::= Select1
                     | Insert
                     | Del1
                     | Update
+                    | Commit
+                    | GO
                     ;
 Stored_procedure17 ::= Stored_procedure16 Stored_procedure17
-                    | END
+                    | /* Epsilon */ 
+                    ;
+Stored_procedure18 ::= END
                     | /* Epsilon */ 
                     ;
 Stored_procedure_end ::= OP_PUNTOYCOMA
                     | GO
                     ;
 
+Execute_Stored_procedure ::= EXEC Execute_Stored_procedure1 Stored_procedure_exec
+                        | EXECUTE Execute_Stored_procedure1 Stored_procedure_exec
+                        ;
+Execute_Stored_procedure1 ::= ObjectS Execute_Stored_procedure2
+                            | OP_ARROBA IDENTIFICADOR Execute_Stored_procedure2
+                            ;
+
+Execute_Stored_procedure2 ::= OP_ARROBA IDENTIFICADOR OP_ASIGNAR Defv Execute_Stored_procedure3
+                            | Defv Execute_Stored_procedure3
+                            | OP_ARROBA IDENTIFICADOR Execute_Stored_procedure4
+                            | DEFAULT
+                            | /* Epsilon */
+                            ;
+Execute_Stored_procedure3 ::= OP_COMA Execute_Stored_procedure2
+                            | /* Epsilon */
+                            ;
+Execute_Stored_procedure4 ::= OUTPUT Execute_Stored_procedure3
+                            | OUT Execute_Stored_procedure3
+                            | Execute_Stored_procedure3
+                            ;
+Stored_procedure_exec ::= OP_PUNTOYCOMA
+                            | GO
+                            ;
+
 Defv ::= STRING 
         | FLOAT
         | INTCONSTANT
         | NULL ;
 
-Function1 ::= CREATE Function2 FUNCTION  Function3
+Function1 ::= IDENTIFICADOR Function2 OP_PARENTESIS_IZQ Function3 OP_PARENTESIS_DER RETURNS Data_type Function6 
             ;
-
-Function2 ::= OR ALTER
+Function2 ::= OP_PUNTO IDENTIFICADOR
+            | /* Epsilon */ 
+            ;
+Function3 ::= OP_ARROBA IDENTIFICADOR Function4 Data_type Function5 OP_COMA Function3
+            | OP_ARROBA IDENTIFICADOR Function4 Data_type Function5
+            | /* Epsilon */ 
+            ;
+Function4 ::= AS
+            | /* Epsilon */ 
+            ;
+Function5 ::= OP_ASIGNAR Defv
+            | /* Epsilon */ 
+            ;
+Function6 ::= WITH RETURNS NULL ON NULL INPUT Function7
+            | Function7 
+            ;
+Function7 ::= Function4 BEGIN Function8 Function9 Function10 END
+            ;
+Function8 ::= Select1
+            | Insert
+            | Del1
+            | Update
+            | GO;
+Function9 ::= Function8 Function9
             | /* Epsilon */
             ;
-        
-Function3 ::= IDENTIFICADOR Function3
-            | Function4
-            ;
-		
-Function4 ::= OP_PUNTO IDENTIFICADOR  Function5
-            ;
-
-Function5 ::=  OP_PARENTESIS_IZQ Function6 OP_PARENTESIS_DER Function9
-            ;
-Function6 ::= OP_ARROBA IDENTIFICADOR Function7 Data_type Function8
-            ;
-Function7 ::= AS 
-            | /* Epsilon */
-            ;
-Function8 ::= OP_COMA Function6
-            | /* Epsilon */
-            ;
-Function9 ::= RETURN Function10
-            ;
-Function10 ::=  Data_type Function11
-            | TABLE Function14
-            ;
-Function11 ::= AS Function12
-            | Function12
-            ;
-Function12 ::=  BEGIN Begin  Function13 END FunctionEnd
-            ;
-Function13 ::= RETURN Sexp
-            ;
-
-Function14 ::=  AS Function15
-            | Function15
-            ;
-Function15 ::= OP_PARENTESIS_IZQ Function16 OP_PARENTESIS_DER
-            | Function16
-            ;
-Function16 ::= Select1
+Function10 ::= RETURN Sexp FunctionEnd
             ;
 FunctionEnd ::= OP_PUNTOYCOMA
             | GO
@@ -1109,9 +1133,17 @@ Selist3 ::= OP_MULTIPLICACION
             | IDENTIFICADOR Selist7
             ;
 Selist5 ::= AS IDENTIFICADOR
-            | IDENTIFICADOR 
+            | IDENTIFICADOR
+            | OP_PARENTESIS_IZQ Selist_func_parameter Selist_function OP_PARENTESIS_DER
+            | AS STRING
             | /* Epsilon */
             ;
+Selist_function ::= OP_COMA Selist_func_parameter Selist_function
+            | /* Epsilon*/
+            ;
+Selist_func_parameter ::= Sexp
+                        | STRING
+                        ;
 Selist6 ::= Expression
         ;
 Selist7 ::= OP_PUNTO IDENTIFICADOR Selist5
@@ -1149,39 +1181,20 @@ Data_type5 ::= OP_COMA INTCONSTANT OP_PARENTESIS_DER
             | OP_PARENTESIS_DER
             ;
 
-    
+Col_def ::= IDENTIFICADOR Data_type Col_def1
+        ;
+Col_def1 ::= COLLATE IDENTIFICADOR Col_def1
+        | NULL Col_def1
+        | NOT NULL Col_def1
+        | IDENTITY OP_PARENTESIS_IZQ Sexp OP_COMA Sexp OP_PARENTESIS_DER Col_def1
+        | WITH VALUES Col_def1
+        | NOT FOR REPLICATION Col_def1
+        | ROWGUIDCOL Col_def1
+        | Col_cst Col_def1
+        | /* Epsilon */
+        ;   
 
-    Col_def     ::= IDENTIFICADOR Data_type Col_def1
-                ;
-    Col_def1    ::= COLLATE IDENTIFICADOR Col_def2
-                | Col_def2
-                ;
-    Col_def2    ::= NULL Col_def3
-                | NOT NULL Col_def3
-                | Col_def3
-                | IDENTITY Col_def6
-                ;
-    Col_def3 ::= CONSTRAINT IDENTIFICADOR Col_def10
-                | Col_cst
-                | Col_def4
-                ;
-    Col_def4 ::= DEFAULT Const_exp Col_def5
-                ;
-    Col_def5 ::= WITH VALUES Col_def8
-                | Col_def8
-                ;
-    Col_def6 ::= OP_PARENTESIS_IZQ Sexp OP_COMA Sexp OP_PARENTESIS_DER Col_def7
-                | Col_def7
-                ;
-    Col_def7 ::= NOT FOR REPLICATION Col_def8
-                | Col_def8
-                ;
-    Col_def8 ::= ROWGUIDCOL /*Col_def9*/
-                /*| Col_def9*/
-                ;
-    Col_def10 ::= Col_def4
-                | Col_cst
-                ;
+    
 
     Tb_cst ::= Tb_cst1 Tb_cst2 
                 ;
@@ -1259,51 +1272,54 @@ Data_type5 ::= OP_COMA INTCONSTANT OP_PARENTESIS_DER
     Col_cst1 ::= CONSTRAINT IDENTIFICADOR
                 | /* Epsilon */
                 ;
-    Col_cst2 ::= PRIMARY KEY Col_cst3
-                | UNIQUE Col_cst3
+    Col_cst2 ::= PRIMARY KEY Col_cst4
+                | UNIQUE Col_cst4
+                | Col_cst8
+                | DEFAULT Col_cst17
+                | CHECK Col_cst16 OP_PARENTESIS_IZQ SearchC OP_PARENTESIS_DER
+                ;
+    Col_cst4 ::= CLUSTERED Col_cst5
+                | NONCLUSTERED Col_cst5
+                | Col_cst5
+                ;
+    Col_cst5 ::= WITH Col_cst6 Col_cst7
                 | Col_cst7
-                | CHECK Col_cst15
                 ;
-    Col_cst3 ::= CLUSTERED Col_cst4
-                | Col_cst4
+    Col_cst6 ::= FILLFACTOR OP_ASIGNAR INTCONSTANT
+                | OP_PARENTESIS_IZQ FILLFACTOR OP_ASIGNAR INTCONSTANT OP_PARENTESIS_DER
                 ;
-    Col_cst4 ::= WITH Col_cst5 Col_cst6
-                | Col_cst6
-                ;
-    Col_cst5 ::= FILLFACTOR OP_IGUAL INTCONSTANT
-                | OP_PARENTESIS_IZQ FILLFACTOR OP_IGUAL INTCONSTANT OP_PARENTESIS_DER
-                ;
-    Col_cst6 ::= ON IDENTIFICADOR OP_PARENTESIS_IZQ IDENTIFICADOR OP_PARENTESIS_DER
+    Col_cst7 ::= ON IDENTIFICADOR OP_PARENTESIS_IZQ IDENTIFICADOR OP_PARENTESIS_DER
                 | /* Epsilon */
                 ;
-    Col_cst7 ::= Col_cst8 REFERENCES IDENTIFICADOR Col_cst9
+    Col_cst8 ::= Col_cst9 REFERENCES IDENTIFICADOR Col_cst10 Col_cst11
                 ;
-    Col_cst8 ::= FOREIGN KEY
+    Col_cst9 ::= FOREIGN KEY
                 | /* Epsilon */
                 ;
-    Col_cst9 ::= OP_PUNTO IDENTIFICADOR Col_cst10
-                | Col_cst10
-                ;
-    Col_cst10 ::= OP_PARENTESIS_IZQ IDENTIFICADOR OP_PARENTESIS_DER Col_cst11
-                ;
-    Col_cst11 ::= ON Col_cst12 Col_cst13
-                | NOT FOR REPLICATION
+    Col_cst10 ::= OP_PUNTO IDENTIFICADOR
                 | /* Epsilon */
                 ;
-    Col_cst12 ::= DELETE
+    Col_cst11 ::= OP_PARENTESIS_IZQ IDENTIFICADOR OP_PARENTESIS_DER Col_cst12
+                | /* Epsilon */
+                ;
+    Col_cst12 ::= ON Col_cst13 Col_cst14
+                | /* Epsilon */
+                ;
+    Col_cst13 ::= DELETE
                 | UPDATE
                 ;
-    Col_cst13 ::= NO ACTION
+    Col_cst14 ::= NO ACTION
                 | CASCADE
-                | SET Col_cst14
+                | SET Col_cst15
                 ;
-    Col_cst14 ::= NULL
+    Col_cst15 ::= NULL
                 | DEFAULT
                 ;
-    Col_cst15 ::= NOT FOR REPLICATION Col_cst16
-                | Col_cst16
+    Col_cst16 ::= NOT FOR REPLICATION
+                | /* Epsilon */
                 ;
-    Col_cst16 ::= OP_PARENTESIS_IZQ Expression OP_PARENTESIS_DER
+    Col_cst17 ::= Const_exp
+                /* Epsilon */
                 ;
 
     Const_exp ::= OP_ARROBA IDENTIFICADOR
@@ -1312,6 +1328,6 @@ Data_type5 ::= OP_COMA INTCONSTANT OP_PARENTESIS_DER
             | INTCONSTANT
             | FLOAT
             ;
-     
+    
 
     

@@ -2,6 +2,6 @@ SELECT * FROM tabla;
 SELECT * FROM db1.tabla1;
 SELECT * FROM db2.tabla2
 WHERE campo2 > 1;
-SELECT * FROM db3.tabla3
+SELECT campo1, campo2, campo3 FROM db3.tabla3
 WHERE campo3 > 1
 ORDER BY campo3;

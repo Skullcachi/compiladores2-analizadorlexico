@@ -1,0 +1,1027 @@
+
+ Token: RESERVED WORD: DECLARE.
+
+ Token: @.
+
+ Token: IDENTIFIER: sid_in.
+
+ Token: RESERVED WORD: VARCHAR.
+
+ Token: (.
+
+ Token: 100.
+
+ Token: ).
+
+ Token: ;.
+
+ Token: RESERVED WORD: SET.
+
+ Token: @.
+
+ Token: IDENTIFIER: sid_in.
+
+ Token: =.
+
+ Token: 'S-1-5-21-789336058-1580436667-1343024091-34374'.
+
+ Token: ;.
+
+ Token: RESERVED WORD: DECLARE.
+
+ Token: @.
+
+ Token: IDENTIFIER: sql.
+
+ Token: IDENTIFIER: NVARCHAR.
+
+ Token: (.
+
+ Token: RESERVED WORD: MAX.
+
+ Token: ).
+
+ Token: =.
+
+ Token: 'CREATE LOGIN [URL\dagutierrez] WITH SID = '.
+
+ Token: +.
+
+ Token: RESERVED WORD: CONVERT.
+
+ Token: (.
+
+ Token: RESERVED WORD: VARCHAR.
+
+ Token: (.
+
+ Token: 64.
+
+ Token: ).
+
+ Token: ,.
+
+ Token: RESERVED WORD: CONVERT.
+
+ Token: (.
+
+ Token: IDENTIFIER: BINARY.
+
+ Token: (.
+
+ Token: 16.
+
+ Token: ).
+
+ Token: ,.
+
+ Token: IDENTIFIER: SID_BINARY.
+
+ Token: (.
+
+ Token: @.
+
+ Token: IDENTIFIER: sid_in.
+
+ Token: ).
+
+ Token: ).
+
+ Token: ,.
+
+ Token: 1.
+
+ Token: ).
+
+ Token: +.
+
+ Token: ';'.
+
+ Token: ;.
+
+ Token: RESERVED WORD: PRINT.
+
+ Token: @.
+
+ Token: IDENTIFIER: sql.
+
+ Token: RESERVED WORD: EXEC.
+
+ Token: IDENTIFIER: sys.
+
+ Token: ..
+
+ Token: IDENTIFIER: sp_executesql.
+
+ Token: @.
+
+ Token: IDENTIFIER: sql.
+
+ Token: ;.
+
+ Token: 1580436667.
+
+ Token: -.
+
+ Token: 1343024091.
+
+ Token: -.
+
+ Token: 34374.
+
+ Token: ;.
+
+ Token: *.
+
+ Token: /.
+
+ Token: RESERVED WORD: SELECT.
+
+ Token: IDENTIFIER: SUSER_SNAME.
+
+ Token: (.
+
+ Token: RESERVED WORD: CONVERT.
+
+ Token: (.
+
+ Token: IDENTIFIER: BINARY.
+
+ Token: (.
+
+ Token: 16.
+
+ Token: ).
+
+ Token: ,.
+
+ Token: IDENTIFIER: SID_BINARY.
+
+ Token: (.
+
+ Token: @.
+
+ Token: IDENTIFIER: sid_in.
+
+ Token: ).
+
+ Token: ).
+
+ Token: ).
+
+ Token: ;.
+
+ Token: RESERVED WORD: ALTER.
+
+ Token: RESERVED WORD: TABLE.
+
+ Token: [.
+
+ Token: IDENTIFIER: dbo.
+
+ Token: ].
+
+ Token: ..
+
+ Token: [.
+
+ Token: IDENTIFIER: InformeViajes.
+
+ Token: ].
+
+ Token: RESERVED WORD: DROP.
+
+ Token: RESERVED WORD: CONSTRAINT.
+
+ Token: [.
+
+ Token: IDENTIFIER: FK__InformeVi__NITCo__6A30C649.
+
+ Token: ].
+
+ Token: RESERVED WORD: GO.
+
+ Token: RESERVED WORD: ALTER.
+
+ Token: RESERVED WORD: TABLE.
+
+ Token: [.
+
+ Token: IDENTIFIER: dbo.
+
+ Token: ].
+
+ Token: ..
+
+ Token: [.
+
+ Token: IDENTIFIER: InformeViajes.
+
+ Token: ].
+
+ Token: RESERVED WORD: DROP.
+
+ Token: RESERVED WORD: CONSTRAINT.
+
+ Token: [.
+
+ Token: IDENTIFIER: FK__InformeVi__Codig__6B24EA82.
+
+ Token: ].
+
+ Token: RESERVED WORD: GO.
+
+ Token: RESERVED WORD: ALTER.
+
+ Token: RESERVED WORD: TABLE.
+
+ Token: [.
+
+ Token: IDENTIFIER: dbo.
+
+ Token: ].
+
+ Token: ..
+
+ Token: [.
+
+ Token: IDENTIFIER: Inactividad.
+
+ Token: ].
+
+ Token: RESERVED WORD: DROP.
+
+ Token: RESERVED WORD: CONSTRAINT.
+
+ Token: [.
+
+ Token: IDENTIFIER: FK__Inactivid__Placa__4CA06362.
+
+ Token: ].
+
+ Token: RESERVED WORD: GO.
+
+ Token: RESERVED WORD: ALTER.
+
+ Token: RESERVED WORD: TABLE.
+
+ Token: [.
+
+ Token: IDENTIFIER: dbo.
+
+ Token: ].
+
+ Token: ..
+
+ Token: [.
+
+ Token: IDENTIFIER: Despidos.
+
+ Token: ].
+
+ Token: RESERVED WORD: DROP.
+
+ Token: RESERVED WORD: CONSTRAINT.
+
+ Token: [.
+
+ Token: IDENTIFIER: FK__Despidos__NITDes__59063A47.
+
+ Token: ].
+
+ Token: RESERVED WORD: GO.
+
+ Token: RESERVED WORD: ALTER.
+
+ Token: RESERVED WORD: TABLE.
+
+ Token: [.
+
+ Token: IDENTIFIER: dbo.
+
+ Token: ].
+
+ Token: ..
+
+ Token: [.
+
+ Token: IDENTIFIER: Conductor.
+
+ Token: ].
+
+ Token: RESERVED WORD: DROP.
+
+ Token: RESERVED WORD: CONSTRAINT.
+
+ Token: [.
+
+ Token: IDENTIFIER: FK__Conductor__Placa__5070F446.
+
+ Token: ].
+
+ Token: RESERVED WORD: GO.
+
+ Token: RESERVED WORD: ALTER.
+
+ Token: RESERVED WORD: TABLE.
+
+ Token: [.
+
+ Token: IDENTIFIER: dbo.
+
+ Token: ].
+
+ Token: ..
+
+ Token: [.
+
+ Token: IDENTIFIER: Conductor.
+
+ Token: ].
+
+ Token: RESERVED WORD: DROP.
+
+ Token: RESERVED WORD: CONSTRAINT.
+
+ Token: [.
+
+ Token: IDENTIFIER: FK__Conductor__NITCo__4F7CD00D.
+
+ Token: ].
+
+ Token: RESERVED WORD: GO.
+
+ Token: RESERVED WORD: ALTER.
+
+ Token: RESERVED WORD: TABLE.
+
+ Token: [.
+
+ Token: IDENTIFIER: dbo.
+
+ Token: ].
+
+ Token: ..
+
+ Token: [.
+
+ Token: IDENTIFIER: Averia_Reparacion.
+
+ Token: ].
+
+ Token: RESERVED WORD: DROP.
+
+ Token: RESERVED WORD: CONSTRAINT.
+
+ Token: [.
+
+ Token: IDENTIFIER: FK__Averia_Re__Pieza__6477ECF3.
+
+ Token: ].
+
+ Token: RESERVED WORD: GO.
+
+ Token: RESERVED WORD: CREATE.
+
+ Token: RESERVED WORD: TABLE.
+
+ Token: [.
+
+ Token: IDENTIFIER: dbo.
+
+ Token: ].
+
+ Token: ..
+
+ Token: [.
+
+ Token: IDENTIFIER: Reparaciones.
+
+ Token: ].
+
+ Token: (.
+
+ Token: [.
+
+ Token: IDENTIFIER: Codigo.
+
+ Token: ].
+
+ Token: [.
+
+ Token: IDENTIFIER: int.
+
+ Token: ].
+
+ Token: RESERVED WORD: IDENTITY.
+
+ Token: (.
+
+ Token: 1.
+
+ Token: ,.
+
+ Token: 1.
+
+ Token: ).
+
+ Token: RESERVED WORD: NOT.
+
+ Token: RESERVED WORD: NULL.
+
+ Token: ,.
+
+ Token: [.
+
+ Token: IDENTIFIER: NIT_Mecanico.
+
+ Token: ].
+
+ Token: [.
+
+ Token: IDENTIFIER: nvarchar.
+
+ Token: ].
+
+ Token: (.
+
+ Token: 128.
+
+ Token: ).
+
+ Token: RESERVED WORD: NULL.
+
+ Token: ,.
+
+ Token: [.
+
+ Token: IDENTIFIER: FechaReparacion.
+
+ Token: ].
+
+ Token: [.
+
+ Token: IDENTIFIER: date.
+
+ Token: ].
+
+ Token: RESERVED WORD: NOT.
+
+ Token: RESERVED WORD: NULL.
+
+ Token: ,.
+
+ Token: [.
+
+ Token: IDENTIFIER: PlacaBus.
+
+ Token: ].
+
+ Token: [.
+
+ Token: IDENTIFIER: nvarchar.
+
+ Token: ].
+
+ Token: (.
+
+ Token: 128.
+
+ Token: ).
+
+ Token: RESERVED WORD: NULL.
+
+ Token: ,.
+
+ Token: RESERVED WORD: PRIMARY.
+
+ Token: RESERVED WORD: KEY.
+
+ Token: RESERVED WORD: CLUSTERED.
+
+ Token: (.
+
+ Token: [.
+
+ Token: IDENTIFIER: Codigo.
+
+ Token: ].
+
+ Token: RESERVED WORD: ASC.
+
+ Token: ).
+
+ Token: ).
+
+ Token: RESERVED WORD: ON.
+
+ Token: [.
+
+ Token: RESERVED WORD: PRIMARY.
+
+ Token: ].
+
+ Token: RESERVED WORD: GO.
+
+ Token: RESERVED WORD: SET.
+
+ Token: IDENTIFIER: ANSI_NULLS.
+
+ Token: RESERVED WORD: ON.
+
+ Token: RESERVED WORD: GO.
+
+ Token: RESERVED WORD: SET.
+
+ Token: IDENTIFIER: QUOTED_IDENTIFIER.
+
+ Token: RESERVED WORD: ON.
+
+ Token: RESERVED WORD: GO.
+
+ Token: RESERVED WORD: CREATE.
+
+ Token: RESERVED WORD: TABLE.
+
+ Token: [.
+
+ Token: IDENTIFIER: dbo.
+
+ Token: ].
+
+ Token: ..
+
+ Token: [.
+
+ Token: IDENTIFIER: Rutas.
+
+ Token: ].
+
+ Token: (.
+
+ Token: [.
+
+ Token: IDENTIFIER: Codigo.
+
+ Token: ].
+
+ Token: [.
+
+ Token: IDENTIFIER: int.
+
+ Token: ].
+
+ Token: RESERVED WORD: IDENTITY.
+
+ Token: (.
+
+ Token: 1.
+
+ Token: ,.
+
+ Token: 1.
+
+ Token: ).
+
+ Token: RESERVED WORD: NOT.
+
+ Token: RESERVED WORD: NULL.
+
+ Token: ,.
+
+ Token: [.
+
+ Token: IDENTIFIER: Origen.
+
+ Token: ].
+
+ Token: [.
+
+ Token: IDENTIFIER: nvarchar.
+
+ Token: ].
+
+ Token: (.
+
+ Token: 128.
+
+ Token: ).
+
+ Token: RESERVED WORD: NOT.
+
+ Token: RESERVED WORD: NULL.
+
+ Token: ,.
+
+ Token: [.
+
+ Token: IDENTIFIER: Destino.
+
+ Token: ].
+
+ Token: [.
+
+ Token: IDENTIFIER: nvarchar.
+
+ Token: ].
+
+ Token: (.
+
+ Token: 128.
+
+ Token: ).
+
+ Token: RESERVED WORD: NOT.
+
+ Token: RESERVED WORD: NULL.
+
+ Token: ,.
+
+ Token: [.
+
+ Token: IDENTIFIER: Tiempo.
+
+ Token: ].
+
+ Token: [.
+
+ Token: IDENTIFIER: nvarchar.
+
+ Token: ].
+
+ Token: (.
+
+ Token: 128.
+
+ Token: ).
+
+ Token: RESERVED WORD: NOT.
+
+ Token: RESERVED WORD: NULL.
+
+ Token: ,.
+
+ Token: [.
+
+ Token: IDENTIFIER: Costo.
+
+ Token: ].
+
+ Token: [.
+
+ Token: IDENTIFIER: int.
+
+ Token: ].
+
+ Token: RESERVED WORD: NULL.
+
+ Token: ,.
+
+ Token: RESERVED WORD: PRIMARY.
+
+ Token: RESERVED WORD: KEY.
+
+ Token: RESERVED WORD: CLUSTERED.
+
+ Token: (.
+
+ Token: [.
+
+ Token: IDENTIFIER: Codigo.
+
+ Token: ].
+
+ Token: RESERVED WORD: ASC.
+
+ Token: ).
+
+ Token: ).
+
+ Token: RESERVED WORD: ON.
+
+ Token: [.
+
+ Token: RESERVED WORD: PRIMARY.
+
+ Token: ].
+
+ Token: RESERVED WORD: GO.
+
+ Token: RESERVED WORD: DECLARE.
+
+ Token: @.
+
+ Token: IDENTIFIER: var.
+
+ Token: RESERVED WORD: CHAR.
+
+ Token: (.
+
+ Token: 100.
+
+ Token: ).
+
+ Token: ;.
+
+ Token: IDENTIFIER: set.
+
+ Token: @.
+
+ Token: IDENTIFIER: var.
+
+ Token: =.
+
+ Token: '?'.
+
+ Token: ;.
+
+ Token: RESERVED WORD: DROP.
+
+ Token: RESERVED WORD: DATABASE.
+
+ Token: [.
+
+ Token: IDENTIFIER: LineaDorada.
+
+ Token: ].
+
+ Token: RESERVED WORD: GO.
+
+ Token: RESERVED WORD: CREATE.
+
+ Token: RESERVED WORD: DATABASE.
+
+ Token: [.
+
+ Token: IDENTIFIER: LineaDorada.
+
+ Token: ].
+
+ Token: IDENTIFIER: CONTAINMENT.
+
+ Token: =.
+
+ Token: RESERVED WORD: NULL.
+
+ Token: RESERVED WORD: ON.
+
+ Token: RESERVED WORD: PRIMARY.
+
+ Token: (.
+
+ Token: IDENTIFIER: NAME.
+
+ Token: =.
+
+ Token: 'LineaDorada'.
+
+ Token: ,.
+
+ Token: IDENTIFIER: FILENAME.
+
+ Token: =.
+
+ Token: 'D:\NDocuments\SQL\MSSQL14.MSSQLSERVER\MSSQL\DATA\LineaDorada.mdf'.
+
+ Token: ,.
+
+ Token: RESERVED WORD: SIZE.
+
+ Token: =.
+
+ Token: 0.
+
+ Token: IDENTIFIER: X8192KB.
+
+ Token: ,.
+
+ Token: IDENTIFIER: MAXSIZE.
+
+ Token: =.
+
+ Token: IDENTIFIER: UNLIMITED.
+
+ Token: ,.
+
+ Token: IDENTIFIER: FILEGROWTH.
+
+ Token: =.
+
+ Token: 00000000000.00000000022e+2.
+
+ Token: ).
+
+ Token: IDENTIFIER: LOG.
+
+ Token: RESERVED WORD: ON.
+
+ Token: (.
+
+ Token: IDENTIFIER: NAME.
+
+ Token: =.
+
+ Token: 'LineaDorada_log'.
+
+ Token: ,.
+
+ Token: IDENTIFIER: FILENAME.
+
+ Token: =.
+
+ Token: 'D:\NDocuments\SQL\MSSQL14.MSSQLSERVER\MSSQL\Log\LineaDorada_log.ldf'.
+
+ Token: ,.
+
+ Token: RESERVED WORD: SIZE.
+
+ Token: =.
+
+ Token: 8192.
+
+ Token: IDENTIFIER: KB.
+
+ Token: ,.
+
+ Token: IDENTIFIER: MAXSIZE.
+
+ Token: =.
+
+ Token: 2048.
+
+ Token: IDENTIFIER: GB.
+
+ Token: ,.
+
+ Token: IDENTIFIER: FILEGROWTH.
+
+ Token: =.
+
+ Token: ..
+
+ Token: 12.
+
+ Token: IDENTIFIER: E0000000002.
+
+ Token: ).
+
+ Token: RESERVED WORD: GO.
+
+ Token: RESERVED WORD: ALTER.
+
+ Token: RESERVED WORD: DATABASE.
+
+ Token: [.
+
+ Token: IDENTIFIER: LineaDorada.
+
+ Token: ].
+
+ Token: RESERVED WORD: SET.
+
+ Token: IDENTIFIER: COMPATIBILITY_LEVEL.
+
+ Token: =.
+
+ Token: 140.
+
+ Token: RESERVED WORD: GO.
+
+ Token: RESERVED WORD: IF.
+
+ Token: (.
+
+ Token: 1.
+
+ Token: =.
+
+ Token: SERVERPROPERTYGLOBALFULLTEXTSER.
+
+ Token: (.
+
+ Token: 'IsFullTextInstalled'.
+
+ Token: ).
+
+ Token: ).
+
+ Token: IDENTIFIER: begin.
+
+ Token: RESERVED WORD: EXEC.
+
+ Token: [.
+
+ Token: IDENTIFIER: LineaDorada.
+
+ Token: ].
+
+ Token: ..
+
+ Token: [.
+
+ Token: IDENTIFIER: dbo.
+
+ Token: ].
+
+ Token: ..
+
+ Token: [.
+
+ Token: IDENTIFIER: sp_fulltext_database.
+
+ Token: ].
+
+ Token: @.
+
+ Token: IDENTIFIER: action.
+
+ Token: =.
+
+ Token: 'enable'.
+
+ Token: IDENTIFIER: end.
+
+ Token: RESERVED WORD: GO.
+
+ Token: RESERVED WORD: DECLARE.
+
+ Token: @.
+
+ Token: IDENTIFIER: number.
+
+ Token: RESERVED WORD: INT.
+
+ Token: ;.
+
+ Token: RESERVED WORD: SET.
+
+ Token: @.
+
+ Token: IDENTIFIER: number.
+
+ Token: =.
+
+ Token: -.
+
+ Token: 1.
+
+ Token: ;.
+
+ Token: RESERVED WORD: DECLARE.
+
+ Token: @.
+
+ Token: IDENTIFIER: path.
+
+ Token: RESERVED WORD: VARCHAR.
+
+ Token: (.
+
+ Token: RESERVED WORD: MAX.
+
+ Token: ).
+
+ Token: ;.
+
+ Token: RESERVED WORD: SET.
+
+ Token: @.
+
+ Token: IDENTIFIER: path.
+
+ Token: =.
+
+ Token: IDENTIFIER: This.
+
+ Token: IDENTIFIER: a.
+
+ Token: IDENTIFIER: string.
+
+ Token: IDENTIFIER: without.
+
+ Token: IDENTIFIER: ending.
+
+ Token: IDENTIFIER: not.
+
+ Token: IDENTIFIER: the.
+
+ Token: IDENTIFIER: same.
+
+ Token: IDENTIFIER: string.
+
+ Token: ,.
+
+ Token: IDENTIFIER: all.
+
+ Token: IDENTIFIER: should.
+
+ Token: IDENTIFIER: be.
+
+ Token: IDENTIFIER: ids.
+
+ Token: IDENTIFIER: except.
+
+ Token: IDENTIFIER: _thiserror.
+
+ Token: ;.
+EOF

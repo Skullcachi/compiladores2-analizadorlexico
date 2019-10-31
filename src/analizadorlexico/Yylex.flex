@@ -251,6 +251,7 @@ REPLICATION = "REPLICATION"
 RESTORE = "RESTORE"
 RESTRICT = "RESTRICT"
 RETURN = "RETURN"
+RETURNS = "RETURNS"
 REVERT = "REVERT"
 REVOKE = "REVOKE"
 RIGHT = "RIGHT"
@@ -341,6 +342,7 @@ ZONE = "ZONE"
 ENCRYPTION = "ENCRYPTION"
 RECOMPILE = "RECOMPILE"
 OUT = "OUT"
+RETURNS = "RETURNS"
 
 //OPERATORS_OR_PUNTUATION_MARKS = "+" | "-" | "*" | "/" | "%" | "<" | "<=" | ">" | ">=" | "=" | "==" | "!=" | "&&" | "||" | "!" | ";" | "," | "." | "[" | "]" | "(" | ")" | "{" | "}" | "[]" | "()" | "{}" | "@" | "#" | "##"
 OP_SUMA =  "+" 
@@ -665,6 +667,7 @@ L = [a-zA-Z_]
 {RESTORE} {return symbol(sym.RESTORE, new String("RESERVED WORD: " + yytext()));}
 {RESTRICT} {return symbol(sym.RESTRICT, new String("RESERVED WORD: " + yytext()));}
 {RETURN} {return symbol(sym.RETURN, new String("RESERVED WORD: " + yytext()));}
+{RETURNS} {return symbol(sym.RETURNS, new String("RESERVED WORD: " + yytext()));}
 {REVERT} {return symbol(sym.REVERT, new String("RESERVED WORD: " + yytext()));}
 {REVOKE} {return symbol(sym.REVOKE, new String("RESERVED WORD: " + yytext()));}
 {RIGHT} {return symbol(sym.RIGHT, new String("RESERVED WORD: " + yytext()));}

@@ -1,0 +1,577 @@
+
+ Token: RESERVED WORD: USE.
+
+ Token: IDENTIFIER: AdventureWorks2012.
+
+ Token: ;.
+
+ Token: RESERVED WORD: GO.
+
+ Token: RESERVED WORD: IF.
+
+ Token: IDENTIFIER: OBJECT_ID.
+
+ Token: (.
+
+ Token: 'dbo.EmployeeOne'.
+
+ Token: ,.
+
+ Token: 'U'.
+
+ Token: ).
+
+ Token: RESERVED WORD: IS.
+
+ Token: RESERVED WORD: NOT.
+
+ Token: RESERVED WORD: NULL.
+
+ Token: RESERVED WORD: DROP.
+
+ Token: RESERVED WORD: TABLE.
+
+ Token: IDENTIFIER: dbo.
+
+ Token: ..
+
+ Token: IDENTIFIER: EmployeeOne.
+
+ Token: ;.
+
+ Token: RESERVED WORD: GO.
+
+ Token: RESERVED WORD: IF.
+
+ Token: IDENTIFIER: OBJECT_ID.
+
+ Token: (.
+
+ Token: 'dbo.EmployeeTwo'.
+
+ Token: ,.
+
+ Token: 'U'.
+
+ Token: ).
+
+ Token: RESERVED WORD: IS.
+
+ Token: RESERVED WORD: NOT.
+
+ Token: RESERVED WORD: NULL.
+
+ Token: RESERVED WORD: DROP.
+
+ Token: RESERVED WORD: TABLE.
+
+ Token: IDENTIFIER: dbo.
+
+ Token: ..
+
+ Token: IDENTIFIER: EmployeeTwo.
+
+ Token: ;.
+
+ Token: RESERVED WORD: GO.
+
+ Token: RESERVED WORD: IF.
+
+ Token: IDENTIFIER: OBJECT_ID.
+
+ Token: (.
+
+ Token: 'dbo.EmployeeThree'.
+
+ Token: ,.
+
+ Token: 'U'.
+
+ Token: ).
+
+ Token: RESERVED WORD: IS.
+
+ Token: RESERVED WORD: NOT.
+
+ Token: RESERVED WORD: NULL.
+
+ Token: RESERVED WORD: DROP.
+
+ Token: RESERVED WORD: TABLE.
+
+ Token: IDENTIFIER: dbo.
+
+ Token: ..
+
+ Token: IDENTIFIER: EmployeeThree.
+
+ Token: ;.
+
+ Token: RESERVED WORD: GO.
+
+ Token: RESERVED WORD: SELECT.
+
+ Token: IDENTIFIER: pp.
+
+ Token: ..
+
+ Token: IDENTIFIER: LastName.
+
+ Token: ,.
+
+ Token: IDENTIFIER: pp.
+
+ Token: ..
+
+ Token: IDENTIFIER: FirstName.
+
+ Token: ,.
+
+ Token: IDENTIFIER: e.
+
+ Token: ..
+
+ Token: IDENTIFIER: JobTitle.
+
+ Token: RESERVED WORD: INTO.
+
+ Token: IDENTIFIER: dbo.
+
+ Token: ..
+
+ Token: IDENTIFIER: EmployeeOne.
+
+ Token: RESERVED WORD: FROM.
+
+ Token: IDENTIFIER: Person.
+
+ Token: ..
+
+ Token: IDENTIFIER: Person.
+
+ Token: RESERVED WORD: AS.
+
+ Token: IDENTIFIER: pp.
+
+ Token: RESERVED WORD: JOIN.
+
+ Token: IDENTIFIER: HumanResources.
+
+ Token: ..
+
+ Token: IDENTIFIER: Employee.
+
+ Token: RESERVED WORD: AS.
+
+ Token: IDENTIFIER: e.
+
+ Token: RESERVED WORD: ON.
+
+ Token: IDENTIFIER: e.
+
+ Token: ..
+
+ Token: IDENTIFIER: BusinessEntityID.
+
+ Token: =.
+
+ Token: IDENTIFIER: pp.
+
+ Token: ..
+
+ Token: IDENTIFIER: BusinessEntityID.
+
+ Token: RESERVED WORD: WHERE.
+
+ Token: IDENTIFIER: LastName.
+
+ Token: =.
+
+ Token: 'Johnson'.
+
+ Token: ;.
+
+ Token: RESERVED WORD: GO.
+
+ Token: RESERVED WORD: SELECT.
+
+ Token: IDENTIFIER: pp.
+
+ Token: ..
+
+ Token: IDENTIFIER: LastName.
+
+ Token: ,.
+
+ Token: IDENTIFIER: pp.
+
+ Token: ..
+
+ Token: IDENTIFIER: FirstName.
+
+ Token: ,.
+
+ Token: IDENTIFIER: e.
+
+ Token: ..
+
+ Token: IDENTIFIER: JobTitle.
+
+ Token: RESERVED WORD: INTO.
+
+ Token: IDENTIFIER: dbo.
+
+ Token: ..
+
+ Token: IDENTIFIER: EmployeeTwo.
+
+ Token: RESERVED WORD: FROM.
+
+ Token: IDENTIFIER: Person.
+
+ Token: ..
+
+ Token: IDENTIFIER: Person.
+
+ Token: RESERVED WORD: AS.
+
+ Token: IDENTIFIER: pp.
+
+ Token: RESERVED WORD: JOIN.
+
+ Token: IDENTIFIER: HumanResources.
+
+ Token: ..
+
+ Token: IDENTIFIER: Employee.
+
+ Token: RESERVED WORD: AS.
+
+ Token: IDENTIFIER: e.
+
+ Token: RESERVED WORD: ON.
+
+ Token: IDENTIFIER: e.
+
+ Token: ..
+
+ Token: IDENTIFIER: BusinessEntityID.
+
+ Token: =.
+
+ Token: IDENTIFIER: pp.
+
+ Token: ..
+
+ Token: IDENTIFIER: BusinessEntityID.
+
+ Token: RESERVED WORD: WHERE.
+
+ Token: IDENTIFIER: LastName.
+
+ Token: =.
+
+ Token: 'Johnson'.
+
+ Token: ;.
+
+ Token: RESERVED WORD: GO.
+
+ Token: RESERVED WORD: SELECT.
+
+ Token: IDENTIFIER: pp.
+
+ Token: ..
+
+ Token: IDENTIFIER: LastName.
+
+ Token: ,.
+
+ Token: IDENTIFIER: pp.
+
+ Token: ..
+
+ Token: IDENTIFIER: FirstName.
+
+ Token: ,.
+
+ Token: IDENTIFIER: e.
+
+ Token: ..
+
+ Token: IDENTIFIER: JobTitle.
+
+ Token: RESERVED WORD: INTO.
+
+ Token: IDENTIFIER: dbo.
+
+ Token: ..
+
+ Token: IDENTIFIER: EmployeeThree.
+
+ Token: RESERVED WORD: FROM.
+
+ Token: IDENTIFIER: Person.
+
+ Token: ..
+
+ Token: IDENTIFIER: Person.
+
+ Token: RESERVED WORD: AS.
+
+ Token: IDENTIFIER: pp.
+
+ Token: RESERVED WORD: JOIN.
+
+ Token: IDENTIFIER: HumanResources.
+
+ Token: ..
+
+ Token: IDENTIFIER: Employee.
+
+ Token: RESERVED WORD: AS.
+
+ Token: IDENTIFIER: e.
+
+ Token: RESERVED WORD: ON.
+
+ Token: IDENTIFIER: e.
+
+ Token: ..
+
+ Token: IDENTIFIER: BusinessEntityID.
+
+ Token: =.
+
+ Token: IDENTIFIER: pp.
+
+ Token: ..
+
+ Token: IDENTIFIER: BusinessEntityID.
+
+ Token: RESERVED WORD: WHERE.
+
+ Token: IDENTIFIER: LastName.
+
+ Token: =.
+
+ Token: 'Johnson'.
+
+ Token: ;.
+
+ Token: RESERVED WORD: GO.
+
+ Token: RESERVED WORD: SELECT.
+
+ Token: IDENTIFIER: LastName.
+
+ Token: ,.
+
+ Token: IDENTIFIER: FirstName.
+
+ Token: ,.
+
+ Token: IDENTIFIER: JobTitle.
+
+ Token: RESERVED WORD: FROM.
+
+ Token: IDENTIFIER: dbo.
+
+ Token: ..
+
+ Token: IDENTIFIER: EmployeeOne.
+
+ Token: RESERVED WORD: UNION.
+
+ Token: RESERVED WORD: ALL.
+
+ Token: RESERVED WORD: SELECT.
+
+ Token: IDENTIFIER: LastName.
+
+ Token: ,.
+
+ Token: IDENTIFIER: FirstName.
+
+ Token: ,.
+
+ Token: IDENTIFIER: JobTitle.
+
+ Token: RESERVED WORD: FROM.
+
+ Token: IDENTIFIER: dbo.
+
+ Token: ..
+
+ Token: IDENTIFIER: EmployeeTwo.
+
+ Token: RESERVED WORD: UNION.
+
+ Token: RESERVED WORD: ALL.
+
+ Token: RESERVED WORD: SELECT.
+
+ Token: IDENTIFIER: LastName.
+
+ Token: ,.
+
+ Token: IDENTIFIER: FirstName.
+
+ Token: ,.
+
+ Token: IDENTIFIER: JobTitle.
+
+ Token: RESERVED WORD: FROM.
+
+ Token: IDENTIFIER: dbo.
+
+ Token: ..
+
+ Token: IDENTIFIER: EmployeeThree.
+
+ Token: ;.
+
+ Token: RESERVED WORD: GO.
+
+ Token: RESERVED WORD: SELECT.
+
+ Token: IDENTIFIER: LastName.
+
+ Token: ,.
+
+ Token: IDENTIFIER: FirstName.
+
+ Token: ,.
+
+ Token: IDENTIFIER: JobTitle.
+
+ Token: RESERVED WORD: FROM.
+
+ Token: IDENTIFIER: dbo.
+
+ Token: ..
+
+ Token: IDENTIFIER: EmployeeOne.
+
+ Token: RESERVED WORD: UNION.
+
+ Token: RESERVED WORD: SELECT.
+
+ Token: IDENTIFIER: LastName.
+
+ Token: ,.
+
+ Token: IDENTIFIER: FirstName.
+
+ Token: ,.
+
+ Token: IDENTIFIER: JobTitle.
+
+ Token: RESERVED WORD: FROM.
+
+ Token: IDENTIFIER: dbo.
+
+ Token: ..
+
+ Token: IDENTIFIER: EmployeeTwo.
+
+ Token: RESERVED WORD: UNION.
+
+ Token: RESERVED WORD: SELECT.
+
+ Token: IDENTIFIER: LastName.
+
+ Token: ,.
+
+ Token: IDENTIFIER: FirstName.
+
+ Token: ,.
+
+ Token: IDENTIFIER: JobTitle.
+
+ Token: RESERVED WORD: FROM.
+
+ Token: IDENTIFIER: dbo.
+
+ Token: ..
+
+ Token: IDENTIFIER: EmployeeThree.
+
+ Token: ;.
+
+ Token: RESERVED WORD: GO.
+
+ Token: RESERVED WORD: SELECT.
+
+ Token: IDENTIFIER: LastName.
+
+ Token: ,.
+
+ Token: IDENTIFIER: FirstName.
+
+ Token: ,.
+
+ Token: IDENTIFIER: JobTitle.
+
+ Token: RESERVED WORD: FROM.
+
+ Token: IDENTIFIER: dbo.
+
+ Token: ..
+
+ Token: IDENTIFIER: EmployeeOne.
+
+ Token: RESERVED WORD: UNION.
+
+ Token: RESERVED WORD: ALL.
+
+ Token: (.
+
+ Token: RESERVED WORD: SELECT.
+
+ Token: IDENTIFIER: LastName.
+
+ Token: ,.
+
+ Token: IDENTIFIER: FirstName.
+
+ Token: ,.
+
+ Token: IDENTIFIER: JobTitle.
+
+ Token: RESERVED WORD: FROM.
+
+ Token: IDENTIFIER: dbo.
+
+ Token: ..
+
+ Token: IDENTIFIER: EmployeeTwo.
+
+ Token: RESERVED WORD: UNION.
+
+ Token: RESERVED WORD: SELECT.
+
+ Token: IDENTIFIER: LastName.
+
+ Token: ,.
+
+ Token: IDENTIFIER: FirstName.
+
+ Token: ,.
+
+ Token: IDENTIFIER: JobTitle.
+
+ Token: RESERVED WORD: FROM.
+
+ Token: IDENTIFIER: dbo.
+
+ Token: ..
+
+ Token: IDENTIFIER: EmployeeThree.
+
+ Token: ).
+
+ Token: ;.
+
+ Token: RESERVED WORD: GO.
+EOF

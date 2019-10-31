@@ -1,0 +1,6 @@
+UPDATE Production.Product  
+SET Color = 'Metallic Red'  
+WHERE Name LIKE 'Road-250%' AND Color = 'Red';
+
+UPDATE TOP (10) HumanResources.Employee
+SET VacationHours = VacationHours * 1.25 ;

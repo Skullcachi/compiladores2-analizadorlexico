@@ -1,0 +1,75 @@
+
+ Token: RESERVED WORD: SELECT.
+
+ Token: *.
+
+ Token: RESERVED WORD: FROM.
+
+ Token: IDENTIFIER: tabla.
+
+ Token: ;.
+
+ Token: RESERVED WORD: SELECT.
+
+ Token: *.
+
+ Token: RESERVED WORD: FROM.
+
+ Token: IDENTIFIER: db1.
+
+ Token: ..
+
+ Token: IDENTIFIER: tabla1.
+
+ Token: ;.
+
+ Token: RESERVED WORD: SELECT.
+
+ Token: *.
+
+ Token: RESERVED WORD: FROM.
+
+ Token: IDENTIFIER: db2.
+
+ Token: ..
+
+ Token: IDENTIFIER: tabla2.
+
+ Token: RESERVED WORD: WHERE.
+
+ Token: IDENTIFIER: campo2.
+
+ Token: >.
+
+ Token: 1.
+
+ Token: ;.
+
+ Token: RESERVED WORD: SELECT.
+
+ Token: *.
+
+ Token: RESERVED WORD: FROM.
+
+ Token: IDENTIFIER: db3.
+
+ Token: ..
+
+ Token: IDENTIFIER: tabla3.
+
+ Token: RESERVED WORD: WHERE.
+
+ Token: IDENTIFIER: campo3.
+
+ Token: >.
+
+ Token: 1.
+
+ Token: RESERVED WORD: ORDER.
+
+ Token: RESERVED WORD: BY.
+
+ Token: IDENTIFIER: campo3.
+
+ Token: ;.
+EOF

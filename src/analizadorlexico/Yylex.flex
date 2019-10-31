@@ -338,7 +338,9 @@ WRITE = "WRITE"
 WRITETEXT = "WRITETEXT"
 YEAR = "YEAR"
 ZONE = "ZONE"
-
+ENCRYPTION = "ENCRYPTION"
+RECOMPILE = "RECOMPILE"
+OUT = "OUT"
 
 //OPERATORS_OR_PUNTUATION_MARKS = "+" | "-" | "*" | "/" | "%" | "<" | "<=" | ">" | ">=" | "=" | "==" | "!=" | "&&" | "||" | "!" | ";" | "," | "." | "[" | "]" | "(" | ")" | "{" | "}" | "[]" | "()" | "{}" | "@" | "#" | "##"
 OP_SUMA =  "+" 
@@ -395,36 +397,36 @@ L = [a-zA-Z_]
 // OPERATOR_OR_PUNTUATION_MARKs
 //{OPERATORS_OR_PUNTUATION_MARKS}                                  { return "OPERATOR OR PUNTATION MARK: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); }
 
-{OP_SUMA} { return symbol(sym.OP_SUMA, new String(yytext())); } 
-{OP_RESTA} { return symbol(sym.OP_RESTA, new String(yytext())); } 
-{OP_MULTIPLICACION} { return symbol(sym.OP_MULTIPLICACION, new String(yytext())); } 
-{OP_DIVISION} { return symbol(sym.OP_DIVISION, new String(yytext())); } 
-{OP_PORCENTAJE} { return symbol(sym.OP_PORCENTAJE, new String(yytext())); } 
-{OP_MENOR} { return symbol(sym.OP_MENOR, new String(yytext())); } 
-{OP_MENORIGUAL} { return symbol(sym.OP_MENORIGUAL, new String(yytext())); } 
-{OP_MAYOR} { return symbol(sym.OP_MAYOR, new String(yytext())); } 
-{OP_MAYORIGUAL} { return symbol(sym.OP_MAYORIGUAL, new String(yytext())); } 
-{OP_ASIGNAR} { return symbol(sym.OP_ASIGNAR, new String(yytext())); } 
-{OP_IGUAL} { return symbol(sym.OP_IGUAL, new String(yytext())); } 
-{OP_DIFERENTE} { return symbol(sym.OP_DIFERENTE, new String(yytext())); } 
-{OP_AND} { return symbol(sym.OP_AND, new String(yytext())); } 
-{OP_OR} { return symbol(sym.OP_OR, new String(yytext())); } 
-{OP_NEGACION} { return symbol(sym.OP_NEGACION, new String(yytext())); } 
-{OP_PUNTOYCOMA} { return symbol(sym.OP_PUNTOYCOMA, new String(yytext())); } 
-{OP_COMA} { return symbol(sym.OP_COMA, new String(yytext())); } 
-{OP_PUNTO} { return symbol(sym.OP_PUNTO, new String(yytext())); } 
-{OP_CORCHETE_IZQ} { return symbol(sym.OP_CORCHETE_IZQ, new String(yytext())); } 
-{OP_CORCHETE_DER} { return symbol(sym.OP_CORCHETE_DER, new String(yytext())); } 
-{OP_PARENTESIS_IZQ} { return symbol(sym.OP_PARENTESIS_IZQ, new String(yytext())); } 
-{OP_PARENTESIS_DER} { return symbol(sym.OP_PARENTESIS_DER, new String(yytext())); } 
-{OP_LLAVE_IZQ} { return symbol(sym.OP_LLAVE_IZQ, new String(yytext())); } 
-{OP_LLAVE_DER} { return symbol(sym.OP_LLAVE_DER, new String(yytext())); } 
-{OP_CORCHETES} { return symbol(sym.OP_CORCHETES, new String(yytext())); } 
-{OP_PARENTESIS} { return symbol(sym.OP_PARENTESIS, new String(yytext())); } 
-{OP_LLAVES} { return symbol(sym.OP_LLAVES, new String(yytext())); } 
-{OP_ARROBA} { return symbol(sym.OP_ARROBA, new String(yytext())); } 
-{OP_NUMERAL} { return symbol(sym.OP_NUMERAL, new String(yytext())); } 
-{OP_DOBLE_NUMERAL} { return symbol(sym.OP_DOBLE_NUMERAL, new String(yytext())); }
+{OP_SUMA} { return symbol(sym.OP_SUMA, yytext()); } 
+{OP_RESTA} { return symbol(sym.OP_RESTA, yytext()); } 
+{OP_MULTIPLICACION} { return symbol(sym.OP_MULTIPLICACION, yytext()); } 
+{OP_DIVISION} { return symbol(sym.OP_DIVISION, yytext()); } 
+{OP_PORCENTAJE} { return symbol(sym.OP_PORCENTAJE, yytext()); } 
+{OP_MENOR} { return symbol(sym.OP_MENOR, yytext()); } 
+{OP_MENORIGUAL} { return symbol(sym.OP_MENORIGUAL, yytext()); } 
+{OP_MAYOR} { return symbol(sym.OP_MAYOR, yytext()); } 
+{OP_MAYORIGUAL} { return symbol(sym.OP_MAYORIGUAL, yytext()); } 
+{OP_ASIGNAR} { return symbol(sym.OP_ASIGNAR, yytext()); } 
+{OP_IGUAL} { return symbol(sym.OP_IGUAL, yytext()); } 
+{OP_DIFERENTE} { return symbol(sym.OP_DIFERENTE, yytext()); } 
+{OP_AND} { return symbol(sym.OP_AND, yytext()); } 
+{OP_OR} { return symbol(sym.OP_OR, yytext()); } 
+{OP_NEGACION} { return symbol(sym.OP_NEGACION, yytext()); } 
+{OP_PUNTOYCOMA} { return symbol(sym.OP_PUNTOYCOMA, yytext()); } 
+{OP_COMA} { return symbol(sym.OP_COMA, yytext()); } 
+{OP_PUNTO} { return symbol(sym.OP_PUNTO, yytext()); } 
+{OP_CORCHETE_IZQ} { return symbol(sym.OP_CORCHETE_IZQ, yytext()); } 
+{OP_CORCHETE_DER} { return symbol(sym.OP_CORCHETE_DER, yytext()); } 
+{OP_PARENTESIS_IZQ} { return symbol(sym.OP_PARENTESIS_IZQ, yytext()); } 
+{OP_PARENTESIS_DER} { return symbol(sym.OP_PARENTESIS_DER, yytext()); } 
+{OP_LLAVE_IZQ} { return symbol(sym.OP_LLAVE_IZQ, yytext()); } 
+{OP_LLAVE_DER} { return symbol(sym.OP_LLAVE_DER, yytext()); } 
+{OP_CORCHETES} { return symbol(sym.OP_CORCHETES, yytext()); } 
+{OP_PARENTESIS} { return symbol(sym.OP_PARENTESIS, yytext()); } 
+{OP_LLAVES} { return symbol(sym.OP_LLAVES, yytext()); } 
+{OP_ARROBA} { return symbol(sym.OP_ARROBA, yytext()); } 
+{OP_NUMERAL} { return symbol(sym.OP_NUMERAL, yytext()); } 
+{OP_DOBLE_NUMERAL} { return symbol(sym.OP_DOBLE_NUMERAL, yytext()); }
 
 // UNFINISHED_STRING
 //['][^'\n]*|[´][^´\n]*                                             { 
@@ -434,7 +436,7 @@ L = [a-zA-Z_]
 //                                                                    }
 
 // STRINGs
-[´][^´\n]*[´]|['][^'\n]*[']                                      { return symbol(sym.STRING, new String(yytext())); }
+[´][^´\n]*[´]|['][^'\n]*[']                                      { return symbol(sym.STRING, yytext()); }
 
 // RESERVED_WORDs
 //{RESERVED_WORDS}                                                 { return "RESERVED: " + yytext() + " in line: " + (yyline + 1) + " columns: " + (yycolumn + 1) + " - " + ((yycolumn + 1) + yylength() - 1); }
@@ -750,6 +752,9 @@ L = [a-zA-Z_]
 {WRITETEXT} {return symbol(sym.WRITETEXT, new String("RESERVED WORD: " + yytext()));}
 {YEAR} {return symbol(sym.YEAR, new String("RESERVED WORD: " + yytext()));}
 {ZONE} {return symbol(sym.ZONE, new String("RESERVED WORD: " + yytext()));}
+{ENCRYPTION} = {return symbol(sym.ENCRYPTION, new String("RESERVED WORD: " + yytext()));}
+{RECOMPILE} = {return symbol(sym.RECOMPILE, new String("RESERVED WORD: " + yytext()));}
+{OUT} = {return symbol(sym.OUT, new String("RESERVED WORD: " + yytext()));}
 
 // IDENTIFIERs
 {L}({L}|{D})*                                                    { 
@@ -770,7 +775,7 @@ L = [a-zA-Z_]
 {D}+	                                                         { return symbol(sym.INTCONSTANT, new Integer(yytext())); }
 
 // FLOATs
-[-+]?[0-9]+"."|[-+]?[0-9]+"."([0-9]+|("E"|"e")[-+]?[0-9]+|[0-9]+("E"|"e")[-+]?[0-9]+) { return symbol(sym.FLOAT, new String(yytext())); }
+[-+]?[0-9]+"."|[-+]?[0-9]+"."([0-9]+|("E"|"e")[-+]?[0-9]+|[0-9]+("E"|"e")[-+]?[0-9]+) { return symbol(sym.FLOAT, yytext()); }
 
 // LINE COUNTER
 [ \n]                                                            { /*lleva la cuenta de lineas*/ }
@@ -789,6 +794,13 @@ L = [a-zA-Z_]
 
 // ERRORs
 .	                                                         { 
-                                                                    lexeme = yytext(); line = (yyline + 1); column = (yycolumn + 1); length = yylength(); 
-                                                                    System.out.print("Lexical error: invalid token ") ;
+                                                                    lexeme = yytext(); line = (yyline + 1); column = (yycolumn + 1); length = yylength();
+                                                                    if (lexeme == "")
+                                                                    {
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        System.out.print("Lexical error: invalid token - " + yytext()) ;
+
+                                                                    }
                                                                  }

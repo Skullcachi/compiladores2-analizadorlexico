@@ -1,0 +1,4 @@
+CREATE VIEW Customers  
+AS  
+SELECT *  
+FROM Customers_33;

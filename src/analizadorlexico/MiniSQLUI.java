@@ -176,10 +176,10 @@ public class MiniSQLUI extends javax.swing.JFrame {
                 //FASE 2
                 //this.AnalisisSintacticoDescendente();
                 //FASE 3
-                
-                String[] testFile = { filetoread.getName()};
+                System.out.println(filetoread.getAbsolutePath());
+                String[] testFile = { filetoread.getAbsolutePath()};
                 asintactico.main(testFile);
-                
+                System.out.println("Terminó de analizar");
                 return;
             }
             else
@@ -5406,7 +5406,7 @@ public class MiniSQLUI extends javax.swing.JFrame {
     }
     
     //public String PATH = "C:/Users/cachi/OneDrive/Documents/NetBeansProjects/AnalizadorLexico";
-    public String PATH = "../AnalizadorLexico";
+    public String PATH = "../AnalizadorLexico/src/analizadorlexico";
     String resultados = "";
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

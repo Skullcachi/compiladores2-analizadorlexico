@@ -1,0 +1,211 @@
+
+ Token: RESERVED WORD: CREATE.
+
+ Token: RESERVED WORD: TABLE.
+
+ Token: IDENTIFIER: dbo.
+
+ Token: ..
+
+ Token: IDENTIFIER: PurchaseOrderDetail.
+
+ Token: (.
+
+ Token: IDENTIFIER: PurchaseOrderID.
+
+ Token: RESERVED WORD: INT.
+
+ Token: RESERVED WORD: NOT.
+
+ Token: RESERVED WORD: NULL.
+
+ Token: RESERVED WORD: REFERENCES.
+
+ Token: IDENTIFIER: Purchasing.
+
+ Token: ..
+
+ Token: IDENTIFIER: PurchaseOrderHeader.
+
+ Token: (.
+
+ Token: IDENTIFIER: PurchaseOrderID.
+
+ Token: ).
+
+ Token: ,.
+
+ Token: IDENTIFIER: LineNumber.
+
+ Token: RESERVED WORD: SMALLINT.
+
+ Token: RESERVED WORD: NOT.
+
+ Token: RESERVED WORD: NULL.
+
+ Token: ,.
+
+ Token: IDENTIFIER: ProductID.
+
+ Token: RESERVED WORD: INT.
+
+ Token: RESERVED WORD: NULL.
+
+ Token: RESERVED WORD: REFERENCES.
+
+ Token: IDENTIFIER: Production.
+
+ Token: ..
+
+ Token: IDENTIFIER: Product.
+
+ Token: (.
+
+ Token: IDENTIFIER: ProductID.
+
+ Token: ).
+
+ Token: ,.
+
+ Token: IDENTIFIER: UnitPrice.
+
+ Token: RESERVED WORD: DECIMAL.
+
+ Token: RESERVED WORD: NULL.
+
+ Token: ,.
+
+ Token: IDENTIFIER: OrderQty.
+
+ Token: RESERVED WORD: SMALLINT.
+
+ Token: RESERVED WORD: NULL.
+
+ Token: ,.
+
+ Token: IDENTIFIER: ReceivedQty.
+
+ Token: RESERVED WORD: FLOAT.
+
+ Token: RESERVED WORD: NULL.
+
+ Token: ,.
+
+ Token: IDENTIFIER: RejectedQty.
+
+ Token: RESERVED WORD: FLOAT.
+
+ Token: RESERVED WORD: NULL.
+
+ Token: ,.
+
+ Token: IDENTIFIER: DueDate.
+
+ Token: IDENTIFIER: DATETIME.
+
+ Token: RESERVED WORD: NULL.
+
+ Token: ,.
+
+ Token: IDENTIFIER: rowguid.
+
+ Token: RESERVED WORD: FLOAT.
+
+ Token: RESERVED WORD: ROWGUIDCOL.
+
+ Token: RESERVED WORD: NOT.
+
+ Token: RESERVED WORD: NULL.
+
+ Token: RESERVED WORD: CONSTRAINT.
+
+ Token: IDENTIFIER: DF_PurchaseOrderDetail_rowguid.
+
+ Token: RESERVED WORD: DEFAULT.
+
+ Token: ,.
+
+ Token: IDENTIFIER: ModifiedDate.
+
+ Token: IDENTIFIER: DATETIME.
+
+ Token: RESERVED WORD: NOT.
+
+ Token: RESERVED WORD: NULL.
+
+ Token: RESERVED WORD: CONSTRAINT.
+
+ Token: DF_PurchaseOrderDetail_Modified.
+
+ Token: RESERVED WORD: DEFAULT.
+
+ Token: ,.
+
+ Token: IDENTIFIER: LineTotal.
+
+ Token: RESERVED WORD: AS.
+
+ Token: (.
+
+ Token: (.
+
+ Token: IDENTIFIER: UnitPrice.
+
+ Token: *.
+
+ Token: IDENTIFIER: OrderQty.
+
+ Token: ).
+
+ Token: ).
+
+ Token: ,.
+
+ Token: IDENTIFIER: StockedQty.
+
+ Token: RESERVED WORD: AS.
+
+ Token: (.
+
+ Token: (.
+
+ Token: IDENTIFIER: ReceivedQty.
+
+ Token: -.
+
+ Token: IDENTIFIER: RejectedQty.
+
+ Token: ).
+
+ Token: ).
+
+ Token: ,.
+
+ Token: RESERVED WORD: CONSTRAINT.
+
+ Token: PK_PurchaseOrderDetail_Purchase.
+
+ Token: RESERVED WORD: PRIMARY.
+
+ Token: RESERVED WORD: KEY.
+
+ Token: RESERVED WORD: CLUSTERED.
+
+ Token: (.
+
+ Token: IDENTIFIER: PurchaseOrderID.
+
+ Token: ,.
+
+ Token: IDENTIFIER: LineNumber.
+
+ Token: ).
+
+ Token: ).
+
+ Token: RESERVED WORD: ON.
+
+ Token: RESERVED WORD: PRIMARY.
+
+ Token: ;.
+EOF

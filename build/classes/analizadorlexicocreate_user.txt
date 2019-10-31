@@ -1,0 +1,11 @@
+
+ Token: RESERVED WORD: CREATE.
+
+ Token: RESERVED WORD: USER.
+
+ Token: IDENTIFIER: CustomApp.
+
+ Token: IDENTIFIER: LOGIN.
+
+ Token: ;.
+EOF

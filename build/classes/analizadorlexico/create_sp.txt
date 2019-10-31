@@ -1,0 +1,27 @@
+CREATE PROCEDURE Production.uspGetList @Product VARCHAR(40)   
+    , @MaxPrice VARCHAR   
+    , @ComparePrice VARCHAR OUTPUT  
+    , @ListPrice VARCHAR OUTPUT  
+AS  
+BEGIN
+    SELECT * FROM miTabla
+GO
+
+SELECT OrderDateKey, SUM(SalesAmount) AS TotalSales  
+FROM FactInternetSales  
+WHERE OrderDateKey > 20020801  
+ORDER BY OrderDateKey; 
+
+SELECT SUM(SalesAmount) AS TotalSales  
+FROM FactInternetSales  
+GROUP BY (OrderDateKey);
+
+INSERT INTO dbo.EmployeeSales  
+    SELECT 'SELECT', sp.BusinessEntityID, c.LastName, sp.SalesYTD   
+    FROM Sales.SalesPerson AS sp  
+    INNER JOIN Person.Person AS c  
+        ON sp.BusinessEntityID = c.BusinessEntityID  
+    WHERE sp.BusinessEntityID LIKE '2%'  
+    ORDER BY sp.BusinessEntityID, c.LastName;
+
+END ;

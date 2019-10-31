@@ -1,0 +1,65 @@
+
+ Token: RESERVED WORD: UPDATE.
+
+ Token: IDENTIFIER: Production.
+
+ Token: ..
+
+ Token: IDENTIFIER: Product.
+
+ Token: RESERVED WORD: SET.
+
+ Token: IDENTIFIER: Color.
+
+ Token: =.
+
+ Token: 'Metallic Red'.
+
+ Token: RESERVED WORD: WHERE.
+
+ Token: IDENTIFIER: Name.
+
+ Token: RESERVED WORD: LIKE.
+
+ Token: 'Road-250%'.
+
+ Token: RESERVED WORD: AND.
+
+ Token: IDENTIFIER: Color.
+
+ Token: =.
+
+ Token: 'Red'.
+
+ Token: ;.
+
+ Token: RESERVED WORD: UPDATE.
+
+ Token: RESERVED WORD: TOP.
+
+ Token: (.
+
+ Token: 10.
+
+ Token: ).
+
+ Token: IDENTIFIER: HumanResources.
+
+ Token: ..
+
+ Token: IDENTIFIER: Employee.
+
+ Token: RESERVED WORD: SET.
+
+ Token: IDENTIFIER: VacationHours.
+
+ Token: =.
+
+ Token: IDENTIFIER: VacationHours.
+
+ Token: *.
+
+ Token: 1.25.
+
+ Token: ;.
+EOF

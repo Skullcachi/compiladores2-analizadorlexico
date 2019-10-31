@@ -1,0 +1,29 @@
+
+ Token: RESERVED WORD: DROP.
+
+ Token: RESERVED WORD: VIEW.
+
+ Token: IDENTIFIER: dbo.
+
+ Token: ..
+
+ Token: IDENTIFIER: order.
+
+ Token: ;.
+
+ Token: RESERVED WORD: DROP.
+
+ Token: RESERVED WORD: VIEW.
+
+ Token: RESERVED WORD: IF.
+
+ Token: RESERVED WORD: EXISTS.
+
+ Token: IDENTIFIER: dbo.
+
+ Token: ..
+
+ Token: IDENTIFIER: Reorder.
+
+ Token: ;.
+EOF

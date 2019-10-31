@@ -1,0 +1,25 @@
+
+ Token: RESERVED WORD: DROP.
+
+ Token: RESERVED WORD: TABLE.
+
+ Token: IDENTIFIER: AdventureWorks2012.
+
+ Token: ..
+
+ Token: IDENTIFIER: dbo.
+
+ Token: ..
+
+ Token: IDENTIFIER: SalesPerson2.
+
+ Token: ;.
+
+ Token: RESERVED WORD: DROP.
+
+ Token: RESERVED WORD: TABLE.
+
+ Token: IDENTIFIER: SalesPerson2.
+
+ Token: ;.
+EOF

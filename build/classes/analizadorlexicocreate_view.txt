@@ -1,0 +1,19 @@
+
+ Token: RESERVED WORD: CREATE.
+
+ Token: RESERVED WORD: VIEW.
+
+ Token: IDENTIFIER: Customers.
+
+ Token: RESERVED WORD: AS.
+
+ Token: RESERVED WORD: SELECT.
+
+ Token: *.
+
+ Token: RESERVED WORD: FROM.
+
+ Token: IDENTIFIER: Customers_33.
+
+ Token: ;.
+EOF

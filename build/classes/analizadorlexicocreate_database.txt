@@ -1,0 +1,9 @@
+
+ Token: RESERVED WORD: CREATE.
+
+ Token: RESERVED WORD: DATABASE.
+
+ Token: IDENTIFIER: Sales.
+
+ Token: ;.
+EOF

@@ -1,0 +1,61 @@
+
+ Token: RESERVED WORD: DROP.
+
+ Token: RESERVED WORD: INDEX.
+
+ Token: IX_ProductVendor_BusinessEntity.
+
+ Token: RESERVED WORD: ON.
+
+ Token: IDENTIFIER: Purchasing.
+
+ Token: ..
+
+ Token: IDENTIFIER: ProductVendor.
+
+ Token: ;.
+
+ Token: RESERVED WORD: DROP.
+
+ Token: RESERVED WORD: INDEX.
+
+ Token: IX_PurchaseOrderHeader_Employee.
+
+ Token: RESERVED WORD: ON.
+
+ Token: IDENTIFIER: Purchasing.
+
+ Token: ..
+
+ Token: IDENTIFIER: PurchaseOrderHeader.
+
+ Token: ,.
+
+ Token: IDENTIFIER: IX_Address_StateProvinceID.
+
+ Token: RESERVED WORD: ON.
+
+ Token: IDENTIFIER: Person.
+
+ Token: ..
+
+ Token: IDENTIFIER: Address.
+
+ Token: ;.
+
+ Token: RESERVED WORD: DROP.
+
+ Token: RESERVED WORD: INDEX.
+
+ Token: PXML_ProductModel_CatalogDescri.
+
+ Token: RESERVED WORD: ON.
+
+ Token: IDENTIFIER: Production.
+
+ Token: ..
+
+ Token: IDENTIFIER: ProductModel.
+
+ Token: ;.
+EOF

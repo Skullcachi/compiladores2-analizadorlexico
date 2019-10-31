@@ -1,0 +1,11 @@
+
+ Token: RESERVED WORD: ROLLBACK.
+
+ Token: RESERVED WORD: TRAN.
+
+ Token: @.
+
+ Token: IDENTIFIER: TransactionName.
+
+ Token: ;.
+EOF

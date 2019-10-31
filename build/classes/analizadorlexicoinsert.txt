@@ -1,0 +1,39 @@
+
+ Token: RESERVED WORD: INSERT.
+
+ Token: RESERVED WORD: INTO.
+
+ Token: IDENTIFIER: table_name.
+
+ Token: (.
+
+ Token: IDENTIFIER: column1.
+
+ Token: ,.
+
+ Token: IDENTIFIER: column2.
+
+ Token: ,.
+
+ Token: IDENTIFIER: column3.
+
+ Token: ).
+
+ Token: RESERVED WORD: VALUES.
+
+ Token: (.
+
+ Token: IDENTIFIER: value1.
+
+ Token: ,.
+
+ Token: IDENTIFIER: value2.
+
+ Token: ,.
+
+ Token: IDENTIFIER: value3.
+
+ Token: ).
+
+ Token: ;.
+EOF

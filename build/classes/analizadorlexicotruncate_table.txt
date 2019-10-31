@@ -1,0 +1,29 @@
+
+ Token: RESERVED WORD: TRUNCATE.
+
+ Token: RESERVED WORD: TABLE.
+
+ Token: IDENTIFIER: HumanResources.
+
+ Token: ..
+
+ Token: IDENTIFIER: JobCandidate.
+
+ Token: ;.
+
+ Token: RESERVED WORD: TRUNCATE.
+
+ Token: RESERVED WORD: TABLE.
+
+ Token: IDENTIFIER: test.
+
+ Token: ..
+
+ Token: IDENTIFIER: cqf.
+
+ Token: ..
+
+ Token: IDENTIFIER: DEXTask.
+
+ Token: ;.
+EOF

@@ -12,7 +12,7 @@ parser code {:
                 m.append(" in line " + (s.left + 1));
                 if (s.right >= 0)
                 {
-                    m.append(", column " + (s.right + 1));
+                    m.append(", column " + (s.right + 1)  + ". Token: " + s.value);
                 }
             }
         }
@@ -28,7 +28,7 @@ parser code {:
                 m.append(" in line " + (s.left + 1));
                 if (s.right >= 0)
                 {
-                    m.append(", column " + (s.right + 1));
+                    m.append(", column " + (s.right + 1)  + ". Token: " + s.value);
                 }
             }
         }
@@ -40,40 +40,72 @@ parser code {:
         try {
             System.out.println("\n*** Resultados finales ***");
             asintactico asin = new asintactico(new Yylex( new FileReader(args[0])));
-            Object result = asin.parse().value;            
+            Object result = asin.parse().value;
         } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
+
+    
 :};
 
 /* Declaracion de simbolos terminales y no terminales */
 terminal ABSOLUTE , ACTION , ADA , ADD , ALL , ALLOCATE , ALTER , AND , ANY , ARE , AS , ASC , ASSERTION , AT , AUTHORIZATION , AVG , BACKUP , BEGIN , BETWEEN , BIT , BIT_LENGTH , BOTH , BREAK , BROWSE , BULK , BY , CASCADE , CASCADED , CASE , CAST , CATALOG , CHAR , CHAR_LENGTH , CHARACTER , CHARACTER_LENGTH , CHECK , CHECKPOINT , CLOSE , CLUSTERED , COALESCE , COLLATE , COLLATION , COLUMN , COMMIT , COMPUTE , CONNECT , CONNECTION , CONSTRAINT , CONSTRAINTS , CONTAINS , CONTAINSTABLE , CONTINUE , CONVERT , CORRESPONDING , COUNT , CREATE , CROSS , CURRENT , CURRENT_DATE , CURRENT_TIME , CURRENT_TIMESTAMP , CURRENT_USER , CURSOR , DATABASE , DATE , DAY , DBCC , DEALLOCATE , DEC , DECIMAL , DECLARE , DEFAULT , DEFERRABLE , DEFERRED , DELETE , DENY , DESC , DESCRIBE , DESCRIPTOR , DIAGNOSTICS , DISCONNECT , DISK , DISTINCT , DISTRIBUTED , DOMAIN , DOUBLE , DROP , DUMP , ELSE , END , END_EXEC , ERRLVL , ESCAPE , EXCEPT , EXCEPTION , EXEC , EXECUTE , EXISTS , EXIT , EXTERNAL , EXTRACT , FALSE , FETCH , FILE , FILLFACTOR , FIRST , FLOAT , FOR , FOREIGN , FORTRAN , FOUND , FREETEXT , FREETEXTTABLE , FROM , FULL , FUNCTION , GET , GLOBAL , GO , GOTO , GRANT , GROUP , HAVING , HOLDLOCK , HOUR , IDENTITY , IDENTITY_INSERT , IDENTITYCOL , IF , IMMEDIATE , IN , INCLUDE , INDEX , INDICATOR , INITIALLY , INNER , INPUT , INSENSITIVE , INSERT , INT , INTEGER , INTERSECT , INTERVAL , INTO , IS , ISOLATION , JOIN , KEY , KILL , LANGUAGE , LAST , LEADING , LEFT , LEVEL , LIKE , LINENO , LOAD , LOCAL , LOWER , MATCH , MAX , MERGE , MIN , MINUTE , MODULE , MONTH , NAMES , NATIONAL , NATURAL , NCHAR , NEXT , NO , NOCHECK , NONCLUSTERED , NONE , NOT , NULL , NULLIF , NUMERIC , OCTET_LENGTH , OF , OFF , OFFSETS , ON , ONLY , OPEN , OPENDATASOURCE , OPENQUERY , OPENROWSET , OPENXML , OPTION , OR , ORDER , OUTER , OUTPUT , OVER , OVERLAPS , PAD , PARTIAL , PASCAL , PERCENT , PIVOT , PLAN , POSITION , PRECISION , PREPARE , PRESERVE , PRIMARY , PRINT , PRIOR , PRIVILEGES , PROC , PROCEDURE , PUBLIC , RAISERROR , READ , READTEXT , REAL , RECONFIGURE , REFERENCES , RELATIVE , REPLICATION , RESTORE , RESTRICT , RETURN , REVERT , REVOKE , RIGHT , ROLLBACK , ROWCOUNT , ROWGUIDCOL , ROWS , RULE , SAVE , SCHEMA , SCROLL , SECOND , SECTION , SECURITYAUDIT , SELECT , SEMANTICKEYPHRASETABLE , SEMANTICSIMILARITYDETAILSTABLE , SEMANTICSIMILARITYTABLE , SESSION , SESSION_USER , SET , SETUSER , SHUTDOWN , SIZE , SMALLINT , SOME , SPACE , SQL , SQLCA , SQLCODE , SQLERROR , SQLSTATE , SQLWARNING , STATISTICS , SUBSTRING , SUM , SYSTEM_USER , TABLE , TABLESAMPLE , TEMPORARY , TEXTSIZE , THEN , TIME , TIMESTAMP , TIMEZONE_HOUR , TIMEZONE_MINUTE , TO , TOP , TRAILING , TRAN , TRANSACTION , TRANSLATE , TRANSLATION , TRIGGER , TRIM , TRUE , TRUNCATE , TRY_CONVERT , TSEQUAL , UNION , UNIQUE , UNKNOWN , UNPIVOT , UPDATE , UPDATETEXT , UPPER , USAGE , USE , USER , USING , VALUE , VALUES , VARCHAR , VARYING , VIEW , WAITFOR , WHEN , WHENEVER , WHERE , WHILE , WITH , WITHIN_GROUP , WORK , WRITE , WRITETEXT , YEAR , ZONE;
 terminal OP_SUMA , OP_RESTA , OP_MULTIPLICACION , OP_DIVISION , OP_PORCENTAJE , OP_MENOR , OP_MENORIGUAL , OP_MAYOR , OP_MAYORIGUAL , OP_ASIGNAR , OP_IGUAL , OP_DIFERENTE , OP_AND , OP_OR , OP_NEGACION , OP_PUNTOYCOMA , OP_COMA , OP_PUNTO , OP_CORCHETE_IZQ , OP_CORCHETE_DER , OP_PARENTESIS_IZQ , OP_PARENTESIS_DER , OP_LLAVE_IZQ , OP_LLAVE_DER , OP_CORCHETES , OP_PARENTESIS , OP_LLAVES , OP_ARROBA , OP_NUMERAL , OP_DOBLE_NUMERAL;
 terminal IDENTIFICADOR, STRING, INTCONSTANT;
+terminal ENCRYPTION, RECOMPILE, OUT;
 
-non terminal Start, Sentencias, Del1, Del2, Del3, Del4, Del5, Del6, Del7, Del8, Del9, Del10, Sexp, Sexp1, Sexp2, Sexp3, Sexp4, Sexp5, Outcl, Outcl1, Outcl2, Outcl3, Colst, Colst1, Colst2, ObjectS, Object1, Object2, Object3, Agg_fn, Sel_avg,Sel_avg1, Sel_avg2, Sel_avg3, Sel_count, Sel_count1, Sel_count2, Sel_count3, Sel_agr, Sel_agr1, Sel_agr2, Sel_agr3 ;
+non terminal Begin, Sentencias, Del1, Del2, Del3, Del4, Del5, Del6, Del7, Del8, Del9, Del10, Sexp, Sexp1, Sexp2, Sexp3, Sexp4, Sexp5, Outcl, Outcl1, Outcl2, Outcl3, Colst, Colst1, Colst2, ObjectS, Object1, Object2, Object3, Agg_fn, Sel_avg,Sel_avg1, Sel_avg2, Sel_avg3, Sel_count, Sel_count1, Sel_count2, Sel_count3, Sel_agr, Sel_agr1, Sel_agr2, Sel_agr3 ;
 non terminal Dml1, Dml2, Dml3, Dml4, Colname, Colname1, Jointb, Jointb1, Jointb2, Jointb3, Jointb4, Tb_source, Tb_source1, Tb_source2, Rowset, Sam_cl, Sam_cl1, Sam_cl2, Join_type, Join_type1, Join_type2, Join_type3;
-non terminal SearchC, SearchC1, SearchC2, SearchCWM, SearchCWM1, SearchCWM2, SearchCWM3, Predicate, Predicate1, Predicate2, Predicate3, Predicate4, Predicate5, Predicate6, Predicate7, Predicate8, Predicate9;
+non terminal SearchC, SearchC1, SearchC2, SearchCWM, SearchCWM1, SearchCWM2, SearchCWM3, SearchCWM4, Predicate, Predicate1, Predicate2, Predicate3, Predicate4, Predicate5, Predicate6, Predicate7, Predicate8, Predicate9;
 non terminal Casewhen, Casewhen1, Casewhen2, Casewhen3, Str_fn, Str_fn1, Str_fn2, Dt_fn, Dt_fn1, Dt_fn2, Conv, Conv1, Conv2, Conv3, Conv4, Conv5, Oth_fn, Oth_fn1, Oth_fn2, Oth_fn3, Compare_opr;
-non terminal Orderb, Orderb1, Orderb2, Orderb3, Orderb4, Expression, Expression1, Expression2, Expression3, Expression4, Ar_opr, Logic_opr, Selist, Selist1, Selist2, Selist3, Selist4, Selist5, Selist6, Gsp, Gsp1;
-non terminal Data_type, Data_type2, Data_type3, Data_type4, Data_type5;
+non terminal Orderb, Orderb1, Orderb2, Orderb3, Orderb4, Expression, Expression1, Expression2, Expression3, Expression4, Ar_opr, Logic_opr, Selist, Selist1, Selist2, Selist3, Selist4, Selist5, Selist6, Selist7, Gsp, Gsp1;
+non terminal Data_type, Data_type2, Data_type3, Data_type4, Data_type5, Drop, Drop2, Drop3, Drop4, Drop5, Drop6, Drop7, Drop8, Drop9, Drop11, Drop12, Truncate, Truncate1, Truncate2;
+non terminal Insert_expression, Insert, Insert1, Insert2, Insert3, Insert4, Insert5, Insert6, Insert7, Insert8, Insert9, Insert10, Insert11, Insert12;
+non terminal Select, Select1, Select2, Select3, Select4, Select5, Select6, Select7, Select8, Select9,  Select11, Select12, Select13, Select14, Select15, Select17, Select18, Select19, Select20;
+non terminal Update, Update1, Update2, Update3, Update4, Update5, Update6, Update7, Update8, Update9, Update10, Update11, Update12, Update13, Update14, Update15, Update16, Update17;
+non terminal Create, Create1, Create2, Create3, Create4, Create5, Create6, Create7, Create8, Create9, Create10, Create11, Create12, Create13, Create14, Create15, Create16, Create17, Create18, Create19, Create20, Create21;
+non terminal Col_def, Col_def1, Col_def2, Col_def3, Col_def4, Col_def5, Col_def6, Col_def7, Col_def8, Col_def10;
+non terminal Tb_cst, Tb_cst1, Tb_cst2, Tb_cst3, Tb_cst4, Tb_cst5, Tb_cst6, Tb_cst7, Tb_cst8, Tb_cst9, Tb_cst10, Tb_cst11, Tb_cst12, Tb_cst13, Tb_cst14, Tb_cst15, Tb_cst16, Tb_cst17, Tb_cst18, Tb_cst19, Tb_cst20, Tb_cst21, Tb_cst22, Tb_cst23;
+non terminal Col_cst, Col_cst1, Col_cst2, Col_cst3, Col_cst4, Col_cst5, Col_cst6, Col_cst7, Col_cst8, Col_cst9, Col_cst10, Col_cst11, Col_cst12, Col_cst13, Col_cst14, Col_cst15, Col_cst16;
+non terminal Const_exp;
+non terminal Alter, Alter1, Alter2, Alter3, Alter4, Alter5, Alter6, Alter7, Alter8, Alter9, Alter10, Alter11, Alter12, Alter13, Alter14, Alter15, Alter16, Alter17, Alter18, Alter19, Alter20, Alter21, Alter22, Alter23, Alter24;
+non terminal Commit, Commit1, Commit2, Commit3, Commit4, Commit5;
+non terminal Rollback, Rollback1, Rollback2, Rollback3;
+non terminal Savepoint, Savepoint1, Savepoint2, Savepoint3;
+non terminal Begend;
+non terminal BeginT, BeginT1, BeginT2, BeginT3;
+non terminal Stored_procedure1, Stored_procedure2, Stored_procedure3, Stored_procedure4, Stored_procedure5, Stored_procedure6, Stored_procedure7, Stored_procedure8, Stored_procedure9, Stored_procedure10, Stored_procedure11, Stored_procedure12, Stored_procedure13, Stored_procedure14, Stored_procedure15, Stored_procedure16, Stored_procedure17, Stored_procedure_end, Stored_procedure_exec;
+non terminal Function1, Function2, Function3, Function4, Function5, Function6, Function7, Function8, Function9, Function10, Function11, Function12, Function13,Function14, Function15, Function16, FunctionEnd;
+non terminal Cursor1, Cursor2, Cursor3, Cursor4, Cursor5, Cursor6, Cursor7, Cursor8;
+non terminal Declare1, Declare2, Declare3;
+non terminal As1, Defv;
+non terminal Tipos1;
+non terminal Reservadas_cursor1, Reservadas_cursor2, Reservadas_cursor3, Reservadas_cursor4, Reservadas_cursor5;
+non terminal While1, While2, Operadores1;
 
 /* Precedencias */
-precedence left JOIN;
-precedence left FROM, WHERE, DELETE, GO;
-precedence left OP_SUMA, OP_RESTA, OP_MULTIPLICACION, OP_DIVISION, OP_PARENTESIS_IZQ, OP_PARENTESIS_DER, WHEN, IDENTIFICADOR, JOIN, OP_PUNTO, OP_COMA, OP_PUNTOYCOMA;
-precedence left AND;
-precedence left BETWEEN, ESCAPE, IN, IS, LIKE, NOT, OR, OP_MENOR, OP_MENORIGUAL, OP_MAYOR, OP_MAYORIGUAL, OP_DIFERENTE ;
 
-start with Start;
+
+start with Begin;
 /* Gramaticas */
-Start   ::= Start Sentencias
-        |   /* Epsilon */
-        ;
+Begin   ::= Begin Sentencias
+        | ;
 
-Sentencias  ::= Del1
-            ;
+Sentencias  ::= Del1 
+            | Select1
+            | Insert
+            | Update
+            | Drop
+            | Truncate
+            | Create
+            | Alter
+            | Commit
+            | Rollback
+            | Savepoint
+            | BeginT
+            | error OP_PUNTOYCOMA
+            | error GO;
 
 Del1    ::= DELETE Del2
         ;
@@ -98,427 +130,1188 @@ Del7 ::= FROM Jointb Del8
 Del8 ::= OP_COMA Jointb Del8
     | Del9
     ;
-Del9 ::= WHERE Expression Del10
+Del9 ::= WHERE SearchC Del10
     | Del10
     ;
 Del10 ::= OP_PUNTOYCOMA
     | GO
     ;
 
-/* METODOS COMUNES */
-    ObjectS ::= IDENTIFICADOR Object1
+Truncate ::= TRUNCATE TABLE ObjectS Truncate1 Truncate2
             ;
-    Object1 ::= OP_PUNTO IDENTIFICADOR Object2
-            |   /* Epsilon */
+Truncate1 ::= OP_COMA ObjectS
+            | /* Epsilon */
             ;
-    Object2 ::= OP_PUNTO IDENTIFICADOR Object3
-            |   /* Epsilon */
-            ;
-    Object3 ::= OP_PUNTO IDENTIFICADOR
-            |   /* Epsilon */
+Truncate2 ::= OP_PUNTOYCOMA
+            | GO
             ;
 
-    Sexp    ::= Sexp3 Sexp2
-            ;
-    Sexp2   ::= OP_SUMA Sexp3 Sexp2
-            | OP_RESTA Sexp3 Sexp2
-            |   /* Epsilon */
-            ;
-    Sexp3 ::= Sexp5 Sexp4
+Insert ::= INSERT Insert1
         ;
-    Sexp4   ::= OP_MULTIPLICACION Sexp5 Sexp4
-            |   OP_DIVISION Sexp5 Sexp4
-            |   /* Epsilon */
+Insert1 ::= TOP OP_PARENTESIS_IZQ Sexp OP_PARENTESIS_DER Insert2
+            | Insert3
             ;
-    Sexp5 ::= OP_PARENTESIS_IZQ Sexp OP_PARENTESIS_DER
-        | INTEGER
-        | FLOAT
-        | OP_ARROBA IDENTIFICADOR
-        | Agg_fn
-        ;
+Insert2 ::= PERCENT Insert3
+            | Insert3
+            ;
+Insert3 ::= INTO Insert4
+            | Insert4
+            ;
+Insert4 ::= ObjectS Insert5
+            ;
+Insert5 ::= Colst Insert6
+            | Insert6
+            ;
+Insert6 ::= Outcl Insert7   
+            | Insert7
+            ;
+Insert7 ::= VALUES OP_PARENTESIS_IZQ Insert8
+            | Select1 Insert9
+            | DEFAULT VALUES Insert9
+            ;
+Insert8 ::= Insert10 Insert11
+            ;
+Insert10 ::= DEFAULT
+            | NULL
+            | Insert_expression
+            ;
+Insert11 ::= OP_COMA Insert8
+            | OP_PARENTESIS_DER Insert12
+            ;
+Insert12 ::= OP_COMA VALUES OP_PARENTESIS_IZQ Insert8
+            | Insert9
+            ;
+Insert9 ::= OP_PUNTOYCOMA
+            | GO
+            ;
 
-    Agg_fn ::= AVG OP_PARENTESIS_IZQ Sel_avg OP_PARENTESIS_DER
-            | COUNT OP_PARENTESIS_IZQ Sel_count OP_PARENTESIS_DER
-            | MAX OP_PARENTESIS_IZQ Sel_agr OP_PARENTESIS_DER
-            | MIN OP_PARENTESIS_IZQ Sel_agr OP_PARENTESIS_DER
-            | SUM OP_PARENTESIS_IZQ Sel_agr OP_PARENTESIS_DER
-            ;
-    Sel_avg ::= Sel_avg1 Sel_avg2
-            ;
-    Sel_avg1 ::= ALL
-                | DISTINCT
-                | /* Epsilon */
-                ;
-    Sel_avg2 ::= Sexp
-                | IDENTIFICADOR Sel_avg3
-                ;
-    Sel_avg3 ::= OP_PUNTO IDENTIFICADOR
-                | /* Epsilon */
-                ;
-    Sel_count ::= Sel_count1 Sel_count2
-                ;
-    Sel_count1 ::= ALL
-                | DISTINCT
-                | /* Epsilon */
-                ;
-    Sel_count2 ::= OP_MULTIPLICACION
-                | IDENTIFICADOR Sel_count3
-                | Sexp 
-                ;
-    Sel_count3 ::= OP_PUNTO IDENTIFICADOR
-                | /* Epsilon */
-                ;
-    Sel_agr ::= Sel_agr1 Sel_agr2
-            ;
-    Sel_agr1 ::= ALL
+Select1 ::= SELECT Select2
+        ;
+Select2 ::= Select3 Select4
+        ;
+Select3 ::= ALL
             | DISTINCT
+            | /* EPSILON */
+            ;
+Select4 ::= TOP Select5
+            | Select7
+            ;
+Select5 ::= OP_PARENTESIS_IZQ Sexp OP_PARENTESIS_IZQ Select6
+        ;
+Select6 ::= PERCENT Select7
+            | Select7
+            ;
+Select7 ::= Selist Select20
+        ;
+Select20 ::= OP_COMA Select7
+            | Select8
+            ;
+Select8 ::= INTO Select9
+            | Select11
+            ;
+Select9 ::= ObjectS Select11
+        ;
+Select11 ::= FROM Jointb Select12
+            | Select12
+            ;
+Select12 ::= WHERE SearchC Select13
+            | Select13
+            ;
+Select13 ::= GROUP BY Expression Select18 Select14
+            | Select14
+            ;
+Select14 ::= HAVING SearchC Select15
+            | Select15
+            ;
+Select15 ::= ORDER BY Orderb Select19
+            | Select19
+            ;
+Select18 ::= OP_COMA Expression Select18
             | /* Epsilon */
             ;
-    Sel_agr2 ::= IDENTIFICADOR Sel_agr3
+Select19 ::= OP_PUNTOYCOMA
+        | GO
+        ;
+
+Update ::= UPDATE Update1 Update15
+            ;
+Update1 ::= TOP OP_PARENTESIS_IZQ Sexp OP_PARENTESIS_DER Update2 Update3
+            | Update3
+            ;
+Update2 ::= PERCENT
+            | /* Epsilon */
+            ;
+Update3 ::= ObjectS Update4
+            | OP_ARROBA IDENTIFICADOR Update4
+            ;
+Update4 ::= SET Update5
+        ;
+Update5 ::= Update6 Update11
+        ;
+Update6 ::= ObjectS Update7
+            | OP_ARROBA IDENTIFICADOR OP_IGUAL Update10
+            ;
+Update7 ::=  OP_ASIGNAR Update9
+        ;
+Update9 ::= Expression
             | Sexp
+            | DEFAULT
+            | NULL
             ;
-    Sel_agr3 ::= OP_PUNTO IDENTIFICADOR
+Update10 ::= Expression
+            ;
+Update11 ::= OP_COMA Update5
+            | Update12
+            ;
+Update12 ::= Outcl Update16
+            | Update16
+            ;
+Update16 ::= FROM Jointb Update17
+            | Update17
+            ;
+Update17 ::= WHERE SearchC
             | /* Epsilon */
+            ;
+Update15 ::= OP_PUNTOYCOMA
+            | GO
             ;
 
-    Outcl ::= OUTPUT Dml1 Outcl1
+Create ::= CREATE Create1 Create21
+        ;
+Create1 ::= DATABASE IDENTIFICADOR
+            | Create2 Create4
+            | TABLE Create11
+            | USER IDENTIFICADOR
+            | Create14 Create15
+            | Create14 PROCEDURE Stored_procedure1
+            | Create14 PROC Stored_procedure1
+            ;
+Create2 ::= UNIQUE Create3
+            | Create3
+            ;
+Create3 ::= CLUSTERED
+            | NONCLUSTERED
+            ;
+Create4 ::= INDEX IDENTIFICADOR ON ObjectS Create5
+            ;
+Create5 ::= OP_PARENTESIS_IZQ Create6
+            ;
+Create6 ::= IDENTIFICADOR Create7 Create8
+            ;
+Create7 ::= ASC
+            | DESC
             | /* Epsilon */
             ;
-    Outcl1 ::= INTO Outcl2
+Create8 ::= OP_COMA Create6
+            | OP_PARENTESIS_DER Create9
+            ;
+Create9 ::= INCLUDE OP_PARENTESIS_IZQ IDENTIFICADOR Create10 OP_PARENTESIS_DER
             | /* Epsilon */
             ;
-    Outcl2 ::= OP_ARROBA IDENTIFICADOR Outcl3
-            | IDENTIFICADOR Outcl3
-            ;
-    Outcl3 ::= Colst
+Create10 ::= OP_COMA IDENTIFICADOR Create10
             | /* Epsilon */
+            ;
+Create11 ::= ObjectS OP_PARENTESIS_IZQ Create12 OP_PARENTESIS_DER
+            ;
+Create12 ::= Col_def Create13
+            | Tb_cst Create13
+            ;
+Create13 ::= OP_COMA Create12
+            | /* Epsilon */
+            ;
+Create14 ::= OR ALTER
+            | /* Epsilon */
+            ;
+Create15 ::= VIEW IDENTIFICADOR Create16
+            ;
+Create16 ::= OP_PUNTO IDENTIFICADOR Create17
+            | Create17
+            ;
+Create17 ::= OP_PARENTESIS_IZQ IDENTIFICADOR Create18 OP_PARENTESIS_DER Create19
+            | Create19
+            ;
+Create18 ::= OP_COMA IDENTIFICADOR Create18
+            | /* Epsilon */
+            ;
+Create19 ::= AS Select1 Create20
+            ;
+Create20 ::= WITH CHECK OPTION
+            | /* Epsilon */
+            ;
+Create21 ::= OP_PUNTOYCOMA
+            | GO
             ;
 
-    Colst ::= OP_PARENTESIS_IZQ Colst1
+Drop    ::= DROP Drop2;
+Drop2   ::= TABLE Drop3 Drop4 
+            | DATABASE Drop3 Drop6
+            | USER Drop3 IDENTIFICADOR
+            | VIEW Drop3 Drop4
+            | INDEX Drop3 Drop8
+            | FUNCTION Drop3 Drop4
+            | PROC Drop3 Drop4
+            | PROCEDURE Drop3 Drop4
             ;
-    Colst1 ::= IDENTIFICADOR Colst2
+Drop3 ::= IF EXISTS
+            | /* Epsilon */
             ;
-    Colst2 ::= OP_COMA Colst1
-            | OP_PARENTESIS_DER
+Drop4 ::= ObjectS Drop5
             ;
-            
-    Dml1 ::= Dml2 Dml3
+Drop5 ::= OP_COMA Drop4
+            | Drop11
+            ;
+Drop6 ::= IDENTIFICADOR Drop7
+            ;
+Drop7 ::= OP_COMA Drop6
+            | Drop11
+            ;
+Drop8 ::= ObjectS Drop9
+            ;
+Drop9 ::= ON ObjectS Drop12
+            | Drop12
+            ;
+Drop11 ::= OP_PUNTOYCOMA
+            | GO
+            ;
+Drop12 ::= OP_COMA Drop8
+            | Drop11
+            ;
+
+Alter ::= ALTER Alter1
         ;
-    Dml2 ::= Colname
-        | Sexp
+Alter1 ::= VIEW Alter2
+        | TABLE ObjectS Alter6
+        | USER IDENTIFICADOR Alter17
+        | DATABASE Alter22 Alter23
+        | Stored_procedure1
         ;
-    Dml3 ::= AS IDENTIFICADOR Dml4
+Alter2 ::= IDENTIFICADOR Alter3
+        ;
+Alter3 ::= OP_PUNTO IDENTIFICADOR Alter4
+        | Alter4
+        ;
+Alter4 ::= OP_PARENTESIS_IZQ IDENTIFICADOR Alter5
+        | AS Select1 Alter24
+        ;
+Alter5 ::= OP_COMA IDENTIFICADOR Alter5
+        | OP_PARENTESIS_DER AS Select1 Alter24
+        ;
+Alter6 ::= ALTER COLUMN IDENTIFICADOR Alter7
+        | ADD Alter15
+        | DROP Alter18
+        ;
+Alter7 ::= IDENTIFICADOR Alter8 Alter9
+        | ADD Alter14
+        | DROP Alter14
+        ;
+Alter8 ::= OP_PUNTO IDENTIFICADOR
         | /* Epsilon */
         ;
-    Dml4 ::= OP_COMA Dml1
+Alter9 ::= OP_PARENTESIS_IZQ INTCONSTANT Alter10 OP_PARENTESIS_DER Alter11
+        ;
+Alter10 ::= OP_COMA INTCONSTANT
         | /* Epsilon */
         ;
-
-    Colname ::= IDENTIFICADOR OP_PUNTO Colname1
+Alter11 ::= COLLATE IDENTIFICADOR Alter12
+            | Alter12
             ;
-    Colname1 ::= OP_MULTIPLICACION
-            | IDENTIFICADOR
-            ;
-
-    Jointb ::= Tb_source Jointb1
-                | OP_PARENTESIS_IZQ JOIN OP_PARENTESIS_DER
-                ;
-    Jointb1 ::= Join_type Jointb3
-                | CROSS JOIN Jointb4
-                | /* Epsilon */
-                ;
-    Jointb2 ::= Join_type Jointb3
-                | CROSS JOIN Jointb4
-                ;
-    Jointb3 ::= Tb_source ON SearchC Jointb4
-                ;
-    Jointb4 ::= Jointb2
-                | /* Epsilon */ 
-                ;
-
-    Tb_source ::= ObjectS Tb_source1 Tb_source2
-                | Rowset Tb_source1
-                | OP_ARROBA IDENTIFICADOR Tb_source1
-                ;
-    Tb_source1 ::= AS IDENTIFICADOR
-                | IDENTIFICADOR
-                | /* Epsilon */ 
-                ;
-    Tb_source2 ::= Sam_cl
-                | /* Epsilon */ 
-                ;
-
-    Rowset::= OPENDATASOURCE OP_PARENTESIS_IZQ STRING OP_COMA STRING OP_PARENTESIS_DER
-            | OPENQUERY OP_PARENTESIS_IZQ IDENTIFICADOR OP_COMA STRING OP_PARENTESIS_DER
-            ;
-
-    Sam_cl ::= TABLESAMPLE OP_PARENTESIS_IZQ Sam_cl1 OP_PARENTESIS_DER
-            ;
-    Sam_cl1 ::= Sexp Sam_cl2
-            ;
-    Sam_cl2 ::= PERCENT
-            | ROWS
-            | /* Epsilon */ 
-            ;
-
-    Join_type ::= Join_type1 JOIN
-                ;
-    Join_type1 ::= INNER
-                | Join_type2 
-                | /* Epsilon */ 
-                ;
-    Join_type2 ::= LEFT Join_type3
-                | RIGHT Join_type3
-                | FULL Join_type3
-                | /* Epsilon */ 
-                ;
-    Join_type3 ::= OUTER
-                | /* Epsilon */ 
-                ;
-
-    SearchC ::= SearchC1 SearchC2
-            ;
-    SearchC1 ::= MATCH OP_PARENTESIS_IZQ Gsp OP_PARENTESIS_DER 
-            | SearchCWM
-            ;
-    SearchC2 ::= AND SearchC
-            ;
-
-    SearchCWM ::= NOT Predicate SearchCWM1
-            | OP_PARENTESIS_IZQ SearchCWM OP_PARENTESIS_DER SearchCWM1
-            ;
-    SearchCWM1 ::= OR SearchCWM2
-            | /* Epsilon */ 
-            ;
-    SearchCWM2 ::= NOT SearchCWM3
-            | SearchCWM3
-            ;
-    SearchCWM3 ::= Predicate SearchCWM1
-            | OP_PARENTESIS_IZQ SearchCWM OP_PARENTESIS_DER SearchCWM1
-            ;
-
-    Predicate ::= Predicate1 Predicate2
-                | CONTAINS OP_PARENTESIS_IZQ Predicate7 OP_COMA Predicate8 OP_PARENTESIS_DER
-                | FREETEXT OP_PARENTESIS_IZQ Predicate7 OP_COMA Predicate9 OP_PARENTESIS_DER
-                ;
-    Predicate1 ::= IDENTIFICADOR
-                | Sexp
-                | Casewhen
-                | Agg_fn
-                | Str_fn
-                | Dt_fn
-                | Conv
-                | Oth_fn
-                ;
-    Predicate2 ::= Compare_opr Predicate1
-                | NOT Predicate3
-                | LIKE Predicate1 Predicate6
-                | BETWEEN Predicate1 AND Predicate1
-                | IS Predicate4 NULL
-                | IN Predicate1 Predicate5
-                ;
-    Predicate3 ::= LIKE Predicate1 Predicate6
-                | BETWEEN Predicate1 AND Predicate1
-                | IN Predicate1 Predicate5
-                ;
-    Predicate4 ::= NOT
-                | /* Epsilon */ 
-                ;
-    Predicate5 ::= OP_COMA Predicate1 Predicate5
-                | /* Epsilon */ 
-                ;
-    Predicate6 ::= ESCAPE STRING
-                | /* Epsilon */ 
-                ;
-    Predicate7 ::= OP_MULTIPLICACION
-                | ObjectS
-                ;
-    Predicate8 ::= SearchC
-                ;
-    Predicate9 ::= STRING
-                | OP_ARROBA IDENTIFICADOR
-                ;
-
-    Casewhen ::= CASE Casewhen1 /* Esta como CASEW en la gramatica */
-            ;
-    Casewhen1 ::= Expression Casewhen2
-            | Casewhen2
-            ;
-    Casewhen2 ::= WHEN Expression THEN Expression Casewhen3
-            ;
-    Casewhen3 ::= ELSE Expression END
-            | Casewhen2
-            | END
-            ;
-
-    Str_fn ::= LOWER OP_PARENTESIS_IZQ Str_fn1 OP_PARENTESIS_DER
-            | TRANSLATE OP_PARENTESIS_IZQ Str_fn1 OP_COMA Str_fn1 OP_COMA Str_fn1 OP_PARENTESIS_DER
-            | UPPER OP_PARENTESIS_IZQ Str_fn1 OP_PARENTESIS_DER
-            | CHAR OP_PARENTESIS_IZQ Sexp OP_PARENTESIS_DER
-            | LEFT OP_PARENTESIS_IZQ Str_fn1 OP_COMA Sexp OP_PARENTESIS_DER
-            | TRIM OP_PARENTESIS_IZQ Str_fn1 Str_fn2 OP_PARENTESIS_DER
-            | NCHAR OP_PARENTESIS_IZQ Sexp OP_PARENTESIS_DER
-            | RIGHT OP_PARENTESIS_IZQ Str_fn1 OP_COMA Sexp OP_PARENTESIS_DER
-            | SPACE OP_PARENTESIS_IZQ Sexp OP_PARENTESIS_DER
-            | SUBSTRING OP_PARENTESIS_IZQ Str_fn1 OP_COMA Sexp OP_COMA Sexp OP_PARENTESIS_DER
-            ;
-    Str_fn1 ::= OP_ARROBA IDENTIFICADOR
-                | STRING
-                | IDENTIFICADOR
-                ;
-    Str_fn2 ::= FROM Str_fn1
-                | /* Epsilon */ 
-                ;
-
-    Dt_fn::= CURRENT_TIMESTAMP
-                | DAY OP_PARENTESIS_IZQ Dt_fn1 OP_PARENTESIS_DER
-                | MONTH OP_PARENTESIS_IZQ Dt_fn1 OP_PARENTESIS_DER
-                | YEAR OP_PARENTESIS_IZQ Dt_fn1 OP_PARENTESIS_DER
-                | SET LANGUAGE Dt_fn2
-                ;
-    Dt_fn1 ::= STRING
-                | OP_ARROBA IDENTIFICADOR
-                ;
-    Dt_fn2 ::= OP_ARROBA IDENTIFICADOR
-                | IDENTIFICADOR
-                ;
-                
-    Conv ::= CAST OP_PARENTESIS_IZQ Conv1 
-            | CONVERT OP_PARENTESIS_IZQ Conv2                
-            ;
-    Conv1 ::= Expression AS Data_type Conv3 OP_PARENTESIS_DER
-            ;
-    Conv2 ::= Data_type Conv3 Conv4
-            ;
-    Conv3 ::= OP_PARENTESIS_IZQ INTEGER OP_PARENTESIS_DER
+Alter12 ::= Alter13
             | /* Epsilon */
             ;
-    Conv4 ::= Expression Conv5
+Alter13 ::= NULL
+            | NOT NULL
             ;
-    Conv5 ::= OP_COMA Sexp
-            | OP_PARENTESIS_DER
+Alter14 ::= ROWGUIDCOL
+            | NOT FOR REPLICATION
+            ;
+Alter15 ::= Col_def Alter16
+            | Tb_cst Alter16
+            ;
+Alter16 ::= OP_COMA Alter15
+            | Alter17
+            ;
+Alter17 ::= OP_PUNTOYCOMA
+            | GO
+            ;
+Alter18 ::= CONSTRAINT Alter19
+            | COLUMN Alter19
+            | Alter19
+            ;
+Alter19 ::= IF EXISTS Alter20
+            | Alter20
+            ;
+Alter20 ::= IDENTIFICADOR Alter21
+            ;
+Alter21 ::= OP_COMA Alter20
+            | Alter17
+            ;
+Alter22 ::= IDENTIFICADOR
+            | CURRENT
+            ;
+Alter23 ::= COLLATE IDENTIFICADOR Alter17
+            ;
+Alter24 ::= WITH CHECK OPTION
+            | /* Epsilon */
             ;
 
-    Oth_fn ::= NEXT VALUE FOR IDENTIFICADOR Oth_fn1
-                | SYSTEM_USER
-                | SESSION_USER
-                | NULLIF OP_PARENTESIS_IZQ Expression OP_COMA Expression OP_PARENTESIS_DER
-                ;
-    Oth_fn1 ::=  OP_PUNTO IDENTIFICADOR Oth_fn2
-                | Oth_fn2
-                ;
-    Oth_fn2 ::= OP_PUNTO IDENTIFICADOR Oth_fn3
-                | Oth_fn3
-                ;
-    Oth_fn3 ::= OVER ORDER BY Orderb
+Commit ::= COMMIT Commit1 Commit5
+        ;
+Commit1 ::= TRAN Commit2 
+        | TRANSACTION Commit2
+        | WORK
+        ;
+Commit2 ::= IDENTIFICADOR
+        | OP_ARROBA IDENTIFICADOR
+        ;
+Commit5 ::= OP_PUNTOYCOMA
+        | GO
+        ;
+
+Rollback ::= ROLLBACK Rollback1 Rollback3
+        ;
+Rollback1 ::= TRAN Rollback2
+    | TRANSACTION Rollback2 
+    | WORK
+    ;
+Rollback2 ::= IDENTIFICADOR
+    | OP_ARROBA IDENTIFICADOR
+    | /* Epsilon */
+    ;
+Rollback3 ::= OP_PUNTOYCOMA
+    | GO
+    ;
+
+Savepoint ::= SAVE Savepoint1 Savepoint3
+            ;
+Savepoint1 ::= TRAN Savepoint2
+            | TRANSACTION Savepoint2
+            ;
+Savepoint2 ::= IDENTIFICADOR
+            | OP_ARROBA IDENTIFICADOR
+            ;
+Savepoint3 ::= OP_PUNTOYCOMA
+            | GO
             ;
 
-    Compare_opr ::= OP_MAYOR
-                    | OP_MENOR
-                    | OP_MAYORIGUAL
-                    | OP_MENORIGUAL
-                    | OP_DIFERENTE
+Begend ::= BEGIN Begin END
+        ;
+
+BeginT ::= BEGIN BeginT1 BeginT3
+        ;
+BeginT1 ::= TRAN BeginT2
+        | TRANSACTION BeginT2
+        ;
+BeginT2 ::=  IDENTIFICADOR 
+        | OP_ARROBA IDENTIFICADOR
+        ;
+BeginT3 ::= OP_PUNTOYCOMA
+        | GO
+        ;
+
+Stored_procedure1 ::= IDENTIFICADOR Stored_procedure2
                     ;
-                    
-    Orderb ::= Selist Orderb1
+Stored_procedure2 ::= OP_PUNTO IDENTIFICADOR Stored_procedure3
+                    | Stored_procedure3
+                    ;
+Stored_procedure3 ::= OP_PUNTOYCOMA INTCONSTANT Stored_procedure4
+                    | Stored_procedure4 
+                    ;
+Stored_procedure4 ::= OP_ARROBA IDENTIFICADOR Stored_procedure5 Data_type Stored_procedure6
+                    ;
+Stored_procedure5 ::= AS
+                    | /* Epsilon */ 
+                    ;
+Stored_procedure6 ::= VARYING Stored_procedure7
+                    | Stored_procedure7
+                    ;
+Stored_procedure7 ::= OP_ASIGNAR Defv Stored_procedure8
+                    | Stored_procedure8
+                    ;
+Stored_procedure8 ::= OUTPUT Stored_procedure9
+                    | OUT Stored_procedure9
+                    | Stored_procedure9
+                    ;
+Stored_procedure9 ::= OP_COMA Stored_procedure4
+                    | Stored_procedure10
+                    ;
+Stored_procedure10 ::= WITH Stored_procedure11 AS Stored_procedure12 Stored_procedure13
+                    | Stored_procedure13
+                    ;
+Stored_procedure11 ::= EXECUTE
+                    | EXEC 
+                    ;
+Stored_procedure12 ::= STRING 
+                    ;
+Stored_procedure13 ::= FOR REPLICATION Stored_procedure14
+                    | Stored_procedure14 
+                    ;
+Stored_procedure14 ::= AS Stored_procedure15 Stored_procedure16 Stored_procedure17 Stored_procedure_end
+                    ;
+Stored_procedure15 ::= BEGIN
+                    | /* Epsilon */ 
+                    ;
+Stored_procedure16 ::= Select1
+                    | Insert
+                    | Del1
+                    | Update
+                    ;
+Stored_procedure17 ::= Stored_procedure16 Stored_procedure17
+                    | END
+                    | /* Epsilon */ 
+                    ;
+Stored_procedure_end ::= OP_PUNTOYCOMA
+                    | GO
+                    ;
+
+Defv ::= STRING 
+        | FLOAT
+        | INTCONSTANT
+        | NULL ;
+
+Function1 ::= CREATE Function2 FUNCTION  Function3
             ;
-    Orderb1 ::= Orderb2
-                | OP_COMA Orderb
-                ;
-    Orderb2 ::= COLLATE Orderb3
-                | Orderb4
-                ;
-    Orderb3 ::= IDENTIFICADOR Orderb4
+
+Function2 ::= OR ALTER
+            | /* Epsilon */
             ;
-    Orderb4 ::= ASC
-                | DESC
+        
+Function3 ::= IDENTIFICADOR Function3
+            | Function4
+            ;
+		
+Function4 ::= OP_PUNTO IDENTIFICADOR  Function5
+            ;
+
+Function5 ::=  OP_PARENTESIS_IZQ Function6 OP_PARENTESIS_DER Function9
+            ;
+Function6 ::= OP_ARROBA IDENTIFICADOR Function7 Data_type Function8
+            ;
+Function7 ::= AS 
+            | /* Epsilon */
+            ;
+Function8 ::= OP_COMA Function6
+            | /* Epsilon */
+            ;
+Function9 ::= RETURN Function10
+            ;
+Function10 ::=  Data_type Function11
+            | TABLE Function14
+            ;
+Function11 ::= AS Function12
+            | Function12
+            ;
+Function12 ::=  BEGIN Begin  Function13 END FunctionEnd
+            ;
+Function13 ::= RETURN Sexp
+            ;
+
+Function14 ::=  AS Function15
+            | Function15
+            ;
+Function15 ::= OP_PARENTESIS_IZQ Function16 OP_PARENTESIS_DER
+            | Function16
+            ;
+Function16 ::= Select1
+            ;
+FunctionEnd ::= OP_PUNTOYCOMA
+            | GO
+            ;
+
+Cursor1 ::= DECLARE IDENTIFICADOR  CURSOR Reservadas_cursor1 Cursor2
+        ;
+Cursor2 ::= FOR Select1 Cursor3
+        ;
+Cursor3 ::= OPEN IDENTIFICADOR Cursor5
+        ;
+Cursor4 ::= FETCH NEXT FROM IDENTIFICADOR INTO Declare2
+        ;
+Cursor5 ::= While1 Cursor6
+        ;
+Cursor6 ::= CLOSE IDENTIFICADOR Cursor7
+        ;
+Cursor7 ::= DEALLOCATE IDENTIFICADOR Cursor8
+        ;
+Cursor8 ::= OP_PUNTOYCOMA
+		| GO
+        ;
+
+Declare1 ::= DECLARE Declare2
+            ;
+Declare2 ::= OP_ARROBA IDENTIFICADOR As1 Tipos1 Declare2  
+            ;
+Declare3 ::= OP_COMA OP_ARROBA IDENTIFICADOR As1 Tipos1 Declare2
+		| OP_COMA OP_ARROBA IDENTIFICADOR As1 Tipos1 OP_PUNTOYCOMA
+		| /* Epsilon */ OP_PUNTOYCOMA
+        ;
+
+As1 ::= AS
+	| /* Epsilon */
+    ;
+
+Tipos1 ::= CHAR OP_PARENTESIS_IZQ INTCONSTANT OP_PARENTESIS_DER
+	| BIT
+	| DATE
+	| DECIMAL
+	| DOUBLE
+	| FLOAT
+	| INT
+	| INTEGER
+	| SMALLINT
+	| TIME
+	| TIMESTAMP
+	| VARCHAR OP_PARENTESIS_IZQ INTCONSTANT OP_PARENTESIS_DER
+    ;
+
+Reservadas_cursor1 ::= LOCAL Reservadas_cursor2
+				| GLOBAL Reservadas_cursor2
+				| Reservadas_cursor2
+				| /* Epsilon */
                 ;
-                
-    Expression ::= Sexp Expression1 Expression3
-                | Expression2 OP_SUMA Expression2
-                | NOT Expression Expression4
-                | /* Epsilon */
+Reservadas_cursor2 ::=  SCROLL Reservadas_cursor3
+				/*| FORWARD_ONLY  Reservadas_cursor3*/
+				| Reservadas_cursor3
+				| /* Epsilon */
                 ;
-    Expression1 ::= Ar_opr
-                | Compare_opr
-                | OP_SUMA
+Reservadas_cursor3 ::=     Reservadas_cursor4
+				| KEY SET  Reservadas_cursor4
+				/*| DYNAMIC  Reservadas_cursor4*/
+				/*| FAST_FORWARD  Reservadas_cursor4*/
+				| Reservadas_cursor4
+				| /* Epsilon */
                 ;
-    Expression2 ::= STRING
-                | IDENTIFICADOR
-                ;
-    Expression3 ::= Sexp
-                | IDENTIFICADOR
-                | STRING
-                ;
-    Expression4 ::= Compare_opr
-                | Logic_opr
+Reservadas_cursor4 ::=   READ ONLY  /*Reservadas_cursor5*/
+				/*| SCROLL_LOCKS  Reservadas_cursor5*/
+				/*| OPTIMISTIC  Reservadas_cursor5*/
+				/*| Reservadas_cursor5*/
+				| /* Epsilon */
                 ;
 
-    Ar_opr ::= OP_RESTA
+
+While1 ::= WHILE OP_PARENTESIS_IZQ IDENTIFICADOR Operadores1 Const_exp OP_PARENTESIS_DER OP_LLAVE_IZQ While2
+        ;
+While2 ::= Select1 While2
+            | Insert1 While2
+            | Update While2
+            | Del1 While2
+            | Alter While2
+            | Create While2
+            | Truncate While2
+            | Drop While2
+            | Commit While2
+            | Rollback While2
+            | Savepoint While2
+            | OP_LLAVE_DER
+            ;
+Operadores1 ::= OP_SUMA
+            | OP_RESTA
             | OP_MULTIPLICACION
             | OP_DIVISION
             | OP_PORCENTAJE
+            | OP_MENOR
+            | OP_MENORIGUAL
+            | OP_MAYOR
+            | OP_MAYORIGUAL
+            | OP_IGUAL
+            | OP_ASIGNAR
+            | OP_DIFERENTE
             ;
-
-    Logic_opr ::= BETWEEN
-            | IN
-            | LIKE
-            ;
-
-    Selist::= Selist1
-            ;
-    Selist1 ::= OP_MULTIPLICACION
-                | IDENTIFICADOR Selist2
-                | Expression Selist5
-                | Agg_fn Selist5
-                | Str_fn Selist5
-                | Dt_fn Selist5
-                | Conv Selist5
-                | Casewhen Selist5
-                ;
-    Selist2 ::= OP_PUNTO Selist3
-                | OP_IGUAL Selist6
-                | /* Epsilon */
-                ;
-    Selist3 ::= OP_MULTIPLICACION
-                | IDENTIFICADOR Selist5
-                ;
-    Selist5 ::= AS IDENTIFICADOR
-                | IDENTIFICADOR 
-                | /* Epsilon */
-                ;
-    Selist6 ::= Expression
-            ;
-
-    Gsp ::= IDENTIFICADOR Gsp1 IDENTIFICADOR
+/* -------------------------------------------------------------------------------------------*/
+/* METODOS COMUNES */
+ObjectS ::= IDENTIFICADOR Object1
         ;
-    Gsp1 ::= OP_MENOR OP_RESTA OP_PARENTESIS_IZQ IDENTIFICADOR OP_PARENTESIS_DER OP_RESTA
-        | OP_RESTA OP_PARENTESIS_IZQ IDENTIFICADOR OP_PARENTESIS_DER OP_RESTA OP_MAYOR
+Object1 ::= OP_PUNTO IDENTIFICADOR Object2
+        |   /* Epsilon */
+        ;
+Object2 ::= OP_PUNTO IDENTIFICADOR Object3
+        |   /* Epsilon */
+        ;
+Object3 ::= OP_PUNTO IDENTIFICADOR
+        |   /* Epsilon */
         ;
 
-    Data_type ::= IDENTIFICADOR Data_type2
-                |Data_type3
-                ; 
-    Data_type2 ::= OP_PUNTO IDENTIFICADOR
+Sexp    ::= Sexp3 Sexp2
+        ;
+Sexp2   ::= OP_SUMA Sexp3 Sexp2
+        | OP_RESTA Sexp3 Sexp2
+        |   /* Epsilon */
+        ;
+Sexp3 ::= Sexp5 Sexp4
+    ;
+Sexp4   ::= OP_MULTIPLICACION Sexp5 Sexp4
+        |   OP_DIVISION Sexp5 Sexp4
+        |   /* Epsilon */
+        ;
+Sexp5 ::= OP_PARENTESIS_IZQ Sexp OP_PARENTESIS_DER
+    | INTCONSTANT
+    | FLOAT
+    | OP_ARROBA IDENTIFICADOR
+    | Agg_fn
+    | ObjectS
+    ;
+
+Agg_fn ::= AVG OP_PARENTESIS_IZQ Sel_avg OP_PARENTESIS_DER
+        | COUNT OP_PARENTESIS_IZQ Sel_count OP_PARENTESIS_DER
+        | MAX OP_PARENTESIS_IZQ Sel_agr OP_PARENTESIS_DER
+        | MIN OP_PARENTESIS_IZQ Sel_agr OP_PARENTESIS_DER
+        | SUM OP_PARENTESIS_IZQ Sel_agr OP_PARENTESIS_DER
+        ;
+Sel_avg ::= Sel_avg1 Sel_avg2
+        ;
+Sel_avg1 ::= ALL
+            | DISTINCT
+            | /* Epsilon */
+            ;
+Sel_avg2 ::= Sexp
+            | IDENTIFICADOR Sel_avg3
+            ;
+Sel_avg3 ::= OP_PUNTO IDENTIFICADOR
+            | /* Epsilon */
+            ;
+Sel_count ::= Sel_count1 Sel_count2
+            ;
+Sel_count1 ::= ALL
+            | DISTINCT
+            | /* Epsilon */
+            ;
+Sel_count2 ::= OP_MULTIPLICACION
+            | IDENTIFICADOR Sel_count3
+            | Sexp 
+            ;
+Sel_count3 ::= OP_PUNTO IDENTIFICADOR
+            | /* Epsilon */
+            ;
+Sel_agr ::= Sel_agr1 Sel_agr2
+        ;
+Sel_agr1 ::= ALL
+        | DISTINCT
+        | /* Epsilon */
+        ;
+Sel_agr2 ::= IDENTIFICADOR Sel_agr3
+        | Sexp
+        ;
+Sel_agr3 ::= OP_PUNTO IDENTIFICADOR
+        | /* Epsilon */
+        ;
+
+Outcl ::= OUTPUT Dml1 Outcl1
+        | /* Epsilon */
+        ;
+Outcl1 ::= INTO Outcl2
+        | /* Epsilon */
+        ;
+Outcl2 ::= OP_ARROBA IDENTIFICADOR Outcl3
+        | IDENTIFICADOR Outcl3
+        ;
+Outcl3 ::= Colst
+        | /* Epsilon */
+        ;
+
+Insert_expression ::= Sexp
+                    | STRING
+                    | NULL ;
+
+Colst ::= OP_PARENTESIS_IZQ Colst1
+        ;
+Colst1 ::= IDENTIFICADOR Colst2
+        ;
+Colst2 ::= OP_COMA Colst1
+        | OP_PARENTESIS_DER
+        ;
+
+Dml1 ::= Dml2 Dml3
+    ;
+Dml2 ::= Colname
+    | Sexp
+    ;
+Dml3 ::= AS IDENTIFICADOR Dml4
+    | /* Epsilon */
+    ;
+Dml4 ::= OP_COMA Dml1
+    | /* Epsilon */
+    ;
+
+Colname ::= IDENTIFICADOR OP_PUNTO Colname1
+        ;
+Colname1 ::= OP_MULTIPLICACION
+        | IDENTIFICADOR
+        ;
+
+Jointb ::= Tb_source Jointb1
+            | OP_PARENTESIS_IZQ JOIN OP_PARENTESIS_DER
+            ;
+Jointb1 ::= Join_type Jointb3
+            | CROSS JOIN Jointb4
+            | /* Epsilon */
+            ;
+Jointb2 ::= Join_type Jointb3
+            | CROSS JOIN Jointb4
+            ;
+Jointb3 ::= Tb_source ON SearchC Jointb4
+            ;
+Jointb4 ::= Jointb2
+            | /* Epsilon */ 
+            ;
+
+Tb_source ::= ObjectS Tb_source1 Tb_source2
+            | Rowset Tb_source1
+            | OP_ARROBA IDENTIFICADOR Tb_source1
+            ;
+Tb_source1 ::= AS IDENTIFICADOR
+            | IDENTIFICADOR
+            | /* Epsilon */ 
+            ;
+Tb_source2 ::= Sam_cl
+            | /* Epsilon */ 
+            ;
+
+Rowset ::= OPENDATASOURCE OP_PARENTESIS_IZQ STRING OP_COMA STRING OP_PARENTESIS_DER
+        | OPENQUERY OP_PARENTESIS_IZQ IDENTIFICADOR OP_COMA STRING OP_PARENTESIS_DER
+        ;
+
+Sam_cl ::= TABLESAMPLE OP_PARENTESIS_IZQ Sam_cl1 OP_PARENTESIS_DER
+        ;
+Sam_cl1 ::= Sexp Sam_cl2
+        ;
+Sam_cl2 ::= PERCENT
+        | ROWS
+        | /* Epsilon */ 
+        ;
+
+Join_type ::= Join_type1 JOIN
+            ;
+Join_type1 ::= INNER
+            | Join_type2 
+            | /* Epsilon */ 
+            ;
+Join_type2 ::= LEFT Join_type3
+            | RIGHT Join_type3
+            | FULL Join_type3
+            | /* Epsilon */ 
+            ;
+Join_type3 ::= OUTER
+            | /* Epsilon */ 
+            ;
+
+SearchC ::= SearchC1 SearchC2
+        ;
+SearchC1 ::= MATCH OP_PARENTESIS_IZQ Gsp OP_PARENTESIS_DER 
+        | SearchCWM
+        ;
+SearchC2 ::= AND SearchC
+        | /* Epsilon */
+        ;
+
+SearchCWM ::= SearchCWM4 Predicate SearchCWM1
+        | OP_PARENTESIS_IZQ SearchCWM OP_PARENTESIS_DER SearchCWM1
+        ;
+SearchCWM1 ::= OR SearchCWM2
+        | /* Epsilon */ 
+        ;
+SearchCWM2 ::= NOT SearchCWM3
+        | SearchCWM3
+        ;
+SearchCWM3 ::= Predicate SearchCWM1
+        | OP_PARENTESIS_IZQ SearchCWM OP_PARENTESIS_DER SearchCWM1
+        ;
+SearchCWM4 ::= NOT
+            | /* Epsilon */
+            ;
+
+Predicate ::= Predicate1 Predicate2
+            | CONTAINS OP_PARENTESIS_IZQ Predicate7 OP_COMA Predicate8 OP_PARENTESIS_DER
+            | FREETEXT OP_PARENTESIS_IZQ Predicate7 OP_COMA Predicate9 OP_PARENTESIS_DER
+            ;
+Predicate1 ::= ObjectS
+            | STRING
+            | Sexp
+            | Casewhen
+            | Agg_fn
+            | Str_fn
+            | Dt_fn
+            | Conv
+            | Oth_fn
+            ;
+Predicate2 ::= Compare_opr Predicate1
+            | NOT Predicate3
+            | LIKE Predicate1 Predicate6
+            | BETWEEN Predicate1 AND Predicate1
+            | IS Predicate4 NULL
+            | IN Predicate1 Predicate5
+            ;
+Predicate3 ::= LIKE Predicate1 Predicate6
+            | BETWEEN Predicate1 AND Predicate1
+            | IN Predicate1 Predicate5
+            ;
+Predicate4 ::= NOT
+            | /* Epsilon */ 
+            ;
+Predicate5 ::= OP_COMA Predicate1 Predicate5
+            | /* Epsilon */ 
+            ;
+Predicate6 ::= ESCAPE STRING
+            | /* Epsilon */ 
+            ;
+Predicate7 ::= OP_MULTIPLICACION
+            | ObjectS
+            ;
+Predicate8 ::= SearchC
+            ;
+Predicate9 ::= STRING
+            | OP_ARROBA IDENTIFICADOR
+            ;
+
+Casewhen ::= CASE Casewhen1 /* Esta como CASEW en la gramatica */
+        ;
+Casewhen1 ::= Expression Casewhen2
+        | Casewhen2
+        ;
+Casewhen2 ::= WHEN Expression THEN Expression Casewhen3
+        ;
+Casewhen3 ::= ELSE Expression END
+        | Casewhen2
+        | END
+        ;
+
+Str_fn ::= LOWER OP_PARENTESIS_IZQ Str_fn1 OP_PARENTESIS_DER
+        | TRANSLATE OP_PARENTESIS_IZQ Str_fn1 OP_COMA Str_fn1 OP_COMA Str_fn1 OP_PARENTESIS_DER
+        | UPPER OP_PARENTESIS_IZQ Str_fn1 OP_PARENTESIS_DER
+        | CHAR OP_PARENTESIS_IZQ Sexp OP_PARENTESIS_DER
+        | LEFT OP_PARENTESIS_IZQ Str_fn1 OP_COMA Sexp OP_PARENTESIS_DER
+        | TRIM OP_PARENTESIS_IZQ Str_fn1 Str_fn2 OP_PARENTESIS_DER
+        | NCHAR OP_PARENTESIS_IZQ Sexp OP_PARENTESIS_DER
+        | RIGHT OP_PARENTESIS_IZQ Str_fn1 OP_COMA Sexp OP_PARENTESIS_DER
+        | SPACE OP_PARENTESIS_IZQ Sexp OP_PARENTESIS_DER
+        | SUBSTRING OP_PARENTESIS_IZQ Str_fn1 OP_COMA Sexp OP_COMA Sexp OP_PARENTESIS_DER
+        ;
+Str_fn1 ::= OP_ARROBA IDENTIFICADOR
+            | STRING
+            | IDENTIFICADOR
+            ;
+Str_fn2 ::= FROM Str_fn1
+            | /* Epsilon */ 
+            ;
+
+Dt_fn::= CURRENT_TIMESTAMP
+            | DAY OP_PARENTESIS_IZQ Dt_fn1 OP_PARENTESIS_DER
+            | MONTH OP_PARENTESIS_IZQ Dt_fn1 OP_PARENTESIS_DER
+            | YEAR OP_PARENTESIS_IZQ Dt_fn1 OP_PARENTESIS_DER
+            | SET LANGUAGE Dt_fn2
+            ;
+Dt_fn1 ::= STRING
+            | OP_ARROBA IDENTIFICADOR
+            ;
+Dt_fn2 ::= OP_ARROBA IDENTIFICADOR
+            | IDENTIFICADOR
+            ;
+
+Conv ::= CAST OP_PARENTESIS_IZQ Conv1 
+        | CONVERT OP_PARENTESIS_IZQ Conv2                
+        ;
+Conv1 ::= Expression AS Data_type Conv3 OP_PARENTESIS_DER
+        ;
+Conv2 ::= Data_type Conv3 Conv4
+        ;
+Conv3 ::= OP_PARENTESIS_IZQ INTCONSTANT OP_PARENTESIS_DER
+        | /* Epsilon */
+        ;
+Conv4 ::= Expression Conv5
+        ;
+Conv5 ::= OP_COMA Sexp
+        | OP_PARENTESIS_DER
+        ;
+
+Oth_fn ::= NEXT VALUE FOR IDENTIFICADOR Oth_fn1
+            | SYSTEM_USER
+            | SESSION_USER
+            | NULLIF OP_PARENTESIS_IZQ Expression OP_COMA Expression OP_PARENTESIS_DER
+            ;
+Oth_fn1 ::=  OP_PUNTO IDENTIFICADOR Oth_fn2
+            | Oth_fn2
+            ;
+Oth_fn2 ::= OP_PUNTO IDENTIFICADOR Oth_fn3
+            | Oth_fn3
+            ;
+Oth_fn3 ::= OVER ORDER BY Orderb
+            ;
+
+Compare_opr ::= OP_MAYOR
+            | OP_MENOR
+            | OP_MAYORIGUAL
+            | OP_MENORIGUAL
+            | OP_DIFERENTE
+            | OP_IGUAL
+            | OP_ASIGNAR
+            ;
+
+Orderb ::= Selist Orderb1
+        ;
+Orderb1 ::= Orderb2
+            | OP_COMA Orderb
+            ;
+Orderb2 ::= COLLATE Orderb3
+            | Orderb4
+            ;
+Orderb3 ::= IDENTIFICADOR Orderb4
+        ;
+Orderb4 ::= ASC
+            | DESC
+            | /* Epsilon */
+            ;
+
+Expression ::= Sexp Expression1 Expression3
+            | Expression2 OP_SUMA Expression2
+            | NOT Expression Expression4
+            | Expression3 /* Antes era Epsilon */
+            ;
+Expression1 ::= Ar_opr
+            | Compare_opr
+            | OP_SUMA
+            ;
+Expression2 ::= STRING
+            | IDENTIFICADOR
+            ;
+Expression3 ::= Sexp
+            | IDENTIFICADOR
+            | STRING
+            ;
+Expression4 ::= Compare_opr
+            | Logic_opr
+            ;
+
+Ar_opr ::= OP_RESTA
+        | OP_MULTIPLICACION
+        | OP_DIVISION
+        | OP_PORCENTAJE
+        ;
+
+Logic_opr ::= BETWEEN
+        | IN
+        | LIKE
+        ;
+
+Selist::= Selist1 Selist5
+        | OP_MULTIPLICACION
+        | OP_ARROBA IDENTIFICADOR OP_IGUAL Selist1
+        ;
+Selist1 ::=  IDENTIFICADOR Selist2
+            | Expression
+            | Agg_fn
+            | Str_fn
+            | Dt_fn 
+            | Conv
+            | Casewhen
+            ;
+Selist2 ::= OP_PUNTO Selist3
+            | OP_IGUAL Selist6
+            | /* Epsilon */
+            ;
+Selist3 ::= OP_MULTIPLICACION
+            | IDENTIFICADOR Selist7
+            ;
+Selist5 ::= AS IDENTIFICADOR
+            | IDENTIFICADOR 
+            | /* Epsilon */
+            ;
+Selist6 ::= Expression
+        ;
+Selist7 ::= OP_PUNTO IDENTIFICADOR Selist5
+        | Selist5;
+
+Gsp ::= IDENTIFICADOR Gsp1 IDENTIFICADOR
+    ;
+Gsp1 ::= OP_MENOR OP_RESTA OP_PARENTESIS_IZQ IDENTIFICADOR OP_PARENTESIS_DER OP_RESTA
+    | OP_RESTA OP_PARENTESIS_IZQ IDENTIFICADOR OP_PARENTESIS_DER OP_RESTA OP_MAYOR
+    ;
+
+Data_type ::= IDENTIFICADOR Data_type2
+            |Data_type3
+            ; 
+Data_type2 ::= OP_PUNTO IDENTIFICADOR
+            ;
+Data_type3 ::= BIT Data_type4
+            |INT Data_type4
+            |INTEGER Data_type4
+            |FLOAT Data_type4
+            |VARCHAR Data_type4
+            |DATE Data_type4
+            |REAL Data_type4
+            |DECIMAL Data_type4
+            |NUMERIC Data_type4
+            |SMALLINT Data_type4
+            |TIME Data_type4
+            |CHAR Data_type4
+            |NCHAR Data_type4
+            ;
+Data_type4 ::= OP_PARENTESIS_IZQ INTCONSTANT Data_type5
+            | /* Epsilon */
+            ;
+Data_type5 ::= OP_COMA INTCONSTANT OP_PARENTESIS_DER
+            | OP_PARENTESIS_DER
+            ;
+
+    
+
+    Col_def     ::= IDENTIFICADOR Data_type Col_def1
                 ;
-    Data_type3 ::= BIT Data_type4
-                |INT Data_type4
-                |INTEGER Data_type4
-                |FLOAT Data_type4
-                |VARCHAR Data_type4
-                |DATE Data_type4
-                |REAL Data_type4
-                |DECIMAL Data_type4
-                |NUMERIC Data_type4
-                |SMALLINT Data_type4
-                |TIME Data_type4
-                |CHAR Data_type4
-                |NCHAR Data_type4
+    Col_def1    ::= COLLATE IDENTIFICADOR Col_def2
+                | Col_def2
                 ;
-    Data_type4 ::= OP_PARENTESIS_IZQ INTCONSTANT Data_type5
-                    | /* Epsilon */
-                    ;
-    Data_type5 ::= OP_COMA INTCONSTANT OP_PARENTESIS_DER
-                    | OP_PARENTESIS_DER
-                    ;
+    Col_def2    ::= NULL Col_def3
+                | NOT NULL Col_def3
+                | Col_def3
+                | IDENTITY Col_def6
+                ;
+    Col_def3 ::= CONSTRAINT IDENTIFICADOR Col_def10
+                | Col_cst
+                | Col_def4
+                ;
+    Col_def4 ::= DEFAULT Const_exp Col_def5
+                ;
+    Col_def5 ::= WITH VALUES Col_def8
+                | Col_def8
+                ;
+    Col_def6 ::= OP_PARENTESIS_IZQ Sexp OP_COMA Sexp OP_PARENTESIS_DER Col_def7
+                | Col_def7
+                ;
+    Col_def7 ::= NOT FOR REPLICATION Col_def8
+                | Col_def8
+                ;
+    Col_def8 ::= ROWGUIDCOL /*Col_def9*/
+                /*| Col_def9*/
+                ;
+    Col_def10 ::= Col_def4
+                | Col_cst
+                ;
+
+    Tb_cst ::= Tb_cst1 Tb_cst2 
+                ;
+    Tb_cst1 ::= CONSTRAINT IDENTIFICADOR
+                | /* Epsilon */
+                ;
+    Tb_cst2 ::= PRIMARY KEY Tb_cst3
+                | UNIQUE Tb_cst3
+                | Tb_cst7
+                | CONNECTION Tb_cst17
+                | DEFAULT Tb_cst18
+                | CHECK Tb_cst15
+                ;
+    Tb_cst3 ::= CLUSTERED Tb_cst4
+                | Tb_cst4
+                ;
+    Tb_cst4 ::= WITH Tb_cst5 Tb_cst6
+                | Tb_cst6
+                ;
+    Tb_cst5 ::= FILLFACTOR OP_IGUAL INTCONSTANT
+                | OP_PARENTESIS_IZQ FILLFACTOR OP_IGUAL INTCONSTANT OP_PARENTESIS_DER
+                ;
+    Tb_cst6 ::= ON IDENTIFICADOR OP_PARENTESIS_IZQ IDENTIFICADOR OP_PARENTESIS_DER
+                ;
+    Tb_cst7 ::= Tb_cst8 REFERENCES IDENTIFICADOR Tb_cst9
+                ;
+    Tb_cst8 ::= FOREIGN KEY
+                | /* Epsilon */
+                ;
+    Tb_cst9 ::= OP_PUNTO IDENTIFICADOR Tb_cst10
+                | Tb_cst10
+                ;
+    Tb_cst10 ::= OP_PARENTESIS_IZQ IDENTIFICADOR OP_PARENTESIS_DER Tb_cst11
+                ;
+    Tb_cst11 ::= ON Tb_cst12 Tb_cst13
+                | NOT FOR REPLICATION
+                | /* Epsilon */
+                ;
+    Tb_cst12 ::= DELETE
+                | UPDATE
+                ;
+    Tb_cst13 ::= NO ACTION
+                | CASCADE
+                | SET Tb_cst14
+                ;
+    Tb_cst14 ::= NULL
+                | DEFAULT
+                ;
+    Tb_cst15 ::= NOT FOR REPLICATION Tb_cst16
+                | Tb_cst16
+                ;
+    Tb_cst16 ::= OP_PARENTESIS_IZQ Expression OP_PARENTESIS_DER Tb_cst21
+                ;
+    Tb_cst17 ::= OP_PARENTESIS_IZQ Tb_cst19 OP_PARENTESIS_DER
+                ;
+    Tb_cst18 ::= Const_exp FOR IDENTIFICADOR Tb_cst23
+                ;
+    Tb_cst19 ::= IDENTIFICADOR TO IDENTIFICADOR Tb_cst20
+                ;
+    Tb_cst20 ::= OP_COMA Tb_cst19
+                | /* Epsilon */
+                ;
+    Tb_cst21 ::= ON DELETE Tb_cst22 
+                | /* Epsilon */
+                ;
+    Tb_cst22 ::= NO ACTION
+                | CASCADE
+                ;
+    Tb_cst23 ::= WITH VALUES
+                | /* Epsilon */
+                ;
+
+    Col_cst ::= Col_cst1 Col_cst2
+                ;
+    Col_cst1 ::= CONSTRAINT IDENTIFICADOR
+                | /* Epsilon */
+                ;
+    Col_cst2 ::= PRIMARY KEY Col_cst3
+                | UNIQUE Col_cst3
+                | Col_cst7
+                | CHECK Col_cst15
+                ;
+    Col_cst3 ::= CLUSTERED Col_cst4
+                | Col_cst4
+                ;
+    Col_cst4 ::= WITH Col_cst5 Col_cst6
+                | Col_cst6
+                ;
+    Col_cst5 ::= FILLFACTOR OP_IGUAL INTCONSTANT
+                | OP_PARENTESIS_IZQ FILLFACTOR OP_IGUAL INTCONSTANT OP_PARENTESIS_DER
+                ;
+    Col_cst6 ::= ON IDENTIFICADOR OP_PARENTESIS_IZQ IDENTIFICADOR OP_PARENTESIS_DER
+                | /* Epsilon */
+                ;
+    Col_cst7 ::= Col_cst8 REFERENCES IDENTIFICADOR Col_cst9
+                ;
+    Col_cst8 ::= FOREIGN KEY
+                | /* Epsilon */
+                ;
+    Col_cst9 ::= OP_PUNTO IDENTIFICADOR Col_cst10
+                | Col_cst10
+                ;
+    Col_cst10 ::= OP_PARENTESIS_IZQ IDENTIFICADOR OP_PARENTESIS_DER Col_cst11
+                ;
+    Col_cst11 ::= ON Col_cst12 Col_cst13
+                | NOT FOR REPLICATION
+                | /* Epsilon */
+                ;
+    Col_cst12 ::= DELETE
+                | UPDATE
+                ;
+    Col_cst13 ::= NO ACTION
+                | CASCADE
+                | SET Col_cst14
+                ;
+    Col_cst14 ::= NULL
+                | DEFAULT
+                ;
+    Col_cst15 ::= NOT FOR REPLICATION Col_cst16
+                | Col_cst16
+                ;
+    Col_cst16 ::= OP_PARENTESIS_IZQ Expression OP_PARENTESIS_DER
+                ;
+
+    Const_exp ::= OP_ARROBA IDENTIFICADOR
+            | IDENTIFICADOR
+            | STRING
+            | INTCONSTANT
+            | FLOAT
+            ;
+     
+
     

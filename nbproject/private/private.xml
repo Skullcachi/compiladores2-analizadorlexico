@@ -3,10 +3,15 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/cachi/OneDrive/Documents/NetBeansProjects/AnalizadorLexico/src/analizadorlexico/asintactico.cup</file>
-            <file>file:/C:/Users/cachi/OneDrive/Documents/NetBeansProjects/AnalizadorLexico/src/analizadorlexico/MiniSQLUI.java</file>
-            <file>file:/C:/Users/cachi/OneDrive/Documents/NetBeansProjects/AnalizadorLexico/src/analizadorlexico/Yylex.flex</file>
+            <file>file:/C:/Users/cachi/OneDrive/Documents/NetBeansProjects/AnalizadorLexico/src/analizadorlexico/testito.sql</file>
+            <file>file:/C:/Users/cachi/OneDrive/Documents/NetBeansProjects/AnalizadorLexico/src/analizadorlexico/drop_table.txt</file>
             <file>file:/C:/Users/cachi/OneDrive/Documents/NetBeansProjects/AnalizadorLexico/src/analizadorlexico/AnalizadorLexico.java</file>
+            <file>file:/C:/Users/cachi/OneDrive/Documents/NetBeansProjects/AnalizadorLexico/src/analizadorlexico/drop_database.txt</file>
+            <file>file:/C:/Users/cachi/OneDrive/Documents/NetBeansProjects/AnalizadorLexico/src/analizadorlexico/insert.txt</file>
+            <file>file:/C:/Users/cachi/OneDrive/Documents/NetBeansProjects/AnalizadorLexico/src/analizadorlexico/MiniSQLUI.java</file>
+            <file>file:/C:/Users/cachi/OneDrive/Documents/NetBeansProjects/AnalizadorLexico/src/analizadorlexico/asintactico.cup</file>
+            <file>file:/C:/Users/cachi/OneDrive/Documents/NetBeansProjects/AnalizadorLexico/src/analizadorlexico/Yylex.flex</file>
+            <file>file:/C:/Users/cachi/OneDrive/Documents/NetBeansProjects/AnalizadorLexico/src/analizadorlexico/delete.txt</file>
         </group>
     </open-files>
 </project-private>

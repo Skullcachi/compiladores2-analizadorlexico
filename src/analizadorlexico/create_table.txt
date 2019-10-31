@@ -1,0 +1,22 @@
+CREATE TABLE dbo.PurchaseOrderDetail
+(
+    PurchaseOrderID INT NOT NULL
+        REFERENCES Purchasing.PurchaseOrderHeader(PurchaseOrderID),
+    LineNumber SMALLINT NOT NULL,
+    ProductID INT NULL
+        REFERENCES Production.Product(ProductID),
+    UnitPrice DECIMAL NULL,
+    OrderQty SMALLINT NULL,
+    ReceivedQty FLOAT NULL,
+    RejectedQty FLOAT NULL,
+    DueDate DATETIME NULL,
+    rowguid FLOAT ROWGUIDCOL NOT NULL
+        CONSTRAINT DF_PurchaseOrderDetail_rowguid DEFAULT,
+    ModifiedDate DATETIME NOT NULL
+        CONSTRAINT DF_PurchaseOrderDetail_ModifiedDate DEFAULT,
+    LineTotal AS ((UnitPrice*OrderQty)),
+    StockedQty AS ((ReceivedQty-RejectedQty)),
+    CONSTRAINT PK_PurchaseOrderDetail_PurchaseOrderID_LineNumber
+               PRIMARY KEY CLUSTERED (PurchaseOrderID, LineNumber)
+)
+ON PRIMARY;

@@ -1,3 +1,2 @@
-DROP DATABASE Sales;
-DROP DATABASE Sales, NewSales;
-v
+DROP TABLE AdventureWorks2012.dbo.SalesPerson2;
+DROP TABLE SalesPerson2;

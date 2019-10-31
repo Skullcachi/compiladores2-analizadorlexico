@@ -1,0 +1,29 @@
+
+ Token: RESERVED WORD: CREATE.
+
+ Token: RESERVED WORD: CLUSTERED.
+
+ Token: RESERVED WORD: INDEX.
+
+ Token: IDENTIFIER: i1.
+
+ Token: RESERVED WORD: ON.
+
+ Token: IDENTIFIER: d1.
+
+ Token: ..
+
+ Token: IDENTIFIER: s1.
+
+ Token: ..
+
+ Token: IDENTIFIER: t1.
+
+ Token: (.
+
+ Token: IDENTIFIER: col1.
+
+ Token: ).
+
+ Token: ;.
+EOF

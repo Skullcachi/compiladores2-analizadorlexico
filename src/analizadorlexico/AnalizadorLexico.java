@@ -32,13 +32,13 @@ public class AnalizadorLexico {
     
     public static void GenerarLexer(String path){
         File output = new File(path);
-        jflex.Main.generate(output);
+        JFlex.Main.generate(output);
     }
     
     public static void GenerarCup(String path){
         File output = new File(path);
         System.out.println(output);
-        String[] asintactico = {"-parser","asintactico", "-expect", "6", path};
+        String[] asintactico = {"-parser","asintactico", "-expect", "951", path};
         try
         {
             java_cup.Main.main(asintactico);

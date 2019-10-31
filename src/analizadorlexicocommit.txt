@@ -1,0 +1,9 @@
+
+ Token: RESERVED WORD: COMMIT.
+
+ Token: RESERVED WORD: TRANSACTION.
+
+ Token: IDENTIFIER: Inner2.
+
+ Token: ;.
+EOF

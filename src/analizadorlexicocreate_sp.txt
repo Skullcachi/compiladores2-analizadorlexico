@@ -1,0 +1,249 @@
+
+ Token: RESERVED WORD: CREATE.
+
+ Token: RESERVED WORD: PROCEDURE.
+
+ Token: IDENTIFIER: Production.
+
+ Token: ..
+
+ Token: IDENTIFIER: uspGetList.
+
+ Token: @.
+
+ Token: IDENTIFIER: Product.
+
+ Token: RESERVED WORD: VARCHAR.
+
+ Token: (.
+
+ Token: 40.
+
+ Token: ).
+
+ Token: ,.
+
+ Token: @.
+
+ Token: IDENTIFIER: MaxPrice.
+
+ Token: RESERVED WORD: VARCHAR.
+
+ Token: ,.
+
+ Token: @.
+
+ Token: IDENTIFIER: ComparePrice.
+
+ Token: RESERVED WORD: VARCHAR.
+
+ Token: RESERVED WORD: OUTPUT.
+
+ Token: ,.
+
+ Token: @.
+
+ Token: IDENTIFIER: ListPrice.
+
+ Token: RESERVED WORD: VARCHAR.
+
+ Token: RESERVED WORD: OUTPUT.
+
+ Token: RESERVED WORD: AS.
+
+ Token: RESERVED WORD: BEGIN.
+
+ Token: RESERVED WORD: SELECT.
+
+ Token: *.
+
+ Token: RESERVED WORD: FROM.
+
+ Token: IDENTIFIER: miTabla.
+
+ Token: RESERVED WORD: GO.
+
+ Token: RESERVED WORD: SELECT.
+
+ Token: IDENTIFIER: OrderDateKey.
+
+ Token: ,.
+
+ Token: RESERVED WORD: SUM.
+
+ Token: (.
+
+ Token: IDENTIFIER: SalesAmount.
+
+ Token: ).
+
+ Token: RESERVED WORD: AS.
+
+ Token: IDENTIFIER: TotalSales.
+
+ Token: RESERVED WORD: FROM.
+
+ Token: IDENTIFIER: FactInternetSales.
+
+ Token: RESERVED WORD: WHERE.
+
+ Token: IDENTIFIER: OrderDateKey.
+
+ Token: >.
+
+ Token: 20020801.
+
+ Token: RESERVED WORD: ORDER.
+
+ Token: RESERVED WORD: BY.
+
+ Token: IDENTIFIER: OrderDateKey.
+
+ Token: ;.
+
+ Token: RESERVED WORD: SELECT.
+
+ Token: RESERVED WORD: SUM.
+
+ Token: (.
+
+ Token: IDENTIFIER: SalesAmount.
+
+ Token: ).
+
+ Token: RESERVED WORD: AS.
+
+ Token: IDENTIFIER: TotalSales.
+
+ Token: RESERVED WORD: FROM.
+
+ Token: IDENTIFIER: FactInternetSales.
+
+ Token: RESERVED WORD: GROUP.
+
+ Token: RESERVED WORD: BY.
+
+ Token: (.
+
+ Token: IDENTIFIER: OrderDateKey.
+
+ Token: ).
+
+ Token: ;.
+
+ Token: RESERVED WORD: INSERT.
+
+ Token: RESERVED WORD: INTO.
+
+ Token: IDENTIFIER: dbo.
+
+ Token: ..
+
+ Token: IDENTIFIER: EmployeeSales.
+
+ Token: RESERVED WORD: SELECT.
+
+ Token: 'SELECT'.
+
+ Token: ,.
+
+ Token: IDENTIFIER: sp.
+
+ Token: ..
+
+ Token: IDENTIFIER: BusinessEntityID.
+
+ Token: ,.
+
+ Token: IDENTIFIER: c.
+
+ Token: ..
+
+ Token: IDENTIFIER: LastName.
+
+ Token: ,.
+
+ Token: IDENTIFIER: sp.
+
+ Token: ..
+
+ Token: IDENTIFIER: SalesYTD.
+
+ Token: RESERVED WORD: FROM.
+
+ Token: IDENTIFIER: Sales.
+
+ Token: ..
+
+ Token: IDENTIFIER: SalesPerson.
+
+ Token: RESERVED WORD: AS.
+
+ Token: IDENTIFIER: sp.
+
+ Token: RESERVED WORD: INNER.
+
+ Token: RESERVED WORD: JOIN.
+
+ Token: IDENTIFIER: Person.
+
+ Token: ..
+
+ Token: IDENTIFIER: Person.
+
+ Token: RESERVED WORD: AS.
+
+ Token: IDENTIFIER: c.
+
+ Token: RESERVED WORD: ON.
+
+ Token: IDENTIFIER: sp.
+
+ Token: ..
+
+ Token: IDENTIFIER: BusinessEntityID.
+
+ Token: =.
+
+ Token: IDENTIFIER: c.
+
+ Token: ..
+
+ Token: IDENTIFIER: BusinessEntityID.
+
+ Token: RESERVED WORD: WHERE.
+
+ Token: IDENTIFIER: sp.
+
+ Token: ..
+
+ Token: IDENTIFIER: BusinessEntityID.
+
+ Token: RESERVED WORD: LIKE.
+
+ Token: '2%'.
+
+ Token: RESERVED WORD: ORDER.
+
+ Token: RESERVED WORD: BY.
+
+ Token: IDENTIFIER: sp.
+
+ Token: ..
+
+ Token: IDENTIFIER: BusinessEntityID.
+
+ Token: ,.
+
+ Token: IDENTIFIER: c.
+
+ Token: ..
+
+ Token: IDENTIFIER: LastName.
+
+ Token: ;.
+
+ Token: RESERVED WORD: END.
+
+ Token: ;.
+EOF

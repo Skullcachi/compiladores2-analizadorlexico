@@ -1,0 +1,91 @@
+
+ Token: RESERVED WORD: DELETE.
+
+ Token: RESERVED WORD: FROM.
+
+ Token: IDENTIFIER: Sales.
+
+ Token: ..
+
+ Token: IDENTIFIER: SalesPersonQuotaHistory.
+
+ Token: ;.
+
+ Token: RESERVED WORD: DELETE.
+
+ Token: RESERVED WORD: FROM.
+
+ Token: IDENTIFIER: Production.
+
+ Token: ..
+
+ Token: IDENTIFIER: ProductCostHistory.
+
+ Token: RESERVED WORD: WHERE.
+
+ Token: IDENTIFIER: StandardCost.
+
+ Token: >.
+
+ Token: 1000.00.
+
+ Token: ;.
+
+ Token: RESERVED WORD: DELETE.
+
+ Token: IDENTIFIER: Production.
+
+ Token: ..
+
+ Token: IDENTIFIER: ProductCostHistory.
+
+ Token: RESERVED WORD: WHERE.
+
+ Token: IDENTIFIER: StandardCost.
+
+ Token: RESERVED WORD: BETWEEN.
+
+ Token: 12.00.
+
+ Token: RESERVED WORD: AND.
+
+ Token: 14.00.
+
+ Token: RESERVED WORD: AND.
+
+ Token: IDENTIFIER: EndDate.
+
+ Token: RESERVED WORD: IS.
+
+ Token: RESERVED WORD: NULL.
+
+ Token: ;.
+
+ Token: RESERVED WORD: DELETE.
+
+ Token: RESERVED WORD: TOP.
+
+ Token: (.
+
+ Token: 20.
+
+ Token: ).
+
+ Token: RESERVED WORD: FROM.
+
+ Token: IDENTIFIER: Purchasing.
+
+ Token: ..
+
+ Token: IDENTIFIER: PurchaseOrderDetail.
+
+ Token: RESERVED WORD: WHERE.
+
+ Token: IDENTIFIER: DueDate.
+
+ Token: <.
+
+ Token: '20020701'.
+
+ Token: ;.
+EOF

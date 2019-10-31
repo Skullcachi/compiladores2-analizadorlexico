@@ -1,0 +1,1 @@
+CREATE CLUSTERED INDEX i1 ON d1.s1.t1 (col1);

@@ -1,0 +1,41 @@
+
+ Token: RESERVED WORD: DROP.
+
+ Token: RESERVED WORD: DATABASE.
+
+ Token: IDENTIFIER: Sales.
+
+ Token: ;.
+
+ Token: RESERVED WORD: DROP.
+
+ Token: RESERVED WORD: DATABASE.
+
+ Token: IDENTIFIER: Sales.
+
+ Token: ,.
+
+ Token: IDENTIFIER: NewSales.
+
+ Token: ;.
+
+ Token: RESERVED WORD: DROP.
+
+ Token: RESERVED WORD: DATABASE.
+
+ Token: IDENTIFIER: sales_snapshot0600.
+
+ Token: ;.
+
+ Token: RESERVED WORD: DROP.
+
+ Token: RESERVED WORD: DATABASE.
+
+ Token: IDENTIFIER: sales1.
+
+ Token: ,.
+
+ Token: IDENTIFIER: sales2.
+
+ Token: ;.
+EOF

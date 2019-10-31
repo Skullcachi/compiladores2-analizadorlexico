@@ -1,2 +1,2 @@
-DROP VIEW IF EXISTS dbo.Reorder ;
 DROP VIEW dbo.order; 
+DROP VIEW IF EXISTS dbo.Reorder ;

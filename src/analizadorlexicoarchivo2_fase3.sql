@@ -1125,16 +1125,6 @@
 
  Token: RESERVED WORD: SELECT.
 
- Token: IDENTIFIER: jaja.
-
- Token: RESERVED WORD: FROM.
-
- Token: IDENTIFIER: mitabla.
-
- Token: ;.
-
- Token: RESERVED WORD: SELECT.
-
  Token: IDENTIFIER: dbo.
 
  Token: ..
